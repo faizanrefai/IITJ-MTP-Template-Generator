@@ -81,7 +81,7 @@ pdflatex proposal.tex
 
 1. [Simple guide for beginners](beginners_guide) - Plain language: what you install, what you get, template PDF vs final PDF
 2. [Quick Start Guide](quickstart) - Get up and running in 5 minutes
-3. [CI/CD Auto-Compilation](ci-cd) - Automatic PDF generation with GitHub Actions
+3. [CI/CD Auto-Compilation](ci_cd) - Automatic PDF generation with GitHub Actions
 4. [Input Schema](input-schema) - Learn about configuration options
 5. [Customization Guide](customization) - Personalize your templates
 6. [FAQ](faq) - Common questions and troubleshooting
