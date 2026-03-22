@@ -7,7 +7,7 @@ Generate professional LaTeX academic reports (proposals, major projects, present
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![Python](https://img.shields.io/badge/python-3.9%2B-blue.svg)](https://www.python.org/downloads/)
 [![LaTeX](https://img.shields.io/badge/LaTeX-TeX%20Live-green.svg)](https://www.latex-project.org/get/)
-[![Coverage](https://img.shields.io/badge/coverage-93%25-brightgreen.svg)](https://github.com/satishjhanwer/IITJ-MTP-Template-Generator/actions)
+[![Coverage](https://img.shields.io/badge/coverage-94%25-brightgreen.svg)](https://github.com/satishjhanwer/IITJ-MTP-Template-Generator/actions)
 [![Status](https://img.shields.io/badge/status-production--ready-success.svg)](https://github.com/satishjhanwer/IITJ-MTP-Template-Generator/actions)
 [![GitHub Pages](https://img.shields.io/badge/docs-GitHub%20Pages-blue)](https://satishjhanwer.github.io/IITJ-MTP-Template-Generator/)
 
@@ -36,7 +36,7 @@ A comprehensive, production-ready Python-based template generator for creating p
 
 ### Quality & Performance
 
-- **93% Test Coverage**: 60+ unit tests across all utilities
+- **~94% line coverage** on `scripts/` (`pytest --cov=scripts`), **290+** tests
 - **66% Faster Generation**: Optimized with template caching and parallel I/O
 - **Error Handling**: Helpful error messages with suggestions and documentation links
 - **Progress Tracking**: Visual progress bars and spinners for better UX
@@ -253,7 +253,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - [x] GitHub Pages deployment
 - [x] CI/CD auto-compilation
 - [x] Content extraction from reports
-- [x] Unit testing framework (93% coverage)
+- [x] Unit testing framework (see `pytest --cov=scripts` for current coverage)
 - [x] Performance optimizations (66% faster)
 - [x] Error handling with helpful messages
 - [x] Progress tracking and UX improvements
