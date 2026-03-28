@@ -22,8 +22,13 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Cache apt packages
+      # ============================================
+      # CACHING SECTION - Speeds up workflow runs
+      # ============================================
+      
+      - name: Cache apt packages (download cache)
         uses: actions/cache@v4
+        id: cache-apt
         with:
           path: /var/cache/apt/archives
           key: ${{ runner.os }}-apt-texlive-${{ hashFiles('**/compile-latex.yml') }}
@@ -33,6 +38,7 @@ jobs:
 
       - name: Cache LaTeX installation
         uses: actions/cache@v4
+        id: cache-texlive
         with:
           path: |
             /usr/share/texlive
@@ -46,11 +52,18 @@ jobs:
 
       - name: Install LaTeX
         run: |
-          if command -v pdflatex &> /dev/null; then
+          # Check if LaTeX is already installed and functional
+          if command -v pdflatex &> /dev/null && pdflatex --version > /dev/null 2>&1; then
             echo "✅ Using cached LaTeX installation"
+            echo "📦 pdflatex version:"
             pdflatex --version | head -3
+            echo ""
+            echo "📦 Installed packages count:"
+            dpkg -l | grep -c texlive || echo "Unable to count packages"
           else
-            echo "📦 Installing LaTeX packages"
+            echo "📦 Installing LaTeX packages (this may take 3-5 minutes)"
+            echo "💡 Subsequent runs will use cache and be much faster"
+            
             sudo apt-get update
             sudo apt-get install -y \
               texlive-latex-base \
@@ -64,6 +77,10 @@ jobs:
               texlive-pictures \
               texlive-latex-recommended \
               biber
+            
+            echo ""
+            echo "✅ LaTeX installation complete"
+            pdflatex --version | head -3
           fi
 
       - name: Compile LaTeX files
