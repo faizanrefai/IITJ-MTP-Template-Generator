@@ -48,7 +48,36 @@ jobs:
 
       - name: Find and compile LaTeX files
         run: |
-          # Function to compile a LaTeX file with better error handling
+          echo "🔍 Current directory structure:"
+          echo "================================="
+          ls -la
+          echo ""
+          
+          echo "🔍 Checking output directory:"
+          if [ -d "output" ]; then
+            echo "✅ output directory exists"
+            echo "📁 Contents of output:"
+            ls -la output/
+            echo ""
+            echo "📁 Full file tree:"
+            find output -type f | head -30
+          else
+            echo "❌ output directory does NOT exist!"
+            exit 1
+          fi
+          
+          echo ""
+          echo "🔍 Searching for .tex files:"
+          tex_files=$(find output -name "*.tex" -type f)
+          if [ -n "$tex_files" ]; then
+            echo "✅ Found .tex files:"
+            echo "$tex_files"
+          else
+            echo "❌ No .tex files found in output/"
+            exit 1
+          fi
+          
+          # Function to compile a LaTeX file
           compile_latex() {
             local tex_file="$1"
             local dir=$(dirname "$tex_file")
@@ -60,124 +89,61 @@ jobs:
             echo "=========================================="
             cd "$dir"
             
-            # First pass - stop on error
-            echo "🔨 First pass (pdflatex)..."
-            if ! pdflatex -interaction=nonstopmode -halt-on-error "$base.tex" > /dev/null 2>&1; then
-              echo "❌ LaTeX compilation failed for $tex_file"
-              echo "   Showing error details:"
-              pdflatex -interaction=nonstopmode "$base.tex" 2>&1 | grep -A 5 -B 5 "Error\|! "
-              cd - > /dev/null
-              return 1
-            fi
-            echo "   ✓ First pass completed"
+            echo "📁 Working directory: $(pwd)"
+            echo ""
             
-            # Run bibtex if .bib file exists and aux file references it
-            if [ -f "$base.aux" ] && grep -q "bibdata" "$base.aux"; then
+            # First pass
+            echo "🔨 First pass (pdflatex)..."
+            pdflatex -interaction=nonstopmode "$base.tex" 2>&1 | tee /tmp/latex_output.txt
+            echo ""
+            
+            # Check if compilation had critical errors
+            if grep -q "^!" /tmp/latex_output.txt; then
+              echo "❌ LaTeX errors detected!"
+              echo "Error details:"
+              grep -A 3 "^!" /tmp/latex_output.txt
+            fi
+            
+            # Run bibtex if bib file exists and aux file references it
+            if [ -f "$base.aux" ] && grep -q "bibdata" "$base.aux" 2>/dev/null; then
               echo "📚 Running BibTeX..."
-              if ! bibtex "$base" > /dev/null 2>&1; then
-                echo "⚠️  BibTeX had warnings, but continuing..."
-              else
-                echo "   ✓ BibTeX completed"
-              fi
+              bibtex "$base"
+              echo ""
             fi
             
             # Second pass
             echo "🔨 Second pass (pdflatex)..."
-            if ! pdflatex -interaction=nonstopmode -halt-on-error "$base.tex" > /dev/null 2>&1; then
-              echo "⚠️  Second pass had issues, but continuing..."
-            else
-              echo "   ✓ Second pass completed"
-            fi
+            pdflatex -interaction=nonstopmode "$base.tex" > /dev/null 2>&1
             
-            # Third pass for references
+            # Third pass
             echo "🔨 Third pass (pdflatex)..."
-            if ! pdflatex -interaction=nonstopmode -halt-on-error "$base.tex" > /dev/null 2>&1; then
-              echo "⚠️  Third pass had issues, but continuing..."
-            else
-              echo "   ✓ Third pass completed"
-            fi
+            pdflatex -interaction=nonstopmode "$base.tex" > /dev/null 2>&1
             
-            # Check if PDF was created
             if [ -f "$base.pdf" ]; then
               pdf_size=$(du -h "$base.pdf" | cut -f1)
               echo "✅ Successfully compiled: $base.pdf (size: $pdf_size)"
             else
               echo "❌ Failed to compile: $tex_file - PDF not created"
-              echo ""
-              echo "   Last few lines of LaTeX output:"
-              pdflatex -interaction=nonstopmode "$base.tex" 2>&1 | tail -20
-              cd - > /dev/null
-              return 1
             fi
             
             cd - > /dev/null
-            return 0
+            echo ""
           }
-
-          # Track compilation results
-          successful=0
-          failed=0
           
-          # Find all main LaTeX files (proposal.tex, main.tex, slides.tex)
-          echo "🔍 Searching for LaTeX files in output directory..."
-          echo ""
-          
-          # Compile proposal reports
-          if find output -name "proposal.tex" -type f | grep -q .; then
-            echo "📄 Found proposal reports:"
-            find output -name "proposal.tex" -type f | while read file; do
-              if compile_latex "$file"; then
-                successful=$((successful + 1))
-              else
-                failed=$((failed + 1))
-              fi
-            done
-          fi
-          
-          # Compile major project reports
-          if find output -name "main.tex" -type f | grep -q .; then
-            echo "📚 Found major project reports:"
-            find output -name "main.tex" -type f | while read file; do
-              if compile_latex "$file"; then
-                successful=$((successful + 1))
-              else
-                failed=$((failed + 1))
-              fi
-            done
-          fi
-          
-          # Compile presentation slides
-          if find output -name "slides.tex" -type f | grep -q .; then
-            echo "🎯 Found presentation slides:"
-            find output -name "slides.tex" -type f | while read file; do
-              if compile_latex "$file"; then
-                successful=$((successful + 1))
-              else
-                failed=$((failed + 1))
-              fi
-            done
-          fi
-          
-          # Summary
-          echo ""
-          echo "=========================================="
-          echo "📊 Compilation Results"
-          echo "=========================================="
-          echo "✅ Successful: $successful"
-          echo "❌ Failed: $failed"
-          echo "=========================================="
+          # Compile all .tex files found
+          find output -name "*.tex" -type f | while read file; do
+            compile_latex "$file"
+          done
 
       - name: List compiled PDFs
         run: |
+          echo ""
           echo "📄 Compiled PDF files:"
           echo "====================="
           if find output -name "*.pdf" -type f | grep -q .; then
             find output -name "*.pdf" -type f -exec ls -lh {} \;
           else
-            echo "⚠️  No PDFs found in output directory"
-            echo ""
-            echo "Contents of output directory:"
-            find output -type f | head -20
+            echo "⚠️ No PDFs found in output directory"
           fi
 
       - name: Upload PDF artifacts
@@ -195,8 +161,8 @@ jobs:
           echo ""
           echo "📊 FINAL COMPILATION SUMMARY"
           echo "================================"
-          pdf_count=$(find output -name "*.pdf" -type f | wc -l)
-          tex_count=$(find output -name "*.tex" -type f | wc -l)
+          pdf_count=$(find output -name "*.pdf" -type f 2>/dev/null | wc -l)
+          tex_count=$(find output -name "*.tex" -type f 2>/dev/null | wc -l)
           
           echo "📝 Total .tex files found: $tex_count"
           echo "📄 Total PDFs generated: $pdf_count"
@@ -205,18 +171,9 @@ jobs:
           if [ $pdf_count -gt 0 ]; then
             echo "✅ COMPILATION SUCCESSFUL!"
             echo ""
-            echo "📥 Download your PDFs from the Artifacts section below:"
-            echo "   - Click on 'compiled-pdfs-${{ github.run_number }}'"
-            echo ""
-            echo "🔗 Direct link:"
-            echo "   https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+            echo "📥 Download your PDFs from the Artifacts section below"
           else
-            echo "⚠️  NO PDFS WERE GENERATED"
+            echo "⚠️ NO PDFS WERE GENERATED"
             echo ""
-            echo "Possible reasons:"
-            echo "   1. No .tex files found in output/ directory"
-            echo "   2. LaTeX compilation errors (check logs above)"
-            echo "   3. Missing required LaTeX packages"
-            echo ""
-            echo "🔍 Check the 'Find and compile LaTeX files' step above for errors"
+            echo "Check the 'Find and compile LaTeX files' step above for errors"
           fi
