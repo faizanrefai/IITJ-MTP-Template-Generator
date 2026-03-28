@@ -58,7 +58,7 @@ env/
 *.ps
 
 # Generated outputs (keep examples)
-output/
+
 generated/
 .history
 .coverage
