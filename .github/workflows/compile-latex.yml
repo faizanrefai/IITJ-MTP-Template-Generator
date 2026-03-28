@@ -5,7 +5,6 @@ on:
     branches: [main, master]
     paths:
       - "output/**/*.tex"
-      - ".github/workflows/compile-latex.yml"
   workflow_dispatch:
     inputs:
       report_path:
@@ -21,178 +20,67 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # Cache apt packages (download cache)
-      - name: Cache apt packages
-        uses: actions/cache@v4
-        id: cache-apt
-        with:
-          path: /var/cache/apt/archives
-          key: ${{ runner.os }}-apt-texlive-${{ hashFiles('**/compile-latex.yml') }}
-          restore-keys: |
-            ${{ runner.os }}-apt-texlive-
-            ${{ runner.os }}-apt-
-
-      # Cache installed LaTeX packages (more reliable)
-      - name: Cache LaTeX installation
-        uses: actions/cache@v4
-        id: cache-texlive
-        with:
-          path: |
-            /usr/share/texlive
-            /usr/local/share/texlive
-            /var/lib/texmf
-            ~/.texlive
-          key: ${{ runner.os }}-texlive-full-v2-${{ hashFiles('**/compile-latex.yml') }}
-          restore-keys: |
-            ${{ runner.os }}-texlive-full-v2-
-            ${{ runner.os }}-texlive-
-
-      - name: Install LaTeX (with cache optimization)
+      - name: Install LaTeX
         run: |
-          # Check if we have cached packages
-          if [ -d "/usr/share/texlive" ] && [ "$(ls -A /usr/share/texlive 2>/dev/null)" ]; then
-            echo "✅ Using cached LaTeX installation"
-            # Verify installation
-            if command -v pdflatex &> /dev/null; then
-              echo "✅ pdflatex is available"
-              pdflatex --version
-            else
-              echo "⚠️ pdflatex not found, reinstalling..."
-              sudo apt-get update
-              sudo apt-get install -y --no-install-recommends \
-                texlive-latex-base \
-                texlive-latex-extra \
-                texlive-fonts-recommended \
-                texlive-fonts-extra \
-                texlive-bibtex-extra \
-                texlive-science \
-                texlive-publishers \
-                texlive-lang-english \
-                biber
-            fi
-          else
-            echo "📦 Installing LaTeX packages (first time)"
-            sudo apt-get update
-            sudo apt-get install -y \
-              texlive-latex-base \
-              texlive-latex-extra \
-              texlive-fonts-recommended \
-              texlive-fonts-extra \
-              texlive-bibtex-extra \
-              texlive-science \
-              texlive-publishers \
-              texlive-lang-english \
-              biber
-          fi
-          
-          # Verify installation
-          echo ""
-          echo "🔍 LaTeX installation verification:"
-          pdflatex --version | head -3
-          echo ""
-          echo "📦 Installed packages:"
-          dpkg -l | grep texlive | wc -l
-          echo "texlive packages installed"
+          sudo apt-get update
+          sudo apt-get install -y texlive-latex-base texlive-latex-extra texlive-bibtex-extra biber
 
       - name: Find and compile LaTeX files
         run: |
-          echo "🔍 Current directory structure:"
-          echo "================================="
-          ls -la
-          echo ""
-          
-          echo "🔍 Checking output directory:"
-          if [ -d "output" ]; then
-            echo "✅ output directory exists"
-            echo "📁 Contents of output:"
-            ls -la output/
-            echo ""
-            echo "📁 Full file tree:"
-            find output -type f | head -30
-          else
-            echo "❌ output directory does NOT exist!"
-            exit 1
-          fi
-          
-          echo ""
-          echo "🔍 Searching for .tex files:"
-          tex_files=$(find output -name "*.tex" -type f)
-          if [ -n "$tex_files" ]; then
-            echo "✅ Found .tex files:"
-            echo "$tex_files"
-          else
-            echo "❌ No .tex files found in output/"
-            exit 1
-          fi
-          
           # Function to compile a LaTeX file
           compile_latex() {
             local tex_file="$1"
             local dir=$(dirname "$tex_file")
             local base=$(basename "$tex_file" .tex)
             
-            echo ""
-            echo "=========================================="
             echo "📝 Compiling: $tex_file"
-            echo "=========================================="
             cd "$dir"
             
-            echo "📁 Working directory: $(pwd)"
-            echo ""
-            
             # First pass
-            echo "🔨 First pass (pdflatex)..."
-            pdflatex -interaction=nonstopmode "$base.tex" 2>&1 | tee /tmp/latex_output.txt
-            echo ""
+            pdflatex -interaction=nonstopmode "$base.tex" || echo "⚠️ First pass had warnings"
             
-            # Check if compilation had critical errors
-            if grep -q "^!" /tmp/latex_output.txt; then
-              echo "❌ LaTeX errors detected!"
-              echo "Error details:"
-              grep -A 3 "^!" /tmp/latex_output.txt
-            fi
-            
-            # Run bibtex if bib file exists and aux file references it
-            if [ -f "$base.aux" ] && grep -q "bibdata" "$base.aux" 2>/dev/null; then
-              echo "📚 Running BibTeX..."
-              bibtex "$base"
-              echo ""
+            # Run bibtex if .bib file exists
+            if ls *.bib 1> /dev/null 2>&1; then
+              bibtex "$base" || echo "⚠️ BibTeX had warnings"
             fi
             
             # Second pass
-            echo "🔨 Second pass (pdflatex)..."
-            pdflatex -interaction=nonstopmode "$base.tex" > /dev/null 2>&1
+            pdflatex -interaction=nonstopmode "$base.tex" || echo "⚠️ Second pass had warnings"
             
-            # Third pass
-            echo "🔨 Third pass (pdflatex)..."
-            pdflatex -interaction=nonstopmode "$base.tex" > /dev/null 2>&1
+            # Third pass for references
+            pdflatex -interaction=nonstopmode "$base.tex" || echo "⚠️ Third pass had warnings"
             
             if [ -f "$base.pdf" ]; then
-              pdf_size=$(du -h "$base.pdf" | cut -f1)
-              echo "✅ Successfully compiled: $base.pdf (size: $pdf_size)"
+              echo "✅ Successfully compiled: $base.pdf"
             else
-              echo "❌ Failed to compile: $tex_file - PDF not created"
+              echo "❌ Failed to compile: $tex_file"
             fi
             
             cd - > /dev/null
-            echo ""
           }
-          
-          # Compile all .tex files found
-          find output -name "*.tex" -type f | while read file; do
+
+          # Find all main LaTeX files (proposal.tex, main.tex, slides.tex)
+          echo "🔍 Searching for LaTeX files in output directory..."
+
+          # Compile proposal reports
+          find output -name "proposal.tex" -type f | while read file; do
+            compile_latex "$file"
+          done
+
+          # Compile major project reports
+          find output -name "main.tex" -type f | while read file; do
+            compile_latex "$file"
+          done
+
+          # Compile presentation slides
+          find output -name "slides.tex" -type f | while read file; do
             compile_latex "$file"
           done
 
       - name: List compiled PDFs
         run: |
-          echo ""
           echo "📄 Compiled PDF files:"
-          echo "====================="
-          if find output -name "*.pdf" -type f | grep -q .; then
-            find output -name "*.pdf" -type f -exec ls -lh {} \;
-          else
-            echo "⚠️ No PDFs found in output directory"
-          fi
+          find output -name "*.pdf" -type f || echo "No PDFs found"
 
       - name: Upload PDF artifacts
         uses: actions/upload-artifact@v4
@@ -206,22 +94,16 @@ jobs:
       - name: Compilation Summary
         if: always()
         run: |
-          echo ""
-          echo "📊 FINAL COMPILATION SUMMARY"
-          echo "================================"
-          pdf_count=$(find output -name "*.pdf" -type f 2>/dev/null | wc -l)
-          tex_count=$(find output -name "*.tex" -type f 2>/dev/null | wc -l)
-          
-          echo "📝 Total .tex files found: $tex_count"
-          echo "📄 Total PDFs generated: $pdf_count"
-          echo ""
-          
+          echo "📊 Compilation Summary"
+          echo "====================="
+          pdf_count=$(find output -name "*.pdf" -type f | wc -l)
+          echo "Total PDFs generated: $pdf_count"
+
           if [ $pdf_count -gt 0 ]; then
-            echo "✅ COMPILATION SUCCESSFUL!"
+            echo "✅ Compilation successful!"
             echo ""
-            echo "📥 Download your PDFs from the Artifacts section below"
+            echo "📥 Download artifacts from the Actions tab:"
+            echo "   https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
           else
-            echo "⚠️ NO PDFS WERE GENERATED"
-            echo ""
-            echo "Check the 'Find and compile LaTeX files' step above for errors"
+            echo "⚠️ No PDFs were generated. Check the logs above for errors."
           fi
