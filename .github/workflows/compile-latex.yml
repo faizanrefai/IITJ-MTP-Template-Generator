@@ -21,30 +21,78 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Cache LaTeX packages
+      # Cache apt packages (download cache)
+      - name: Cache apt packages
         uses: actions/cache@v4
+        id: cache-apt
+        with:
+          path: /var/cache/apt/archives
+          key: ${{ runner.os }}-apt-texlive-${{ hashFiles('**/compile-latex.yml') }}
+          restore-keys: |
+            ${{ runner.os }}-apt-texlive-
+            ${{ runner.os }}-apt-
+
+      # Cache installed LaTeX packages (more reliable)
+      - name: Cache LaTeX installation
+        uses: actions/cache@v4
+        id: cache-texlive
         with:
           path: |
-            /usr/local/texlive
+            /usr/share/texlive
+            /usr/local/share/texlive
+            /var/lib/texmf
             ~/.texlive
-          key: ${{ runner.os }}-texlive-full-2023
+          key: ${{ runner.os }}-texlive-full-v2-${{ hashFiles('**/compile-latex.yml') }}
           restore-keys: |
-            ${{ runner.os }}-texlive-full-
+            ${{ runner.os }}-texlive-full-v2-
             ${{ runner.os }}-texlive-
 
-      - name: Install LaTeX
+      - name: Install LaTeX (with cache optimization)
         run: |
-          sudo apt-get update
-          sudo apt-get install -y \
-            texlive-latex-base \
-            texlive-latex-extra \
-            texlive-fonts-recommended \
-            texlive-fonts-extra \
-            texlive-bibtex-extra \
-            texlive-science \
-            texlive-publishers \
-            texlive-lang-english \
-            biber
+          # Check if we have cached packages
+          if [ -d "/usr/share/texlive" ] && [ "$(ls -A /usr/share/texlive 2>/dev/null)" ]; then
+            echo "✅ Using cached LaTeX installation"
+            # Verify installation
+            if command -v pdflatex &> /dev/null; then
+              echo "✅ pdflatex is available"
+              pdflatex --version
+            else
+              echo "⚠️ pdflatex not found, reinstalling..."
+              sudo apt-get update
+              sudo apt-get install -y --no-install-recommends \
+                texlive-latex-base \
+                texlive-latex-extra \
+                texlive-fonts-recommended \
+                texlive-fonts-extra \
+                texlive-bibtex-extra \
+                texlive-science \
+                texlive-publishers \
+                texlive-lang-english \
+                biber
+            fi
+          else
+            echo "📦 Installing LaTeX packages (first time)"
+            sudo apt-get update
+            sudo apt-get install -y \
+              texlive-latex-base \
+              texlive-latex-extra \
+              texlive-fonts-recommended \
+              texlive-fonts-extra \
+              texlive-bibtex-extra \
+              texlive-science \
+              texlive-publishers \
+              texlive-lang-english \
+              biber
+          fi
+          
+          # Verify installation
+          echo ""
+          echo "🔍 LaTeX installation verification:"
+          pdflatex --version | head -3
+          echo ""
+          echo "📦 Installed packages:"
+          dpkg -l | grep texlive | wc -l
+          echo "texlive packages installed"
 
       - name: Find and compile LaTeX files
         run: |
