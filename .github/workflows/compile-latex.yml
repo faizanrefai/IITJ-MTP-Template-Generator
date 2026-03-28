@@ -16,72 +16,16 @@ on:
 jobs:
   compile-latex:
     runs-on: ubuntu-latest
-    timeout-minutes: 10  # Add timeout to prevent infinite hangs
+    timeout-minutes: 10
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # ============================================
-      # CACHING SECTION - Speeds up workflow runs
-      # ============================================
-      
-      - name: Cache apt packages (download cache)
-        uses: actions/cache@v4
-        id: cache-apt
+      - name: Set up TeX Live (with caching)
+        uses: xu-cheng/texlive-action@v2
         with:
-          path: /var/cache/apt/archives
-          key: ${{ runner.os }}-apt-texlive-${{ hashFiles('**/compile-latex.yml') }}
-          restore-keys: |
-            ${{ runner.os }}-apt-texlive-
-            ${{ runner.os }}-apt-
-
-      - name: Cache LaTeX installation
-        uses: actions/cache@v4
-        id: cache-texlive
-        with:
-          path: |
-            /usr/share/texlive
-            /usr/local/share/texlive
-            /var/lib/texmf
-            ~/.texlive
-          key: ${{ runner.os }}-texlive-full-v3-${{ hashFiles('**/compile-latex.yml') }}
-          restore-keys: |
-            ${{ runner.os }}-texlive-full-v3-
-            ${{ runner.os }}-texlive-
-
-      - name: Install LaTeX
-        run: |
-          # Check if LaTeX is already installed and functional
-          if command -v pdflatex &> /dev/null && pdflatex --version > /dev/null 2>&1; then
-            echo "✅ Using cached LaTeX installation"
-            echo "📦 pdflatex version:"
-            pdflatex --version | head -3
-            echo ""
-            echo "📦 Installed packages count:"
-            dpkg -l | grep -c texlive || echo "Unable to count packages"
-          else
-            echo "📦 Installing LaTeX packages (this may take 3-5 minutes)"
-            echo "💡 Subsequent runs will use cache and be much faster"
-            
-            sudo apt-get update
-            sudo apt-get install -y \
-              texlive-latex-base \
-              texlive-latex-extra \
-              texlive-fonts-recommended \
-              texlive-fonts-extra \
-              texlive-bibtex-extra \
-              texlive-science \
-              texlive-publishers \
-              texlive-lang-english \
-              texlive-pictures \
-              texlive-latex-recommended \
-              biber
-            
-            echo ""
-            echo "✅ LaTeX installation complete"
-            pdflatex --version | head -3
-          fi
+          scheme: full
 
       - name: Compile LaTeX files
         run: |
@@ -96,13 +40,12 @@ jobs:
             echo "=========================================="
             cd "$dir"
             
-            # First pass with timeout and nonstop mode
             echo "🔨 First pass (pdflatex)..."
             timeout 60s pdflatex -interaction=nonstopmode -halt-on-error "$base.tex" 2>&1 | tee /tmp/latex_output.txt
             local exit_code=$?
             
             if [ $exit_code -eq 124 ]; then
-              echo "❌ First pass timed out after 60 seconds"
+              echo "❌ First pass timed out"
               cd - > /dev/null
               return 1
             elif [ $exit_code -ne 0 ]; then
@@ -112,13 +55,11 @@ jobs:
               return 1
             fi
             
-            # Run bibtex if needed
             if [ -f "$base.aux" ] && grep -q "bibdata" "$base.aux" 2>/dev/null; then
               echo "📚 Running BibTeX..."
               bibtex "$base"
             fi
             
-            # Second pass
             echo "🔨 Second pass (pdflatex)..."
             timeout 60s pdflatex -interaction=nonstopmode -halt-on-error "$base.tex" > /dev/null 2>&1
             if [ $? -eq 124 ]; then
@@ -127,7 +68,6 @@ jobs:
               return 1
             fi
             
-            # Third pass
             echo "🔨 Third pass (pdflatex)..."
             timeout 60s pdflatex -interaction=nonstopmode -halt-on-error "$base.tex" > /dev/null 2>&1
             if [ $? -eq 124 ]; then
@@ -150,8 +90,6 @@ jobs:
           }
           
           echo "🔍 Searching for main LaTeX files..."
-          
-          # Compile only main files
           for texfile in $(find output -type f \( -name "proposal.tex" -o -name "main.tex" -o -name "slides.tex" \) | sort); do
             compile_latex "$texfile"
           done
@@ -187,10 +125,8 @@ jobs:
           
           if [ $pdf_count -gt 0 ]; then
             echo "✅ COMPILATION SUCCESSFUL!"
-            echo ""
             echo "📥 Download your PDFs from the Artifacts section below"
           else
             echo "⚠️ NO PDFS WERE GENERATED"
-            echo ""
             echo "Check the 'Compile LaTeX files' step above for errors"
           fi
