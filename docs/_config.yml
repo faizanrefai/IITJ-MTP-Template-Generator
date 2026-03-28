@@ -16,11 +16,11 @@ nav_links:
   - title: FAQ
     url: /faq
   - title: GitHub
-    url: https://github.com/satishjhanwer/IITJ-MTP-Template-Generator
+    url: https://github.com/faizanrefai/IITJ-MTP-Template-Generator
 
 # GitHub metadata
 github:
-  repository_url: https://github.com/satishjhanwer/IITJ-MTP-Template-Generator
+  repository_url: https://github.com/faizanrefai/IITJ-MTP-Template-Generator
   is_project_page: true
 
 # Plugins
