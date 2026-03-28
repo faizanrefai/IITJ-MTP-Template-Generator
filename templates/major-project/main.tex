@@ -18,16 +18,15 @@
 \usepackage{chngcntr}
 \usepackage{amssymb}
 \usepackage{enumitem}
-\usepackage{times}
-\usepackage{amsmath}
 
 % Page geometry
 \geometry{
     paper=a4paper,
-    left=0.75in,
-    right=0.75in,
-    top=1in,
-    bottom=1in
+    inner=1in,
+    outer=1in,
+    bindingoffset=.5cm,
+    top=0.75in,
+    bottom=0.75in
 }
 
 % Line spacing
@@ -36,14 +35,9 @@
 % Counter configuration
 \counterwithin{table}{section}
 \counterwithin{figure}{section}
-\numberwithin{equation}{section}
 
 % Date format
 \newdateformat{monthyeardate}{\monthname[\THEMONTH], \THEYEAR}
-
-% Section formatting
-\titleformat{\section}{\normalfont\Large\bfseries\MakeUppercase}{\thesection}{1em}{}
-\titleformat{\subsection}{\normalfont\large\itshape}{\thesubsection}{1em}{}
 
 % Define variables
 \newcommand{\ttitle}{\VAR{TITLE}}
@@ -59,22 +53,17 @@
 
 % Title page
 \input{titlePage.tex}
-\clearpage
-
-% Start pre-main text numbering (Roman): cover is counted but not printed
-\pagenumbering{roman}
-\setcounter{page}{2}
 
 % Declaration
 \BLOCK{if INCLUDE_DECLARATION}
-\input{declaration.tex}
 \newpage
+\input{declaration.tex}
 \BLOCK{endif}
 
 % Certificate
 \BLOCK{if INCLUDE_CERTIFICATE}
-\input{certificate.tex}
 \newpage
+\input{certificate.tex}
 \BLOCK{endif}
 
 % Acknowledgments
@@ -91,7 +80,6 @@
 
 % Table of contents
 \newpage
-\pagenumbering{roman}
 \tableofcontents
 
 % List of figures
@@ -104,7 +92,6 @@
 
 % Main content
 \newpage
-\pagenumbering{arabic}
 
 \section{Introduction}
 \input{chapters/introduction.tex}
@@ -131,10 +118,5 @@
 \newpage
 \bibliographystyle{IEEEtran}
 \bibliography{refs}
-
-\BLOCK{if INCLUDE_APPENDIX}
-\newpage
-\input{appendix.tex}
-\BLOCK{endif}
 
 \end{document}

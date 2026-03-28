@@ -2,12 +2,6 @@
 
 Get started with the IITJ MTP Template Generator in 5 minutes!
 
-**New to terminals or Python?** Start with the [Simple guide for beginners](beginners_guide).
-
-## What you get (important)
-
-The generator creates a **LaTeX project** under `output/` with your **metadata** and **section files** (abstract, acknowledgments, declaration, certificate, chapters, etc.). Most **paragraphs are placeholders**—search for `[TODO]` and `% TODO`. Compiling to PDF **before** you replace that text produces a **layout preview**, not your finished submission. See [examples/README](../examples/README.md) for how sample configs relate to this.
-
 ## Prerequisites
 
 Before you begin, make sure you have:
@@ -33,7 +27,7 @@ Before you begin, make sure you have:
 
 ```bash
 git clone https://github.com/satishjhanwer/IITJ-MTP-Template-Generator.git
-cd IITJ-MTP-Template-Generator
+cd academic-report-generator
 ```
 
 ### Step 2: Install Dependencies
@@ -57,7 +51,7 @@ python scripts/generate.py
 
 The generator will ask you questions like:
 
-- Report type (proposal, major project, or presentation)
+- Report type (proposal or major project)
 - Project title
 - Your name and roll number
 - Supervisor details

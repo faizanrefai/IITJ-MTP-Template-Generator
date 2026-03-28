@@ -10,6 +10,7 @@ import os
 import sys
 import shutil
 import argparse
+from pathlib import Path
 from typing import Dict, Any, Optional
 
 try:
@@ -18,15 +19,13 @@ try:
     DEPENDENCIES_AVAILABLE = True
 except ImportError:
     DEPENDENCIES_AVAILABLE = False
-    print("[WARNING] Required dependencies not found.")
+    print("⚠️  Warning: Required dependencies not found.")
     print("Please install dependencies: pip install -r requirements.txt")
     print("Or use the zero-dependency version: python scripts/generate_simple.py")
     sys.exit(1)
 
-# Add repo root so `import scripts.utils.*` works; add utils/ for flat imports (validators, etc.)
-_script_dir = os.path.dirname(os.path.abspath(__file__))
-sys.path.insert(0, os.path.join(_script_dir, '..'))
-sys.path.insert(0, os.path.join(_script_dir, 'utils'))
+# Add utils to path
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'utils'))
 
 from validators import validate_config, validate_email
 from template_engine import prepare_context
@@ -45,7 +44,7 @@ DEFAULTS = {
 def print_banner():
     """Print welcome banner."""
     print("\n" + "=" * 60)
-    print("IITJ MTP Template Generator")
+    print("🎓  IITJ MTP Template Generator")
     print("=" * 60)
     print()
 
@@ -76,7 +75,7 @@ def get_user_input(prompt: str, default: Optional[str] = None, required: bool = 
         elif not required:
             return ""
         else:
-            print("[ERROR] This field is required. Please provide a value.")
+            print("❌ This field is required. Please provide a value.")
 
 
 def collect_interactive_inputs() -> Dict[str, Any]:
@@ -105,7 +104,7 @@ def collect_interactive_inputs() -> Dict[str, Any]:
             project_type = 'presentation'
             break
         else:
-            print("[ERROR] Invalid choice. Please enter 1, 2, or 3.")
+            print("❌ Invalid choice. Please enter 1, 2, or 3.")
     
     print()
     
@@ -121,7 +120,7 @@ def collect_interactive_inputs() -> Dict[str, Any]:
         email = get_user_input("Email", required=False)
         if not email or validate_email(email):
             break
-        print("[ERROR] Invalid email format. Please try again.")
+        print("❌ Invalid email format. Please try again.")
     
     print("\n--- Academic Information ---")
     supervisor = get_user_input("Supervisor name (e.g., Dr. Jane Smith)")
@@ -275,7 +274,7 @@ def generate_report(config: Dict[str, Any], output_dir: Optional[str] = None) ->
     # Validate configuration
     is_valid, errors = validate_config(config)
     if not is_valid:
-        print("\n[ERROR] Configuration validation failed:")
+        print("\n❌ Configuration validation failed:")
         for error in errors:
             print(f"   - {error}")
         sys.exit(1)
@@ -303,20 +302,20 @@ def generate_report(config: Dict[str, Any], output_dir: Optional[str] = None) ->
             if report_path and os.path.exists(report_path):
                 try:
                     print(f"\n📄 Extracting content from: {report_path}")
-                    from scripts.utils.content_extractor import extract_content_from_report
+                    from utils.content_extractor import extract_content_from_report
                     extracted = extract_content_from_report(report_path)
                     
                     if extracted:
                         config['extracted_content'] = extracted
-                        print("[OK] Content extracted successfully")
+                        print("✅ Content extracted successfully")
                     else:
-                        print("[WARNING] Content extraction returned no data")
+                        print("⚠️  Content extraction returned no data")
                         print("   Generating presentation with TODO placeholders")
                 except Exception as e:
-                    print(f"[WARNING] Content extraction failed: {e}")
+                    print(f"⚠️  Content extraction failed: {e}")
                     print("   Generating presentation with TODO placeholders")
             elif report_path:
-                print(f"\n[WARNING] Report file not found: {report_path}")
+                print(f"\n⚠️  Report file not found: {report_path}")
                 print("   Generating presentation with TODO placeholders")
     
     # Get script directory
@@ -325,7 +324,7 @@ def generate_report(config: Dict[str, Any], output_dir: Optional[str] = None) ->
     # Get template type
     template_type = config['project']['type']
     
-    print(f"\n[INFO] Generating {template_type} report...")
+    print(f"\n📝 Generating {template_type} report...")
     
     # Prepare context
     context = prepare_context(config)
@@ -338,8 +337,8 @@ def generate_report(config: Dict[str, Any], output_dir: Optional[str] = None) ->
     print("   Rendering LaTeX templates...")
     render_templates(template_type, context, output_dir, script_dir)
     
-    print(f"\n[OK] Report generated successfully!")
-    print(f"[INFO] Output directory: {os.path.abspath(output_dir)}")
+    print(f"\n✅ Report generated successfully!")
+    print(f"📁 Output directory: {os.path.abspath(output_dir)}")
     
     return output_dir
 
@@ -380,11 +379,11 @@ Examples:
     if args.config:
         # Load from config file
         if not os.path.exists(args.config):
-            print(f"[ERROR] Config file not found: {args.config}")
+            print(f"❌ Config file not found: {args.config}")
             sys.exit(1)
         
         config = load_config_file(args.config)
-        print(f"[OK] Loaded configuration from: {args.config}")
+        print(f"✅ Loaded configuration from: {args.config}")
     else:
         # Interactive mode
         config = collect_interactive_inputs()
@@ -400,17 +399,14 @@ Examples:
         
         confirm = input("\nGenerate report with these details? [Y/n]: ").strip().lower()
         if confirm and confirm != 'y':
-            print("[ERROR] Generation cancelled.")
+            print("❌ Generation cancelled.")
             sys.exit(0)
     
     # Generate report
     output_dir = generate_report(config, args.output)
     
     # Print next steps
-    print("\n[INFO] Important:")
-    print("   This is a starter LaTeX project with placeholders ([TODO] / % TODO in .tex files).")
-    print("   A PDF compiled before you replace that text shows layout only—not your final report.")
-    print("\n[INFO] Next steps:")
+    print("\n📚 Next steps:")
     print(f"   1. Edit the .tex files in {output_dir} to add your content")
     
     if config['project']['type'] == 'proposal':

@@ -2,21 +2,18 @@
 
 Generate professional LaTeX academic reports with ease
 
-<div style="margin-bottom: 20px;">
-  <a href="beginners_guide" style="display: inline-block; padding: 10px 16px; background-color: #0969da; color: white; text-decoration: none; border-radius: 6px; font-weight: 500; margin-right: 10px;">Simple guide (beginners)</a>
-  <a href="quickstart" style="display: inline-block; padding: 10px 16px; background-color: #058e3f; color: white; text-decoration: none; border-radius: 6px; font-weight: 500; margin-right: 10px;">Quick Start</a>
-  <a href="https://github.com/satishjhanwer/IITJ-MTP-Template-Generator" style="display: inline-block; padding: 10px 16px; background-color: #6e40aa; color: white; text-decoration: none; border-radius: 6px; font-weight: 500;">View on GitHub</a>
-</div>
+[Get Started](quickstart){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 }
+[View on GitHub](https://github.com/satishjhanwer/IITJ-MTP-Template-Generator){: .btn .fs-5 .mb-4 .mb-md-0 }
 
 ---
 
 ## What is IITJ MTP Template Generator?
 
-A Python-based tool that builds a **structured LaTeX project** from simple configuration files: your title, name, supervisor, and other settings, plus **section shells** you must fill in (abstract, chapters, acknowledgments, and more). It does **not** write your report content for you. Perfect for students and researchers who need to create:
+A Python-based tool that generates professional LaTeX academic reports from simple configuration files. Perfect for students and researchers who need to create:
 
 - 📄 **Proposal Reports** (MTP1/Research Proposals)
 - 📚 **Major Project Reports** (Full Thesis/Dissertation)
-- 🎤 **Presentation Slides** (Beamer)
+- 🎤 **Presentation Slides** (Coming in Phase 2)
 
 ## Key Features
 
@@ -27,17 +24,6 @@ A Python-based tool that builds a **structured LaTeX project** from simple confi
 ✅ **Zero Dependencies Option** - Works without pip  
 
 ## Quick Example
-
-### Option 1: Web-based Configuration (Easiest)
-
-No command line needed! Use the **[interactive web generator](/web/config-generator/)** to:
-
-- Fill in your project details visually
-- Preview your `config.yaml` in real-time
-- Download the config file directly
-- Then run `python scripts/generate.py --config config.yaml`
-
-### Option 2: Command Line
 
 ```bash
 # Install dependencies
@@ -71,20 +57,13 @@ pdflatex proposal.tex
 - Automatic table of contents, figures, and tables
 - IEEE-style citations
 
-### Presentation Slides (Beamer)
-
-- Title, introduction, methodology, results, and conclusion sections
-- Configurable theme and aspect ratio via YAML
-- Optional content extraction from an existing LaTeX report
-
 ## Getting Started
 
-1. [Simple guide for beginners](beginners_guide) - Plain language: what you install, what you get, template PDF vs final PDF
-2. [Quick Start Guide](quickstart) - Get up and running in 5 minutes
-3. [CI/CD Auto-Compilation](ci_cd) - Automatic PDF generation with GitHub Actions
-4. [Input Schema](input-schema) - Learn about configuration options
-5. [Customization Guide](customization) - Personalize your templates
-6. [FAQ](faq) - Common questions and troubleshooting
+1. [Quick Start Guide](quickstart) - Get up and running in 5 minutes
+2. [CI/CD Auto-Compilation](ci-cd) - Automatic PDF generation with GitHub Actions
+3. [Input Schema](input-schema) - Learn about configuration options
+4. [Customization Guide](customization) - Personalize your templates
+5. [FAQ](faq) - Common questions and troubleshooting
 
 ## Example Output
 
@@ -92,15 +71,13 @@ The generator creates a complete LaTeX project with:
 
 - All necessary `.tex` files
 - Bibliography with example entries
-- `[TODO]` / `% TODO` markers where **you** add real content
+- TODO markers for easy content addition
 - Compilation instructions
 - Template-specific README
 
-**Note:** Building a PDF immediately after generation shows **formatting and layout**; the text is still placeholder until you edit every section. That early PDF is a **preview**, not your final submission.
-
 ## Requirements
 
-- Python 3.9+
+- Python 3.8+
 - LaTeX distribution (TeX Live, MiKTeX, or MacTeX)
 - Optional: Jinja2 and PyYAML (or use zero-dependency version)
 
@@ -110,4 +87,4 @@ MIT License - Free to use for academic and commercial purposes
 
 ---
 
-**Ready to create your academic report?** [Simple guide →](beginners_guide) &nbsp;·&nbsp; [Quick Start →](quickstart)
+**Ready to create your academic report?** [Get Started →](quickstart)

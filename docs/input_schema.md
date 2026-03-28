@@ -20,7 +20,7 @@ project:
 - **type** (string, required): Type of report
   - `"proposal"` - Research proposal or MTP1 report
   - `"major-project"` - Full thesis or major project report
-  - `"presentation"` - Beamer slides
+  - `"presentation"` - Beamer slides (Phase 2, not yet available)
 
 ### Author Information
 
@@ -108,16 +108,14 @@ content:
   include_certificate: true
   include_acknowledgments: true
   include_abstract: true
-  include_appendix: false
 ```
 
-All content options are boolean (true/false) and default to `true` except `include_appendix` which defaults to `false`.
+All content options are boolean (true/false) and default to `true`.
 
 - **include_declaration** (boolean, default: true): Include declaration page (major-project only)
 - **include_certificate** (boolean, default: true): Include certificate page (major-project only)
 - **include_acknowledgments** (boolean, default: true): Include acknowledgments page
 - **include_abstract** (boolean, default: true): Include abstract page
-- **include_appendix** (boolean, default: false): Include appendix section (major-project only)
 
 ### Assets
 
@@ -205,7 +203,6 @@ content:
   include_certificate: true
   include_acknowledgments: true
   include_abstract: true
-  include_appendix: false
 ```
 
 ## Validation Rules

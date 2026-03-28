@@ -7,17 +7,11 @@ Generate professional LaTeX academic reports (proposals, major projects, present
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![Python](https://img.shields.io/badge/python-3.9%2B-blue.svg)](https://www.python.org/downloads/)
 [![LaTeX](https://img.shields.io/badge/LaTeX-TeX%20Live-green.svg)](https://www.latex-project.org/get/)
-[![Coverage](https://img.shields.io/badge/coverage-94%25-brightgreen.svg)](https://github.com/satishjhanwer/IITJ-MTP-Template-Generator/actions)
+[![Coverage](https://img.shields.io/badge/coverage-93%25-brightgreen.svg)](https://github.com/satishjhanwer/IITJ-MTP-Template-Generator/actions)
 [![Status](https://img.shields.io/badge/status-production--ready-success.svg)](https://github.com/satishjhanwer/IITJ-MTP-Template-Generator/actions)
 [![GitHub Pages](https://img.shields.io/badge/docs-GitHub%20Pages-blue)](https://satishjhanwer.github.io/IITJ-MTP-Template-Generator/)
 
 A comprehensive, production-ready Python-based template generator for creating professional LaTeX academic reports for IIT Jodhpur's Major Technical Project (MTP). Supports proposal reports, major project reports, and presentation slides with automated CI/CD compilation, content extraction, and performance optimizations.
-
-## Start here
-
-- **New to Python or the command line?** Read the [Simple guide for beginners](docs/beginners_guide.md).
-- **What this tool creates:** a **LaTeX starter project**—your title, name, and similar fields from the prompts or config, plus **files and sections** for abstract, acknowledgments, declaration, certificate, title page, chapters (introduction, literature, methodology, results, discussion, conclusion, etc., depending on report type). **Body text is mostly placeholders** (`[TODO]` / `% TODO`); **you** must write the real content.
-- **PDF:** If you compile **before** replacing placeholders, you get a **correctly formatted “template” PDF**—useful to check layout, **not** a substitute for your finished report.
 
 ## ✨ Features
 
@@ -36,7 +30,7 @@ A comprehensive, production-ready Python-based template generator for creating p
 
 ### Quality & Performance
 
-- **~94% line coverage** on `scripts/` (`pytest --cov=scripts`), **290+** tests
+- **93% Test Coverage**: 60+ unit tests across all utilities
 - **66% Faster Generation**: Optimized with template caching and parallel I/O
 - **Error Handling**: Helpful error messages with suggestions and documentation links
 - **Progress Tracking**: Visual progress bars and spinners for better UX
@@ -70,24 +64,15 @@ cd IITJ-MTP-Template-Generator
 pip install -r scripts/requirements.txt
 ```
 
-### Option 1: Web-based Configuration (Easiest)
-
-No command line needed! Use the **[interactive web generator](https://satishjhanwer.github.io/IITJ-MTP-Template-Generator/web/config-generator/)** to:
-
-- Fill in your project details visually
-- Preview your `config.yaml` in real-time
-- Download the config file directly
-- Then run: `python scripts/generate.py --config config.yaml`
-
-### Option 2: Interactive CLI
+#### Interactive Mode
 
 ```bash
 python scripts/generate.py
 ```
 
-Follow the prompts to enter your project details. Generation only writes the **project skeleton**; edit all `.tex` (and `.bib`) files for your real abstract, chapters, and front matter before treating any PDF as final.
+Follow the prompts to enter your project details.
 
-### Option 3: Using a Config File
+#### Using a Config File
 
 ```bash
 python scripts/generate.py --config examples/sample-proposal/config.yaml
@@ -105,7 +90,7 @@ git commit -m "Add my project report"
 git push origin main
 ```
 
-Then download the compiled PDF from the **Actions** tab → **Artifacts**. See [CI/CD Guide](docs/ci_cd.md) for details.
+Then download the compiled PDF from the **Actions** tab → **Artifacts**. See [CI/CD Guide](docs/CI_CD.md) for details.
 
 #### Option 2: Local Compilation
 
@@ -119,16 +104,11 @@ pdflatex proposal.tex
 
 ## 📚 Documentation
 
-- [Simple guide for beginners](docs/beginners_guide.md) - Plain-language overview (recommended if you are new to the command line)
-- [Quick Start Guide](docs/quickstart.md) - Get started in 5 minutes
-- [CI/CD Auto-Compilation](docs/ci_cd.md) - Automatic PDF generation with GitHub Actions
-- [Input Schema](docs/input_schema.md) - Complete configuration reference
-- [Customization Guide](docs/customization.md) - Customize templates and formatting
-- [FAQ](docs/faq.md) - Frequently asked questions
-- [Content Extraction](docs/content_extraction.md) - Populate slides from existing reports
-- [Setup Checklist](docs/setup_checklist.md) - Verify prerequisites and tooling
-
-**Maintainers:** [Internal notes](docs/internal/README.md) (spec and backlog; not required for everyday use).
+- [Quick Start Guide](docs/QUICKSTART.md) - Get started in 5 minutes
+- [CI/CD Auto-Compilation](docs/CI_CD.md) - Automatic PDF generation with GitHub Actions
+- [Input Schema](docs/INPUT_SCHEMA.md) - Complete configuration reference
+- [Customization Guide](docs/CUSTOMIZATION.md) - Customize templates and formatting
+- [FAQ](docs/FAQ.md) - Frequently asked questions
 
 ## 📁 Project Structure
 
@@ -144,7 +124,6 @@ IITJ-MTP-Template-Generator/
 │   ├── major-project/           # Major project template
 │   └── presentation/            # Presentation slides template
 ├── examples/
-│   ├── README.md                # What the sample configs do (and what they do not)
 │   ├── sample-proposal/         # Example proposal config
 │   ├── sample-major-project/    # Example major project config
 │   └── sample-presentation/     # Example presentation config
@@ -178,7 +157,7 @@ formatting:
   bibliography_style: IEEE # IEEE, APA, or ACM
 ```
 
-See [Customization Guide](docs/customization.md) for more options.
+See [Customization Guide](docs/CUSTOMIZATION.md) for more options.
 
 ## 📖 Example Usage
 
@@ -262,14 +241,14 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - [x] GitHub Pages deployment
 - [x] CI/CD auto-compilation
 - [x] Content extraction from reports
-- [x] Unit testing framework (see `pytest --cov=scripts` for current coverage)
+- [x] Unit testing framework (93% coverage)
 - [x] Performance optimizations (66% faster)
 - [x] Error handling with helpful messages
 - [x] Progress tracking and UX improvements
-- [x] Web-based configuration generator
 
 ### 🚧 In Progress / Planned
 
+- [ ] Web-based configuration generator
 - [ ] Multiple university templates (IIT Delhi, IISc, etc.)
 - [ ] Template customization UI
 - [ ] Multi-language support

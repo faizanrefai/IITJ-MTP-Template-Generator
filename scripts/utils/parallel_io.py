@@ -7,6 +7,7 @@ import os
 import shutil
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from typing import List, Tuple, Callable, Optional
+from pathlib import Path
 
 
 def copy_file_with_progress(src: str, dst: str) -> Tuple[str, bool]:

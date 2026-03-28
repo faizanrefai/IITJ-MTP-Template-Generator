@@ -1,29 +1,29 @@
 {
   "project": {
-    "title": "Your Project Title",
+    "title": "Lossless Image Compression and Trasportation",
     "type": "presentation"
   },
   "author": {
-    "name": "John Doe",
-    "roll_number": "2021CS001",
-    "email": "john.doe@university.edu"
+    "name": "Faizan Refai",
+    "roll_number": "M25AI1124",
+    "email": "M25AI1124@iitj.ac.in"
   },
   "academic": {
-    "supervisor": "Dr. Jane Smith",
-    "co_supervisor": "",
-    "department": "Department of Computer Science and Engineering",
-    "university": "Your University Name",
-    "degree": "Bachelor of Technology",
-    "session": "2024-25"
+    "supervisor": "Dr. Anil Kumar Tiwari",
+    "co_supervisor": "Dr. Divya Saxena",
+    "department": "School of Artificial Intelligence and Data Engineering",
+    "university": "Indian Institute of Technology Jodhpur",
+    "degree": "Master of Technology in Artificial Intelligence and Machine Learning",
+    "session": "2024-2026"
   },
   "dates": {
-    "submission_date": "November 2024"
+    "submission_date": "April 2026"
   },
   "presentation": {
     "theme": "Madrid",
     "color_scheme": "default",
     "aspect_ratio": "16:9",
-    "presentation_date": "December 2024"
+    "presentation_date": "April 2026"
   },
   "formatting": {
     "color_scheme": "blue",

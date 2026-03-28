@@ -2,7 +2,7 @@
 
 import re
 import os
-from typing import Dict, List
+from typing import Dict, List, Optional
 
 
 def validate_email(email: str) -> bool:

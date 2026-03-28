@@ -7,8 +7,6 @@ show_downloads: true
 nav_links:
   - title: Home
     url: /
-  - title: Simple guide
-    url: /beginners_guide
   - title: Quick Start
     url: /quickstart
   - title: Documentation
@@ -17,8 +15,6 @@ nav_links:
     url: /customization
   - title: FAQ
     url: /faq
-  - title: CI-CD
-    url: /ci_cd
   - title: GitHub
     url: https://github.com/satishjhanwer/IITJ-MTP-Template-Generator
 
@@ -58,7 +54,6 @@ kramdown:
 
 # Exclude from processing
 exclude:
-  - internal
   - Gemfile
   - Gemfile.lock
   - node_modules

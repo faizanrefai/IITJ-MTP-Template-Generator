@@ -4,8 +4,9 @@ This module provides caching and optimization utilities for improved performance
 """
 
 import functools
+import os
 import time
-from typing import Callable, Dict
+from typing import Any, Callable, Dict, Optional
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 
 

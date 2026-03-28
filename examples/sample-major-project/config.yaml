@@ -1,27 +1,26 @@
 # Example Configuration - Major Project Report
-# Full options: docs/input_schema.md
 
 project:
   title: "Project title"
   type: "major-project"
 
 author:
-  name: "John Doe"
-  roll_number: "2021CS001"
-  email: "john.doe@university.edu"
+  name: "Faizan Refai"
+  roll_number: "M25AI1124"
+  email: "M25AI1124@iitj.ac.in"
 
 academic:
-  supervisor: "Dr. Jane Smith"
-  co_supervisor: "" # Optional
+  supervisor: "Dr. Anil Kumar Tiwari"
+  co_supervisor: "Dr. Divya Saxena" # Optional
   supervisor_designation: "Professor"
-  supervisor_department: "Department of Computer Science and Engineering"
-  department: "Department of Computer Science and Engineering"
-  university: "Your University Name"
-  degree: "Bachelor of Technology"
-  session: "2024-25"
+  supervisor_department: "School of Artificial Intelligence and Data Engineering"
+  department: "School of Artificial Intelligence and Data Engineering"
+  university: "Indian Institute of Technology Jodhpur"
+  degree: "Master of Technology in Artificial Intelligence and Machine Learning"
+  session: "2024-2026"
 
 dates:
-  submission_date: "November 2024"
+  submission_date: "April 2026"
 
 # Optional formatting options
 formatting:
@@ -36,8 +35,6 @@ content:
   include_certificate: true
   include_acknowledgments: true
   include_abstract: true
-  include_appendix: false
-
-# Optional custom logo (path must exist on disk when set; leave commented to use the default placeholder)
+# Optional custom logo
 # assets:
 #   logo_path: "./path/to/your/logo.png"
