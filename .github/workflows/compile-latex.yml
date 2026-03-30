@@ -7,11 +7,6 @@ on:
       - "output/**/*.tex"
       - ".github/workflows/compile-latex.yml"
   workflow_dispatch:
-    inputs:
-      report_path:
-        description: "Path to report directory (e.g., output/my-project)"
-        required: false
-        default: "output"
 
 jobs:
   compile-latex:
@@ -22,10 +17,47 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up TeX Live (with caching)
-        uses: xu-cheng/texlive-action@v2
+      - name: Cache apt packages (downloads)
+        uses: actions/cache@v4
         with:
-          scheme: full
+          path: /var/cache/apt/archives
+          key: ${{ runner.os }}-apt-texlive-${{ hashFiles('**/compile-latex.yml') }}
+          restore-keys: |
+            ${{ runner.os }}-apt-texlive-
+            ${{ runner.os }}-apt-
+
+      - name: Cache LaTeX installation
+        uses: actions/cache@v4
+        with:
+          path: /usr/share/texlive
+          key: ${{ runner.os }}-texlive-full-v3-${{ hashFiles('**/compile-latex.yml') }}
+          restore-keys: |
+            ${{ runner.os }}-texlive-full-v3-
+            ${{ runner.os }}-texlive-
+
+      - name: Install LaTeX
+        run: |
+          # Check if pdflatex exists (it might be cached)
+          if command -v pdflatex &> /dev/null; then
+            echo "✅ Using cached LaTeX installation"
+            pdflatex --version | head -3
+          else
+            echo "📦 Installing LaTeX packages (first run or cache miss)"
+            sudo apt-get update
+            sudo apt-get install -y \
+              texlive-latex-base \
+              texlive-latex-extra \
+              texlive-fonts-recommended \
+              texlive-fonts-extra \
+              texlive-bibtex-extra \
+              texlive-science \
+              texlive-publishers \
+              texlive-lang-english \
+              texlive-pictures \
+              texlive-latex-recommended \
+              biber
+            echo "✅ LaTeX installation complete"
+          fi
 
       - name: Compile LaTeX files
         run: |
@@ -49,7 +81,7 @@ jobs:
               cd - > /dev/null
               return 1
             elif [ $exit_code -ne 0 ]; then
-              echo "❌ First pass failed with exit code $exit_code"
+              echo "❌ First pass failed"
               grep -A 5 "^!" /tmp/latex_output.txt | head -20
               cd - > /dev/null
               return 1
@@ -80,7 +112,7 @@ jobs:
               pdf_size=$(du -h "$base.pdf" | cut -f1)
               echo "✅ Successfully compiled: $base.pdf (size: $pdf_size)"
             else
-              echo "❌ Failed to compile: $tex_file - PDF not created"
+              echo "❌ Failed to compile: $tex_file"
               cd - > /dev/null
               return 1
             fi
@@ -96,9 +128,7 @@ jobs:
 
       - name: List compiled PDFs
         run: |
-          echo ""
           echo "📄 Compiled PDF files:"
-          echo "====================="
           find output -name "*.pdf" -type f -exec ls -lh {} \; || echo "No PDFs found"
 
       - name: Upload PDF artifacts
@@ -113,20 +143,10 @@ jobs:
       - name: Compilation Summary
         if: always()
         run: |
-          echo ""
           echo "📊 FINAL COMPILATION SUMMARY"
-          echo "================================"
           pdf_count=$(find output -name "*.pdf" -type f 2>/dev/null | wc -l)
-          tex_count=$(find output -name "*.tex" -type f 2>/dev/null | wc -l)
-          
-          echo "📝 Total .tex files found: $tex_count"
-          echo "📄 Total PDFs generated: $pdf_count"
-          echo ""
-          
           if [ $pdf_count -gt 0 ]; then
-            echo "✅ COMPILATION SUCCESSFUL!"
-            echo "📥 Download your PDFs from the Artifacts section below"
+            echo "✅ COMPILATION SUCCESSFUL! $pdf_count PDF(s) generated."
           else
             echo "⚠️ NO PDFS WERE GENERATED"
-            echo "Check the 'Compile LaTeX files' step above for errors"
           fi
