@@ -1,79 +1,189 @@
-% TODO: Complete the Methodology chapter
+\chapter{Methodology}
 
-\subsection{System Architecture}
+\section{System Architecture}
 
-% TODO: Describe your system architecture
-% Include a diagram showing the main components and their interactions
-
-Figure~\ref{fig:system_architecture} shows the overall system architecture.
+The proposed system is a modular, extensible framework for implementing, testing, and comparing lossless image compression algorithms. Figure~\ref{fig:system_architecture} illustrates the overall system architecture, which consists of four main layers: the data layer, the algorithm layer, the evaluation layer, and the visualization layer.
 
 \begin{figure}[H]
 \centering
-% TODO: Add your architecture diagram here
-% \includegraphics[width=0.9\textwidth]{figures/architecture.png}
-\fbox{\parbox{0.9\textwidth}{\centering \vspace{3cm} [TODO: Add architecture diagram here] \vspace{3cm}}}
-\caption{System Architecture}
+\begin{tikzpicture}[node distance=1.5cm, auto, >=stealth,
+    block/.style={rectangle, draw, thick, text width=3cm, align=center, minimum height=1cm, rounded corners},
+    arrow/.style={->, thick}]
+
+    \node[block] (data) {Data Layer \\ Image I/O, Preprocessing};
+    \node[block, below of=data] (algo) {Algorithm Layer \\ Compression Algorithms};
+    \node[block, below of=algo] (eval) {Evaluation Layer \\ Metrics \& Comparison};
+    \node[block, below of=eval] (vis) {Visualization Layer \\ Plots \& Reports};
+
+    \draw[arrow] (data) -- (algo);
+    \draw[arrow] (algo) -- (eval);
+    \draw[arrow] (eval) -- (vis);
+
+\end{tikzpicture}
+\caption{High-level system architecture.}
 \label{fig:system_architecture}
 \end{figure}
 
-\textbf{[TODO: Describe the architecture and explain each component in detail]}
+\subsection{Data Layer}
+The data layer is responsible for loading images from disk, converting them to a standard format (RGB or grayscale), and resizing them to a uniform dimension (typically \(256 \times 256\) pixels) to ensure consistent evaluation. The layer also normalizes pixel values to the range \([0,1]\) for algorithms that require floating-point inputs (e.g., neural networks).
 
-\subsection{Design Approach}
+\subsection{Algorithm Layer}
+This layer contains the implementations of all lossless compression algorithms. Each algorithm is encapsulated in a separate class with a consistent interface:
+\begin{verbatim}
+class CompressionAlgorithm:
+    def compress(self, image_array):
+        # Returns compressed representation and metadata
+        pass
+    def decompress(self, compressed_data, metadata):
+        # Returns reconstructed image array
+        pass
+\end{verbatim}
+This design allows the evaluation layer to treat all algorithms uniformly, enabling fair comparisons.
 
-% TODO: Explain your design approach and methodology
-% What design principles did you follow?
-% What design patterns did you use?
+\subsection{Evaluation Layer}
+The evaluation layer computes standard quality metrics for each compression result:
+\begin{itemize}
+    \item Compression ratio \(R = \frac{\text{original size}}{\text{compressed size}}\)
+    \item Mean squared error (MSE) \(\frac{1}{N}\sum (I_{ij} - \hat{I}_{ij})^2\)
+    \item Peak signal-to-noise ratio (PSNR) \(= 20\log_{10}(255/\sqrt{\text{MSE}})\)
+    \item Execution time and throughput (pixels per second)
+\end{itemize}
 
-\textbf{[TODO: Add design approach here]}
+\subsection{Visualization Layer}
+The visualization layer generates a comprehensive set of plots, including side‑by‑side comparisons of original and compressed images, error maps, histograms of pixel values and residuals, convergence curves (for iterative algorithms), and color palettes (for clustering methods). All visualizations are produced using Matplotlib and are saved as high‑resolution images for inclusion in the report.
 
-\subsection{Backend Design}
+\section{Design Approach}
 
-% TODO: Describe your backend design in detail
-% Include:
-% - Technologies and frameworks used
-% - Main modules and their responsibilities
-% - Data models and database schema
-% - APIs and interfaces
-% - Security considerations
+The system follows a **modular, object‑oriented design** to facilitate the addition of new algorithms and the reuse of common components. Key design patterns employed include:
 
-\textbf{[TODO: Add backend design details here]}
+\begin{itemize}
+    \item \textbf{Strategy pattern}: Each compression algorithm is a strategy that can be swapped at runtime.
+    \item \textbf{Template method pattern}: The evaluation procedure (load, compress, decompress, measure) is a fixed template; only the algorithm varies.
+    \item \textbf{Factory pattern}: A factory function creates algorithm instances based on a configuration string (e.g., \texttt{"huffman"}, \texttt{"calic"}).
+\end{itemize}
 
-\subsection{Frontend Design}
+All algorithms are implemented in pure Python using NumPy for numerical operations. For computationally intensive methods (Gath–Geva, PSO, FBPNN), GPU acceleration is provided via JAX (with Metal backend for Apple M4) and PyTorch MPS, with automatic fallback to CPU when GPU is unavailable.
 
-% TODO: Describe your frontend design (if applicable)
-% Include:
-% - Technologies and frameworks used
-% - UI components and their organization
-% - User workflows and interactions
-% - Responsive design considerations
+\section{Backend Design}
 
-\textbf{[TODO: Add frontend design details here]}
+The backend consists of Python modules organized as follows:
 
-\subsection{Data Flow}
+\begin{itemize}
+    \item \texttt{data/} – Image loading, resizing, normalization, and augmentation.
+    \item \texttt{algorithms/} – Subdirectories for each family:
+        \begin{itemize}
+            \item \texttt{entropy/} – Huffman, Arithmetic, LZW.
+            \item \texttt{spatial/} – RLE, variable block size, lossy+residual.
+            \item \texttt{predictive/} – JPEG lossless (7 predictors).
+            \item \texttt{context/} – CALIC, LOCO‑I.
+            \item \texttt{transform/} – S‑Transform, S+P, lifting wavelet.
+            \item \texttt{clustering/} – K‑Means, Gath–Geva (with GPU acceleration).
+            \item \texttt{optimization/} – Particle Swarm Optimization (PSO).
+            \item \texttt{neural/} – Fuzzy Backpropagation Neural Network (FBPNN).
+        \end{itemize}
+    \item \texttt{metrics/} – Calculation of compression ratio, MSE, PSNR, entropy, and timing.
+    \item \texttt{visualization/} – Generation of all plots and figures.
+    \item \texttt{utils/} – Common helpers (e.g., bit I/O, entropy computation).
+\end{itemize}
 
-% TODO: Describe how data flows through your system
-% Include a data flow diagram if helpful
+No external database is required; all results are stored in memory and can be exported as CSV or JSON for further analysis. Security considerations are minimal as the system runs locally and processes only user‑supplied image files.
 
-\textbf{[TODO: Add data flow description here]}
+\section{Frontend Design}
 
-\subsection{Algorithms and Techniques}
+The system does not include a graphical user interface; it is designed as a command‑line tool and a Jupyter notebook that can be executed interactively. The notebook provides markdown cells that explain each algorithm, code cells that run the compression and visualisation, and output cells that display the results. This design is well‑suited for research and educational purposes.
 
-% TODO: Describe key algorithms or techniques used
-% Provide pseudocode or detailed explanations for complex algorithms
+\section{Data Flow}
 
-\textbf{[TODO: Add algorithms and techniques here]}
+The typical data flow for a single algorithm is as follows:
 
-\subsection{Technology Stack}
+1. Load an image from disk (e.g., \texttt{Lenna.png}) into a NumPy array of shape \((H,W,C)\).
+2. Optionally resize the image to a fixed size (e.g., \(256\times256\)) to keep evaluation times reasonable.
+3. Normalize pixel values to \([0,1]\) if required by the algorithm (e.g., for neural networks).
+4. Invoke the algorithm’s \texttt{compress()} method, which returns a compressed representation (e.g., a bit string, a list of symbols, or a palette plus indices) and metadata (e.g., Huffman code tables, cluster centers).
+5. Invoke the algorithm’s \texttt{decompress()} method to reconstruct the image.
+6. Compute quality metrics (compression ratio, MSE, PSNR, time) by comparing the original and reconstructed arrays.
+7. Generate visualizations (error maps, histograms, etc.) using Matplotlib.
+8. Store metrics and figures for later analysis and reporting.
 
-% TODO: List all technologies, frameworks, and tools used
+For iterative algorithms (Gath–Geva, PSO, FBPNN), the data flow includes an inner loop over iterations, with intermediate results recorded for convergence plots.
+
+\section{Algorithms and Techniques}
+
+The following subsections summarise the key algorithms implemented. Detailed pseudocode and mathematical formulations are provided in the corresponding sections of the appendix.
+
+\subsection{Entropy Coding}
+
+\begin{itemize}
+    \item \textbf{Huffman coding}: Builds a binary tree based on symbol frequencies and assigns variable‑length codes. The codes are prefix‑free and optimal for a given distribution when using integer‑length codes.
+    \item \textbf{Arithmetic coding}: Uses fractional bit assignments by representing the entire message as a single number in \([0,1)\). The implementation uses integer arithmetic to avoid floating‑point precision issues.
+    \item \textbf{LZW}: Maintains a dictionary of previously seen substrings; encodes each substring as a reference to the dictionary.
+\end{itemize}
+
+\subsection{Spatial Domain Methods}
+
+\begin{itemize}
+    \item \textbf{Run‑length encoding (RLE)}: Encodes consecutive identical pixel values as a pair (value, count). Works best on images with large uniform areas.
+    \item \textbf{Variable block size compression}: Divides the image into blocks of different sizes based on local variance; each block is encoded using RLE, base+offset, block matching, or raw transmission.
+    \item \textbf{Lossy+residual}: First compresses the image lossily (e.g., using DCT with few coefficients), then transmits the residual (difference between original and lossy image) losslessly. The combination achieves lossless reconstruction with a high overall compression ratio.
+\end{itemize}
+
+\subsection{Predictive Coding}
+
+\begin{itemize}
+    \item \textbf{JPEG lossless prediction}: Uses one of seven predictors based on the left (\(a\)), above (\(b\)), and above‑left (\(c\)) neighbours. The prediction error is entropy‑coded with Huffman or arithmetic coding.
+\end{itemize}
+
+\subsection{Context‑Based Methods}
+
+\begin{itemize}
+    \item \textbf{LOCO‑I (JPEG‑LS)}: Employs the median edge detector (MED) for prediction and Golomb–Rice coding for residuals. Contexts are formed by quantising local gradients.
+    \item \textbf{CALIC}: Uses a gradient‑adjusted predictor (7 cases) followed by context modelling of the prediction error. The context is defined by the quantised error energy \(\Delta = d_h+d_v+2|e_w|\) and an 8‑bit texture pattern \(B\). Error feedback refines the prediction.
+\end{itemize}
+
+\subsection{Transform Domain Methods}
+
+\begin{itemize}
+    \item \textbf{S‑Transform}: A reversible integer‑to‑integer Haar transform:  
+        \[ l[n] = \left\lfloor\frac{c[2n]+c[2n+1]}{2}\right\rfloor,\quad h[n] = c[2n]-c[2n+1]. \]
+    \item \textbf{S+P Transform}: Extends the S‑Transform by predicting the high‑frequency coefficients from low‑frequency differences.
+    \item \textbf{Lifting wavelet transform}: Decomposes the image using the lifting scheme, which performs the transform in place and allows integer‑to‑integer mapping.
+\end{itemize}
+
+\subsection{Clustering‑Based Compression}
+
+\begin{itemize}
+    \item \textbf{K‑Means}: Partitions the RGB space into \(K\) clusters; each pixel is replaced by the index of its nearest cluster center. The palette (centers) and index map are stored.
+    \item \textbf{Gath–Geva fuzzy clustering}: A fuzzy variant that models clusters as ellipsoids. The membership degree \(\mu_{ik}\) of pixel \(k\) to cluster \(i\) is used to weight the colour palette. GPU acceleration (JAX) reduces execution time by a factor of 10–20.
+\end{itemize}
+
+\subsection{Optimisation Methods}
+
+\begin{itemize}
+    \item \textbf{Particle Swarm Optimisation (PSO)}: Treats a colour palette as a particle; the swarm evolves to minimise the MSE between the original and compressed image. The velocity and position update rules are:
+        \[ v_i(t+1) = w v_i(t) + c_1 r_1 (p_i - x_i) + c_2 r_2 (g - x_i), \]
+        \[ x_i(t+1) = x_i(t) + v_i(t+1). \]
+\end{itemize}
+
+\subsection{Neural Network Approach}
+
+\begin{itemize}
+    \item \textbf{Fuzzy Backpropagation Neural Network (FBPNN)}: Combines Gath–Geva fuzzy memberships with backpropagation. The weight update rule includes a fuzzy factor \(z_i = (\mu_{ik})^m\):
+        \[ \Delta w_{ij}^L = z_i \cdot \eta \cdot \delta_{pj}^{L-1} \cdot \text{out}_{pj}^L. \]
+    The network has 3 input nodes (RGB), 8 hidden nodes, and 15 output nodes (one per cluster).
+\end{itemize}
+
+\section{Technology Stack}
 
 The system was implemented using the following technologies:
 
 \begin{itemize}
-    \item \textbf{Backend:} [TODO: e.g., Python 3.9, Django 4.0]
-    \item \textbf{Frontend:} [TODO: e.g., React 18, TypeScript]
-    \item \textbf{Database:} [TODO: e.g., PostgreSQL 14]
-    \item \textbf{Deployment:} [TODO: e.g., Docker, AWS]
-    \item \textbf{Testing:} [TODO: e.g., pytest, Jest]
-    \item \textbf{Other Tools:} [TODO: e.g., Git, CI/CD tools]
+    \item \textbf{Language:} Python 3.14
+    \item \textbf{Core libraries:} NumPy (numerical computations), Matplotlib (visualisation), Pillow (image I/O)
+    \item \textbf{Machine learning / optimisation:} Scikit‑learn (K‑Means, metrics), JAX (GPU‑accelerated Gath–Geva, PSO, FBPNN), PyTorch (optional MPS backend for Apple Metal)
+    \item \textbf{Development environment:} Jupyter Notebook, Visual Studio Code
+    \item \textbf{Version control:} Git
+    \item \textbf{Testing:} Pytest (unit tests for individual algorithms)
+    \item \textbf{Documentation:} LaTeX (thesis), Markdown (code comments)
 \end{itemize}
+
+All experiments were run on an Apple M4 MacBook Pro with 16 GB of unified memory, using the Metal backend for GPU acceleration where applicable.
