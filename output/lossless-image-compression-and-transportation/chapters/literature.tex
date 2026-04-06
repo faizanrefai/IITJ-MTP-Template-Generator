@@ -1,19 +1,70 @@
-\subsection{Overview}
+% TODO: Complete the Literature Review chapter
 
-Lossless image compression has been a fundamental area of research in signal processing and information theory for decades. The primary goal is to reduce the number of bits required to represent an image without any loss of information, enabling perfect reconstruction of the original image.
+\subsection{Related Standards and Guidelines}
 
-\subsection{Entropy Coding Methods}
+% TODO: Discuss relevant standards, guidelines, or best practices
+% Examples: W3C standards, IEEE guidelines, industry best practices
 
-\textbf{Huffman coding} \cite{huffman1952} assigns variable‑length codes to symbols based on their frequencies, achieving optimal coding for a given probability distribution when using integer‑length codes. \textbf{Arithmetic coding} \cite{witten1987arithmetic} extends this by allowing fractional bit allocations, often yielding better compression than Huffman coding, albeit with higher computational complexity. \textbf{Lempel–Ziv–Welch (LZW)} \cite{welch1984technique} is a dictionary‑based method that replaces repeated strings with references to a dictionary built adaptively during compression.
+\textbf{[TODO: Add related standards and guidelines here]}
 
-\subsection{Predictive and Transform Coding}
+\subsection{Existing Approaches}
 
-\textbf{JPEG‑LS} (ISO/IEC 14495‑1) is an international standard for lossless compression of continuous‑tone images. It employs a median edge detector (MED) predictor and Golomb–Rice coding \cite{weinberger2000loco}. \textbf{CALIC} (Context‑based Adaptive Lossless Image Coding) \cite{wu1996context} uses gradient‑based prediction and context modeling of prediction errors, achieving state‑of‑the‑art compression ratios.
+% TODO: Review existing tools, systems, or research related to your project
+% For each approach:
+% - Describe what it does
+% - Mention key features
+% - Discuss strengths and limitations
+% - Cite the source using \cite{reference_key}
 
-\subsection{Transform Domain Methods}
+\subsubsection{Approach 1}
+\textbf{[TODO: Add review of first approach here]} \cite{ref1}
 
-The \textbf{S‑Transform} and \textbf{S+P Transform} \cite{said1996new} provide reversible integer‑to‑integer transforms. The S+P transform combines a Haar‑like decomposition with a prediction step to reduce entropy. \textbf{Integer wavelet transforms} (IWTs) using the lifting scheme \cite{calderbank1998wavelet} enable perfect reconstruction with integer arithmetic.
+\subsubsection{Approach 2}
+\textbf{[TODO: Add review of second approach here]} \cite{ref2}
 
-\subsection{Clustering and Neural Network Approaches}
+\subsubsection{Approach 3}
+\textbf{[TODO: Add review of third approach here]} \cite{ref3}
 
-\textbf{K‑Means clustering} and \textbf{Gath–Geva fuzzy clustering} have been applied to color quantization. Recent works have explored \textbf{Fuzzy Backpropagation Neural Networks (FBPNN)} that integrate fuzzy membership values into weight updates \cite{pedrycz1996fuzzy}.
+\subsection{Comparative Analysis}
+
+% TODO: Create a comparison table of existing approaches
+
+Table~\ref{tab:literature_comparison} presents a comparative analysis of existing approaches.
+
+\begin{table}[H]
+\centering
+\caption{Comparison of Existing Approaches}
+\label{tab:literature_comparison}
+\begin{tabular}{@{}lcccc@{}}
+\toprule
+\textbf{Approach} & \textbf{Feature 1} & \textbf{Feature 2} & \textbf{Feature 3} & \textbf{Limitations} \\ \midrule
+Approach A \cite{ref1} & Yes & No & Yes & [TODO] \\
+Approach B \cite{ref2} & No & Yes & Yes & [TODO] \\
+Approach C \cite{ref3} & Yes & Yes & No & [TODO] \\
+\textbf{Proposed} & \textbf{Yes} & \textbf{Yes} & \textbf{Yes} & \textbf{-} \\ \bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Gap Analysis}
+
+% TODO: Identify gaps in existing work
+% What problems remain unsolved?
+% How does your project address these gaps?
+
+Based on the literature review, the following gaps were identified:
+
+\begin{itemize}
+    \item \textbf{Gap 1:} [TODO: Describe gap]
+    \item \textbf{Gap 2:} [TODO: Describe gap]
+    \item \textbf{Gap 3:} [TODO: Describe gap]
+\end{itemize}
+
+\textbf{[TODO: Explain how your project addresses these gaps]}
+
+\subsection{Summary}
+
+% TODO: Summarize the key findings from the literature review
+% What did you learn from existing work?
+% How does it inform your approach?
+
+\textbf{[TODO: Add summary here]}

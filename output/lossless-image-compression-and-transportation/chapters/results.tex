@@ -1,66 +1,100 @@
+% TODO: Complete the Results and Analysis chapter
+
 \subsection{Evaluation Methodology}
 
-All algorithms were evaluated using the following metrics:
+% TODO: Describe how you evaluated your system
+% What metrics did you use?
+% What experiments did you conduct?
 
-\begin{itemize}
-    \item \textbf{Compression Ratio:} \( R = \frac{\text{Original Size}}{\text{Compressed Size}} \)
-    \item \textbf{Mean Squared Error (MSE):} \( \frac{1}{N}\sum (I_{ij} - \hat{I}_{ij})^2 \)
-    \item \textbf{Peak Signal-to-Noise Ratio (PSNR):} \( 20\log_{10}(255/\sqrt{\text{MSE}}) \)
-    \item \textbf{Execution Time:} Time taken for compression and decompression
-\end{itemize}
+\textbf{[TODO: Add evaluation methodology here]}
 
 \subsection{Experimental Setup}
 
-\begin{itemize}
-    \item \textbf{Hardware:} Apple M4 MacBook Pro with 16 GB unified memory
-    \item \textbf{Test Images:} Lenna (512×512), Cameraman (512×512)
-    \item \textbf{Image Format:} 8-bit grayscale and 24-bit RGB
-    \item \textbf{Number of Tests:} Each algorithm was run 5 times; average results reported
-\end{itemize}
+% TODO: Describe your experimental setup
+% Include:
+% - Hardware/software environment
+% - Dataset(s) used
+% - Evaluation criteria
+% - Baseline comparisons
 
-\subsection{Compression Ratio Results}
+\textbf{[TODO: Add experimental setup details here]}
 
-Table~\ref{tab:compression_ratios} presents the compression ratios achieved.
+\subsection{Results}
+
+% TODO: Present your results
+% Use tables, graphs, and figures to visualize data
+
+\subsubsection{Result 1}
+
+\textbf{[TODO: Add first set of results here]}
+
+Figure~\ref{fig:result1} shows [TODO: describe what the figure shows].
+
+\begin{figure}[H]
+\centering
+% TODO: Add your result figure here
+% \includegraphics[width=0.8\textwidth]{figures/result1.png}
+\fbox{\parbox{0.8\textwidth}{\centering \vspace{2cm} [TODO: Add result figure here] \vspace{2cm}}}
+\caption{[TODO: Add caption]}
+\label{fig:result1}
+\end{figure}
+
+\subsubsection{Result 2}
+
+\textbf{[TODO: Add second set of results here]}
+
+Table~\ref{tab:results} presents [TODO: describe what the table shows].
 
 \begin{table}[H]
 \centering
-\caption{Compression ratio comparison on test images}
-\label{tab:compression_ratios}
-\begin{tabular}{@{}lcc@{}}
+\caption{[TODO: Add caption]}
+\label{tab:results}
+\begin{tabular}{@{}lccc@{}}
 \toprule
-\textbf{Algorithm} & \textbf{Lenna} & \textbf{Cameraman} \\ \midrule
-Huffman & 1.07:1 & 1.06:1 \\
-Arithmetic & 1.08:1 & 1.07:1 \\
-LZW & 1.15:1 & 1.14:1 \\
-JPEG-LS (LOCO-I) & 1.45:1 & 1.43:1 \\
-CALIC & 1.52:1 & 1.50:1 \\
-K-Means (lossy) & 8.5:1 & 8.2:1 \\
-Gath-Geva & 1.35:1 & 1.33:1 \\
-PSO & 1.38:1 & 1.36:1 \\
-FBPNN & 1.40:1 & 1.38:1 \\ \bottomrule
-\end{tabular}
-\end{table}
-
-\subsection{Quality Metrics}
-
-For lossless algorithms, MSE = 0 and PSNR = ∞ (perfect reconstruction). For clustering-based methods, quality degrades with higher compression:
-
-\begin{table}[H]
-\centering
-\caption{Quality metrics for K-Means (lossy)}
-\label{tab:quality}
-\begin{tabular}{@{}lcc@{}}
-\toprule
-\textbf{K value} & \textbf{MSE} & \textbf{PSNR (dB)} \\ \midrule
-2 & 2450.3 & 14.2 \\
-4 & 890.5 & 18.6 \\
-8 & 245.2 & 24.2 \\
-16 & 78.5 & 29.2 \\
-32 & 22.3 & 34.7 \\
-64 & 6.8 & 39.8 \\ \bottomrule
+\textbf{Metric} & \textbf{Baseline} & \textbf{Proposed} & \textbf{Improvement} \\ \midrule
+Metric 1 & [TODO] & [TODO] & [TODO] \\
+Metric 2 & [TODO] & [TODO] & [TODO] \\
+Metric 3 & [TODO] & [TODO] & [TODO] \\ \bottomrule
 \end{tabular}
 \end{table}
 
 \subsection{Performance Analysis}
 
-Context-based algorithms (CALIC, LOCO-I) achieved the best compression ratios (1.45–1.52:1) due to their adaptive prediction and context modeling. Entropy coders (Huffman, Arithmetic) were fastest (0.1–0.3 seconds) but provided lower ratios (1.07–1.08:1). GPU-accelerated clustering algorithms (Gath-Geva, PSO, FBPNN) achieved speeds of 0.5–1.0 seconds per image on the Apple M4.
+% TODO: Analyze the performance of your system
+% Include:
+% - Speed/efficiency metrics
+% - Scalability analysis
+% - Resource utilization
+
+\textbf{[TODO: Add performance analysis here]}
+
+\subsection{Accuracy and Effectiveness}
+
+% TODO: Analyze the accuracy and effectiveness of your system
+% Compare with baselines or existing approaches
+
+\textbf{[TODO: Add accuracy and effectiveness analysis here]}
+
+\subsection{User Evaluation}
+
+% TODO: Present results from user studies or evaluations (if applicable)
+% Include:
+% - User satisfaction scores
+% - Usability metrics
+% - User feedback
+
+\textbf{[TODO: Add user evaluation results here]}
+
+\subsection{Comparison with Existing Approaches}
+
+% TODO: Compare your results with existing approaches
+% Highlight where your approach performs better
+
+\textbf{[TODO: Add comparison with existing approaches here]}
+
+\subsection{Summary of Findings}
+
+% TODO: Summarize the key findings from your results
+% What are the main takeaways?
+
+\textbf{[TODO: Add summary of findings here]}
