@@ -1,59 +1,40 @@
-% TODO: Complete the Introduction chapter
-
 \subsection{Background and Motivation}
 
-% TODO: Provide background context and explain the motivation
-% Guidelines:
-% - What is the domain or area of your project?
-% - Why is this problem important?
-% - What real-world impact does it have?
-% - Who benefits from solving this problem?
+The exponential growth of digital imaging in healthcare, remote sensing, consumer electronics, and social media has led to an unprecedented increase in the volume of visual data. A single high-resolution medical CT scan can generate hundreds of images, each requiring megabytes of storage; satellite constellations produce terabytes of imagery daily; and smartphone users capture billions of photos every year. This data deluge imposes severe demands on storage infrastructure, network bandwidth, and real-time processing capabilities.
 
-\textbf{[TODO: Add background and motivation here]}
+Image compression mitigates these challenges by reducing the number of bits required to represent an image while preserving essential information. However, different application domains impose distinct requirements. In medical imaging, satellite remote sensing, and document archiving, even a single bit of information loss can have critical consequences—a lossy compression artifact might obscure a tumor, a military asset, or a legal signature. Therefore, \textbf{lossless compression} is mandatory in these fields.
+
+Despite decades of research, no single lossless compression algorithm universally outperforms all others. Classical entropy coders (Huffman, Arithmetic, LZW) exploit symbol frequencies but ignore spatial structure. Transform and spatial predictors (JPEG-LS, S+P, lifting wavelets) leverage local correlations but may fail on complex textures. Context-based algorithms (CALIC, LOCO-I) achieve excellent compression but at higher computational cost. This fragmentation poses a challenge for practitioners who must select the most appropriate method for their specific data and constraints.
 
 \subsection{Problem Statement}
 
-% TODO: Clearly define the specific problem you solved
-% Guidelines:
-% - Be specific and concrete
-% - Quantify the problem if possible
-% - Explain the scope and boundaries
-% - Mention any constraints or challenges
-
-\textbf{[TODO: Add problem statement here]}
+Given a grayscale or color image \( I \) of dimensions \( H \times W \) with pixel values in \( [0, 255] \) (8‑bit per channel), the problem is to compress \( I \) losslessly, i.e., to produce a representation \( C(I) \) such that the original image can be perfectly reconstructed: \( I = D(C(I)) \). The compression performance is measured by the compression ratio \( R = \frac{\mathrm{size\ of\ }I}{\mathrm{size\ of\ }C(I)} \), where higher \( R \) indicates better compression.
 
 \subsection{Objectives}
-
-% TODO: List the specific objectives of your project
-% These should be measurable and achievable
 
 The main objectives of this project were:
 
 \begin{enumerate}
-    \item \textbf{[TODO: Objective 1]}
-    \item \textbf{[TODO: Objective 2]}
-    \item \textbf{[TODO: Objective 3]}
-    \item \textbf{[TODO: Objective 4]}
+    \item \textbf{Implement fundamental lossless compression algorithms} including Huffman coding, Arithmetic coding, LZW, and Run-Length Encoding.
+    \item \textbf{Develop advanced context-based algorithms} such as CALIC and LOCO-I (JPEG-LS).
+    \item \textbf{Apply clustering techniques} (K-Means and Gath-Geva) for color quantization.
+    \item \textbf{Optimize palette selection} using Particle Swarm Optimization (PSO).
+    \item \textbf{Design a Fuzzy Backpropagation Neural Network (FBPNN)} for adaptive compression.
 \end{enumerate}
 
 \subsection{Scope}
 
-% TODO: Define the scope of your project
-% What is included and what is excluded?
-
-\textbf{[TODO: Add scope details here]}
+This project focuses exclusively on \textbf{lossless} image compression algorithms. All algorithms are implemented in Python and tested on standard benchmark images (Lenna, Cameraman). GPU acceleration is provided via JAX and PyTorch MPS for computationally intensive methods.
 
 \subsection{Contributions}
-
-% TODO: Highlight the main contributions of your work
-% What is novel or innovative about your approach?
 
 The main contributions of this work include:
 
 \begin{itemize}
-    \item \textbf{[TODO: Contribution 1]}
-    \item \textbf{[TODO: Contribution 2]}
-    \item \textbf{[TODO: Contribution 3]}
+    \item \textbf{Unified implementation} of 15+ lossless compression algorithms in a single framework.
+    \item \textbf{GPU-accelerated Gath-Geva} clustering achieving 10–20× speedup on Apple M4.
+    \item \textbf{Fuzzy Backpropagation Neural Network} integrating fuzzy membership into weight updates.
+    \item \textbf{Comprehensive visualization suite} for algorithm comparison.
 \end{itemize}
 
 \subsection{Report Organization}
