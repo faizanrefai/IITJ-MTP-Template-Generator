@@ -61,7 +61,7 @@ The evaluation layer computes standard quality metrics for each compression resu
 
 The visualization layer generates a comprehensive set of plots, including side-by-side comparisons of original and compressed images, error maps, histograms of pixel values and residuals, convergence curves (for iterative algorithms), and color palettes (for clustering methods). All visualizations are produced using Matplotlib and are saved as high-resolution images for inclusion in the report.
 
-\section{Design Approach}
+\subsection{Design Approach}
 
 The system follows a \textbf{modular, object-oriented design} to facilitate the addition of new algorithms and the reuse of common components. Key design patterns employed include:
 
@@ -73,7 +73,7 @@ The system follows a \textbf{modular, object-oriented design} to facilitate the 
 
 All algorithms are implemented in pure Python using NumPy for numerical operations. For computationally intensive methods (Gath-Geva, PSO, FBPNN), GPU acceleration is provided via JAX (with Metal backend for Apple M4) and PyTorch MPS, with automatic fallback to CPU when GPU is unavailable.
 
-\section{Backend Design}
+\subsection{Backend Design}
 
 The backend consists of Python modules organized as follows:
 
@@ -101,11 +101,11 @@ The backend consists of Python modules organized as follows:
 
 No external database is required; all results are stored in memory and can be exported as CSV or JSON for further analysis. Security considerations are minimal as the system runs locally and processes only user-supplied image files.
 
-\section{Frontend Design}
+\subsection{Frontend Design}
 
 The system does not include a graphical user interface; it is designed as a command-line tool and a Jupyter notebook that can be executed interactively. The notebook provides markdown cells that explain each algorithm, code cells that run the compression and visualization, and output cells that display the results. This design is well-suited for research and educational purposes.
 
-\section{Data Flow}
+\subsection{Data Flow}
 
 The typical data flow for a single algorithm is as follows:
 
@@ -129,7 +129,7 @@ The typical data flow for a single algorithm is as follows:
 
 For iterative algorithms (Gath-Geva, PSO, FBPNN), the data flow includes an inner loop over iterations, with intermediate results recorded for convergence plots.
 
-\section{Algorithms and Techniques}
+\subsection{Algorithms and Techniques}
 
 The following subsections summarize the key algorithms implemented. Detailed pseudocode and mathematical formulations are provided in the corresponding sections of the appendix.
 
@@ -211,7 +211,7 @@ The following subsections summarize the key algorithms implemented. Detailed pse
     The network has 3 input nodes (RGB), 8 hidden nodes, and 15 output nodes (one per cluster).
 \end{itemize}
 
-\section{Technology Stack}
+\subsection{Technology Stack}
 
 The system was implemented using the following technologies:
 
