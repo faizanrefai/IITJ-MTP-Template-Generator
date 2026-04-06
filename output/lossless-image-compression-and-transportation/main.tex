@@ -19,6 +19,10 @@
 \usepackage{amssymb}
 \usepackage{enumitem}
 
+\usepackage{booktabs}   % For \toprule, \midrule, \bottomrule
+\usepackage{float}      % For [H] float placement
+\usepackage{array}      % For p{...} column types
+
 % Page geometry
 \geometry{
     paper=a4paper,
@@ -88,20 +92,32 @@
 \section{Introduction}
 \input{chapters/introduction.tex}
 
+\newpage
+
 \section{Literature Review}
 \input{chapters/literature.tex}
+
+\newpage
 
 \section{Methodology}
 \input{chapters/methodology.tex}
 
+\newpage
+
 \section{Implementation}
 \input{chapters/implementation.tex}
+
+\newpage
 
 \section{Results and Analysis}
 \input{chapters/results.tex}
 
+\newpage
+
 \section{Discussion}
 \input{chapters/discussion.tex}
+
+\newpage
 
 \section{Conclusion and Future Work}
 \input{chapters/conclusion.tex}

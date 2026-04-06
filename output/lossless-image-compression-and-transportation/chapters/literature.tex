@@ -1,3 +1,4 @@
+\section{Literature Review}
 
 \subsection{Overview}
 
@@ -7,19 +8,19 @@ Lossless image compression has been a fundamental area of research in signal pro
 
 \subsubsection{Entropy Coding Methods}
 
-Entropy coding forms the backbone of most lossless compression systems. \textbf{Huffman coding} \cite{huffman1952} assigns variable‑length codes to symbols based on their frequencies, achieving optimal coding for a given probability distribution when using integer‑length codes. \textbf{Arithmetic coding} \cite{witten1987arithmetic} extends this by allowing fractional bit allocations, often yielding better compression than Huffman coding, albeit with higher computational complexity. \textbf{Lempel–Ziv–Welch (LZW)} \cite{welch1984technique} is a dictionary‑based method that replaces repeated strings with references to a dictionary built adaptively during compression; it is widely used in formats such as GIF and TIFF.
+Entropy coding forms the backbone of most lossless compression systems. \textbf{Huffman coding} \cite{huffman1952} assigns variable-length codes to symbols based on their frequencies, achieving optimal coding for a given probability distribution when using integer-length codes. \textbf{Arithmetic coding} \cite{witten1987arithmetic} extends this by allowing fractional bit allocations, often yielding better compression than Huffman coding, albeit with higher computational complexity. \textbf{Lempel-Ziv-Welch (LZW)} \cite{welch1984technique} is a dictionary-based method that replaces repeated strings with references to a dictionary built adaptively during compression; it is widely used in formats such as GIF and TIFF.
 
 \subsubsection{Predictive and Transform Coding}
 
-\textbf{JPEG‑LS} (ISO/IEC 14495‑1) is an international standard for lossless and near‑lossless compression of continuous‑tone images. It employs a median edge detector (MED) predictor and Golomb–Rice coding, offering low complexity and excellent compression performance \cite{weinberger2000loco}. \textbf{CALIC} (Context‑based Adaptive Lossless Image Coding) \cite{wu1996context} uses gradient‑based prediction and context modeling of prediction errors, achieving state‑of‑the‑art compression ratios at higher computational cost. \textbf{JPEG 2000} (ISO/IEC 15444‑1) supports lossless compression through the use of integer wavelet transforms (e.g., the 5/3 LeGall–Tabatabai filter) and embedded block coding with optimized truncation (EBCOT) \cite{taubman2002jpeg}.
+\textbf{JPEG-LS} (ISO/IEC 14495-1) is an international standard for lossless and near-lossless compression of continuous-tone images. It employs a median edge detector (MED) predictor and Golomb-Rice coding, offering low complexity and excellent compression performance \cite{weinberger2000loco}. \textbf{CALIC} (Context-based Adaptive Lossless Image Coding) \cite{wu1996context} uses gradient-based prediction and context modeling of prediction errors, achieving state-of-the-art compression ratios at higher computational cost. \textbf{JPEG 2000} (ISO/IEC 15444-1) supports lossless compression through the use of integer wavelet transforms (e.g., the 5/3 LeGall-Tabatabai filter) and embedded block coding with optimized truncation (EBCOT) \cite{taubman2002jpeg}.
 
 \subsubsection{Transform Domain Methods}
 
-The \textbf{S‑Transform} (sequential transform) and its extension \textbf{S+P Transform} \cite{said1996new} provide reversible integer‑to‑integer transforms that are well‑suited for lossless compression. The S+P transform combines a Haar‑like decomposition with a prediction step to reduce the entropy of high‑pass subbands. More general \textbf{integer wavelet transforms} (IWTs) using the lifting scheme \cite{calderbank1998wavelet} enable perfect reconstruction with integer arithmetic, forming the basis of lossless JPEG 2000.
+The \textbf{S-Transform} (sequential transform) and its extension \textbf{S+P Transform} \cite{said1996new} provide reversible integer-to-integer transforms that are well-suited for lossless compression. The S+P transform combines a Haar-like decomposition with a prediction step to reduce the entropy of high-pass subbands. More general \textbf{integer wavelet transforms} (IWTs) using the lifting scheme \cite{calderbank1998wavelet} enable perfect reconstruction with integer arithmetic, forming the basis of lossless JPEG 2000.
 
 \subsubsection{Clustering and Neural Network Approaches}
 
-\textbf{K‑Means clustering} and \textbf{Gath–Geva fuzzy clustering} have been applied to color quantization for lossy compression, but can also be adapted to lossless scenarios by encoding the palette and indices. Recent works have explored \textbf{Fuzzy Backpropagation Neural Networks (FBPNN)} that integrate fuzzy membership values from Gath–Geva into the weight update rules of backpropagation, aiming to improve compression performance for images with ambiguous boundaries \cite{pedrycz1996fuzzy}.
+\textbf{K-Means clustering} and \textbf{Gath-Geva fuzzy clustering} have been applied to color quantization for lossy compression, but can also be adapted to lossless scenarios by encoding the palette and indices. Recent works have explored \textbf{Fuzzy Backpropagation Neural Networks (FBPNN)} that integrate fuzzy membership values from Gath-Geva into the weight update rules of backpropagation, aiming to improve compression performance for images with ambiguous boundaries \cite{pedrycz1996fuzzy}.
 
 \subsection{Related Standards and Guidelines}
 
@@ -27,11 +28,12 @@ The \textbf{S‑Transform} (sequential transform) and its extension \textbf{S+P 
 \centering
 \caption{Relevant lossless image compression standards}
 \label{tab:standards}
-\begin{tabular}{@{}lll@{}}
+\small
+\begin{tabular}{@{}p{3cm}p{7cm}p{4cm}@{}}
 \toprule
 \textbf{Standard} & \textbf{Description} & \textbf{Primary Use} \\ \midrule
-JPEG‑LS (ISO/IEC 14495‑1) & Lossless/near‑lossless using MED predictor and Golomb–Rice coding & Medical imaging, continuous‑tone images \\
-JPEG 2000 Part 1 (ISO/IEC 15444‑1) & Wavelet‑based compression with lossless mode via 5/3 integer wavelet transform & Archival, medical, remote sensing \\
+JPEG-LS (ISO/IEC 14495-1) & Lossless/near-lossless using MED predictor and Golomb-Rice coding & Medical imaging, continuous-tone images \\
+JPEG 2000 Part 1 (ISO/IEC 15444-1) & Wavelet-based compression with lossless mode via 5/3 integer wavelet transform & Archival, medical, remote sensing \\
 PNG (Portable Network Graphics) & Lossless compression using DEFLATE (LZ77 + Huffman) & Web graphics, software icons \\
 TIFF (Tag Image File Format) & Container format supporting LZW, ZIP, and other lossless compression & Document imaging, scanning \\ \bottomrule
 \end{tabular}
@@ -39,17 +41,17 @@ TIFF (Tag Image File Format) & Container format supporting LZW, ZIP, and other l
 
 \subsection{Existing Tools and Approaches}
 
-Several open‑source libraries and software packages implement lossless image compression:
+Several open-source libraries and software packages implement lossless image compression:
 
 \begin{itemize}
-    \item \textbf{libjpeg‑turbo} – Optimized JPEG codec; supports lossless JPEG (JPEG‑LS) via separate extensions.
+    \item \textbf{libjpeg-turbo} – Optimized JPEG codec; supports lossless JPEG (JPEG-LS) via separate extensions.
     \item \textbf{OpenJPEG} – Implementation of JPEG 2000, including lossless mode.
     \item \textbf{libpng} – Reference implementation of PNG with DEFLATE compression.
-    \item \textbf{zlib / gzip} – General‑purpose lossless compression using DEFLATE; used in PNG, PDF, and many other formats.
+    \item \textbf{zlib / gzip} – General-purpose lossless compression using DEFLATE; used in PNG, PDF, and many other formats.
     \item \textbf{FLIF} (Free Lossless Image Format) – Modern lossless image format that outperforms PNG and JPEG 2000 on many datasets \cite{sneyers2016flif}.
 \end{itemize}
 
-Academic implementations of CALIC, LOCO‑I, and S+P transform are available as research code, but are not standardized or widely adopted in production systems.
+Academic implementations of CALIC, LOCO-I, and S+P transform are available as research code, but are not standardized or widely adopted in production systems.
 
 \subsection{Comparative Analysis}
 
@@ -59,17 +61,19 @@ Table~\ref{tab:comparison} presents a comparison of existing lossless compressio
 \centering
 \caption{Comparison of lossless compression methods}
 \label{tab:comparison}
-\begin{tabular}{@{}lccccc@{}}
+\small
+\begin{tabular}{@{}lccccl@{}}
 \toprule
-\textbf{Method} & \textbf{Compression Ratio} & \textbf{Speed} & \textbf{Memory Usage} & \textbf{Lossless} & \textbf{Complexity} \\ \midrule
-Huffman         & Low       & Very fast & Low      & Yes & Low   \\
-Arithmetic      & Medium    & Fast      & Low      & Yes & Medium \\
-LZW             & Low–Medium& Fast      & Medium   & Yes & Low   \\
-JPEG‑LS (LOCO‑I)& High      & Fast      & Low      & Yes & Low   \\
-CALIC           & Very high & Slow      & Medium   & Yes & High  \\
-JPEG 2000 lossless & High & Medium & High & Yes & High \\
-PNG (DEFLATE)   & Medium    & Medium    & Medium   & Yes & Medium \\
-K‑Means (lossy) & Very high & Fast      & Low      & No  & Low   \\
+\textbf{Method} & \textbf{Compression} & \textbf{Speed} & \textbf{Memory} & \textbf{Lossless} & \textbf{Complexity} \\
+& \textbf{Ratio} & & & & \\ \midrule
+Huffman         & Low        & Very fast & Low    & Yes & Low   \\
+Arithmetic      & Medium     & Fast      & Low    & Yes & Medium \\
+LZW             & Low-Media – & Fast      & Medium & Yes & Low   \\
+JPEG-LS (LOCO-I)& High       & Fast      & Low    & Yes & Low   \\
+CALIC           & Very high  & Slow      & Medium & Yes & High  \\
+JPEG 2000 lossless & High   & Medium    & High   & Yes & High \\
+PNG (DEFLATE)   & Medium     & Medium    & Medium & Yes & Medium \\
+K-Means (lossy) & Very high  & Fast      & Low    & No  & Low   \\
 FBPNN (proposed) & High (target) & Medium & Medium & Yes & Medium \\ \bottomrule
 \end{tabular}
 \end{table}
@@ -80,12 +84,16 @@ Despite the availability of numerous lossless compression algorithms, several ga
 
 \begin{enumerate}
     \item \textbf{Lack of unified comparative framework} – Most studies compare only a few algorithms on limited datasets, making it difficult to select the optimal method for a given application.
-    \item \textbf{Limited adoption of advanced techniques} – State‑of‑the‑art methods like CALIC and context‑based neural networks are rarely implemented in widely available software due to their complexity and patent restrictions.
+    
+    \item \textbf{Limited adoption of advanced techniques} – State-of-the-art methods like CALIC and context-based neural networks are rarely implemented in widely available software due to their complexity and patent restrictions.
+    
     \item \textbf{Inadequate handling of mixed content} – Many algorithms perform well on either natural images or synthetic graphics, but not both. Hybrid approaches that adapt to image content are still immature.
+    
     \item \textbf{Insufficient benchmarking on modern hardware} – Most published results are from older hardware; the performance of algorithms on current CPUs and GPUs (especially with SIMD instructions and parallel processing) is not well documented.
-    \item \textbf{Lack of accessible implementations} – Many algorithms are described only in academic papers, with no open‑source reference implementation, hindering reproducibility and practical adoption.
+    
+    \item \textbf{Lack of accessible implementations} – Many algorithms are described only in academic papers, with no open-source reference implementation, hindering reproducibility and practical adoption.
 \end{enumerate}
 
-The present project addresses these gaps by providing a comprehensive, well‑documented Python implementation of a wide range of lossless compression algorithms (entropy coding, predictive coding, transform coding, clustering‑based methods, and neural network approaches) and evaluating them on standard benchmark images using consistent metrics. All implementations are optimized for modern hardware (including GPU acceleration where applicable) and are made available as open source. This work aims to serve as a reference for researchers and practitioners seeking to choose or improve lossless image compression methods.
+The present project addresses these gaps by providing a comprehensive, well-documented Python implementation of a wide range of lossless compression algorithms (entropy coding, predictive coding, transform coding, clustering-based methods, and neural network approaches) and evaluating them on standard benchmark images using consistent metrics. All implementations are optimized for modern hardware (including GPU acceleration where applicable) and are made available as open source. This work aims to serve as a reference for researchers and practitioners seeking to choose or improve lossless image compression methods.
 
-\noindent\textit{Note: Specific citations for standards and algorithms (e.g., JPEG‑LS, CALIC, S+P transform) should be added using appropriate bibliographic entries.}
+\noindent\textit{Note: Specific citations for standards and algorithms (e.g., JPEG-LS, CALIC, S+P transform) should be added using appropriate bibliographic entries.}
