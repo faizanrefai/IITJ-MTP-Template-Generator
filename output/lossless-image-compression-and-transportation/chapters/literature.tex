@@ -29,14 +29,19 @@ The \textbf{S-Transform} (sequential transform) and its extension \textbf{S+P Tr
 \caption{Relevant lossless image compression standards}
 \label{tab:standards}
 \small
-\begin{tabular}{@{}p{3cm}p{7cm}p{4cm}@{}}
-\toprule
-\textbf{Standard} & \textbf{Description} & \textbf{Primary Use} \\ \midrule
+\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X|}
+\hline
+\textbf{Standard} & \textbf{Description} & \textbf{Primary Use} \\
+\hline
 JPEG-LS (ISO/IEC 14495-1) & Lossless/near-lossless using MED predictor and Golomb-Rice coding & Medical imaging, continuous-tone images \\
+\hline
 JPEG 2000 Part 1 (ISO/IEC 15444-1) & Wavelet-based compression with lossless mode via 5/3 integer wavelet transform & Archival, medical, remote sensing \\
+\hline
 PNG (Portable Network Graphics) & Lossless compression using DEFLATE (LZ77 + Huffman) & Web graphics, software icons \\
-TIFF (Tag Image File Format) & Container format supporting LZW, ZIP, and other lossless compression & Document imaging, scanning \\ \bottomrule
-\end{tabular}
+\hline
+TIFF (Tag Image File Format) & Container format supporting LZW, ZIP, and other lossless compression & Document imaging, scanning \\
+\hline
+\end{tabularx}
 \end{table}
 
 \subsection{Existing Tools and Approaches}
@@ -62,20 +67,29 @@ Table~\ref{tab:comparison} presents a comparison of existing lossless compressio
 \caption{Comparison of lossless compression methods}
 \label{tab:comparison}
 \small
-\begin{tabular}{@{}lccccl@{}}
-\toprule
-\textbf{Method} & \textbf{Compression} & \textbf{Speed} & \textbf{Memory} & \textbf{Lossless} & \textbf{Complexity} \\
-& \textbf{Ratio} & & & & \\ \midrule
-Huffman         & Low        & Very fast & Low    & Yes & Low   \\
-Arithmetic      & Medium     & Fast      & Low    & Yes & Medium \\
-LZW             & Low-Media – & Fast      & Medium & Yes & Low   \\
-JPEG-LS (LOCO-I)& High       & Fast      & Low    & Yes & Low   \\
-CALIC           & Very high  & Slow      & Medium & Yes & High  \\
-JPEG 2000 lossless & High   & Medium    & High   & Yes & High \\
-PNG (DEFLATE)   & Medium     & Medium    & Medium & Yes & Medium \\
-K-Means (lossy) & Very high  & Fast      & Low    & No  & Low   \\
-FBPNN (proposed) & High (target) & Medium & Medium & Yes & Medium \\ \bottomrule
-\end{tabular}
+\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}X|c|c|c|c|c|}
+\hline
+\textbf{Method} & \textbf{Compression Ratio} & \textbf{Speed} & \textbf{Memory} & \textbf{Lossless} & \textbf{Complexity} \\
+\hline
+Huffman & Low & Very fast & Low & Yes & Low \\
+\hline
+Arithmetic & Medium & Fast & Low & Yes & Medium \\
+\hline
+LZW & Low-Medium & Fast & Medium & Yes & Low \\
+\hline
+JPEG-LS (LOCO-I) & High & Fast & Low & Yes & Low \\
+\hline
+CALIC & Very high & Slow & Medium & Yes & High \\
+\hline
+JPEG 2000 lossless & High & Medium & High & Yes & High \\
+\hline
+PNG (DEFLATE) & Medium & Medium & Medium & Yes & Medium \\
+\hline
+K-Means (lossy) & Very high & Fast & Low & No & Low \\
+\hline
+FBPNN (proposed) & High (target) & Medium & Medium & Yes & Medium \\
+\hline
+\end{tabularx}
 \end{table}
 
 \subsection{Gap Analysis}
