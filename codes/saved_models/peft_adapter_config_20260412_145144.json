@@ -1,0 +1,13 @@
+{
+    "model_type": "BERT with Adapters",
+    "base_model": "bert-base-uncased",
+    "bottleneck_dim": 64,
+    "max_length": 128,
+    "num_classes": 2,
+    "total_parameters": 110691842,
+    "trainable_parameters": 1209602,
+    "frozen_parameters": 109482240,
+    "trainable_percentage": 1.0927652644898618,
+    "best_accuracy": 0.841743119266055,
+    "training_timestamp": "20260412_145144"
+}

@@ -1,0 +1,31 @@
+Dear Prof. Avasthi,
+
+Please find the below 250 words for the assignment 3 PEFT, this is what I observed, Also I have submmited the created tranied model.
+
+
+Brief Analysis (250 words)
+
+Why Standard Full Fine-Tuning Poses Challenges
+
+Full fine-tuning of Large Language Models (LLMs) like BERT (110M parameters) presents three critical challenges:
+
+Storage Costs: Full fine-tuning requires saving a complete 440MB model checkpoint for each downstream task. Deploying models for 100 different tasks would consume 44GB of storage—prohibitively expensive for production environments.
+
+Computational Costs: Updating all 110M parameters requires computing and storing gradients for every layer, leading to 3-5× higher GPU memory usage and significantly longer training times. Each epoch processes all parameters, wasting computational resources.
+
+Catastrophic Forgetting: Modifying all weights on small task-specific datasets risks overwriting valuable pre-trained knowledge, degrading performance on general language understanding.
+
+How Adapters Resolve These Issues
+
+Adapters are lightweight modular components inserted inside each transformer layer. They work by:
+
+Projecting hidden states to a smaller bottleneck dimension (e.g., 768 → 64 → 768)
+Adding a residual connection that preserves original representations
+Training only these tiny modules while freezing the base model
+Results achieved in this assignment:
+
+98.91% parameter reduction (1.21M trainable vs 110M total)
+Single base model shared across tasks with <3MB adapter weights per task
+No catastrophic forgetting as original BERT weights remain untouched
+Faster training with only 1.09% of parameters requiring gradient updates
+This modular approach enables efficient multi-task deployment without sacrificing performance (achieved 84.17% accuracy on SST-2).

@@ -4,22 +4,10 @@ The proposed system is a modular, extensible framework for implementing, testing
 
 \begin{figure}[H]
 \centering
-\begin{tikzpicture}[node distance=1.5cm, auto, >=stealth,
-    block/.style={rectangle, draw, thick, text width=3cm, align=center, minimum height=1cm, rounded corners},
-    arrow/.style={->, thick}]
-
-    \node[block] (data) {Data Layer \\ Image I/O, Preprocessing};
-    \node[block, below of=data] (algo) {Algorithm Layer \\ Compression Algorithms};
-    \node[block, below of=algo] (eval) {Evaluation Layer \\ Metrics \& Comparison};
-    \node[block, below of=eval] (vis) {Visualization Layer \\ Plots \& Reports};
-
-    \draw[arrow] (data) -- (algo);
-    \draw[arrow] (algo) -- (eval);
-    \draw[arrow] (eval) -- (vis);
-
-\end{tikzpicture}
+\includegraphics[width=0.3\textwidth]{systemarch.png}
 \caption{High-level system architecture.}
 \label{fig:system_architecture}
+
 \end{figure}
 
 \subsection{Data Layer}
