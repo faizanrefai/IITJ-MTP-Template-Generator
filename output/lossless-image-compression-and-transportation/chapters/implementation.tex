@@ -1,27 +1,299 @@
 % TODO: Complete the Implementation chapter
 
+% \subsection{Development Environment}
+
+% % TODO: Describe your development environment
+% % Include: OS, IDEs, version control, etc.
+
+% \textbf{[TODO: Add development environment details here]}
+
+% \subsection{Implementation Overview}
+
+% % TODO: Provide an overview of the implementation process
+% % What was the development methodology?
+% % What were the main phases?
+
+% \textbf{[TODO: Add implementation overview here]}
+
+% \subsection{Core Components}
+
+% % TODO: Describe the implementation of core components
+% % For each major component:
+% % - Explain its purpose
+% % - Describe key implementation details
+% % - Mention any challenges faced and how they were resolved
+
+
+\section{Implementation}
+
+% ============================================================================
+% 4.1 DEVELOPMENT ENVIRONMENT
+% ============================================================================
+
 \subsection{Development Environment}
 
-% TODO: Describe your development environment
-% Include: OS, IDEs, version control, etc.
+\subsubsection{Hardware Configuration}
 
-\textbf{[TODO: Add development environment details here]}
+The entire project was developed and tested on the following hardware:
+
+\begin{itemize}
+    \item \textbf{Processor:} Apple M4 with 10-core CPU (4 performance cores + 6 efficiency cores)
+    \item \textbf{Memory:} 16 GB unified memory
+    \item \textbf{GPU:} Apple M4 GPU with 10 cores supporting Metal 3
+    \item \textbf{Storage:} 512 GB SSD
+    \item \textbf{Operating System:} macOS Sonoma (14.0+)
+\end{itemize}
+
+\subsubsection{Software Configuration}
+
+The development environment consisted of:
+
+\begin{itemize}
+    \item \textbf{Programming Language:} Python 3.14
+    \item \textbf{IDE:} Visual Studio Code with Python extension, Jupyter Notebook 7.0
+    \item \textbf{Version Control:} Git (2.40+) and GitHub for source code management
+    \item \textbf{Virtual Environment:} venv for dependency isolation
+    \item \textbf{Package Management:} pip (24.0+) for installing dependencies
+    \item \textbf{Testing Framework:} pytest (8.0+) for unit testing
+\end{itemize}
+
+\subsubsection{Core Libraries and Dependencies}
+
+\begin{table}[H]
+\centering
+\caption{Core libraries and their purposes}
+\label{tab:libraries}
+\begin{tabularx}{\textwidth}{|l|l|X|}
+\hline
+\textbf{Library} & \textbf{Version} & \textbf{Purpose} \\
+\hline
+NumPy & 2.4.2 & Efficient numerical computations and matrix operations \\
+\hline
+Matplotlib & 3.10.0 & Generating comprehensive visualizations and plots \\
+\hline
+Pillow (PIL) & 10.0.0 & Image loading, processing, and manipulation \\
+\hline
+Scikit-learn & 1.5.0 & K-Means clustering implementation and metrics \\
+\hline
+JAX & 0.9.1 & GPU-accelerated computations on Apple M4 \\
+\hline
+PyTorch & 2.5.0 & Metal Performance Shaders acceleration \\
+\hline
+SciPy & 1.17.1 & Scientific computing and signal processing \\
+\hline
+pytest & 8.0.0 & Unit testing framework \\
+\hline
+\end{tabularx}
+\end{table}
+
+% ============================================================================
+% 4.2 IMPLEMENTATION OVERVIEW
+% ============================================================================
 
 \subsection{Implementation Overview}
 
-% TODO: Provide an overview of the implementation process
-% What was the development methodology?
-% What were the main phases?
+\subsubsection{Development Methodology}
 
-\textbf{[TODO: Add implementation overview here]}
+The project followed an **iterative, test-driven development (TDD)** methodology. The implementation process consisted of four main phases:
+
+\begin{enumerate}
+    \item \textbf{Phase 1: Foundation (Weeks 1-2)} – Set up project structure, implemented base classes, and established the common interface for all compression algorithms.
+    
+    \item \textbf{Phase 2: Core Algorithms (Weeks 3-6)} – Implemented entropy coding methods (Huffman, Arithmetic, LZW) and spatial domain techniques (RLE, variable block size).
+    
+    \item \textbf{Phase 3: Advanced Algorithms (Weeks 7-10)} – Developed predictive coding (JPEG lossless), context-based methods (CALIC, LOCO-I), and transform domain techniques.
+    
+    \item \textbf{Phase 4: AI/ML Methods (Weeks 11-14)} – Implemented clustering (K-Means, Gath-Geva), optimization (PSO), and neural network (FBPNN) approaches with GPU acceleration.
+\end{enumerate}
+
+\subsubsection{Project Structure}
+
+The codebase was organized into a modular, layered architecture:
+
+\begin{verbatim}
+project/
+├── data/               # Image I/O and preprocessing
+├── algorithms/         # All compression algorithm implementations
+│   ├── entropy/        # Huffman, Arithmetic, LZW
+│   ├── spatial/        # RLE, variable block, lossy+residual
+│   ├── predictive/     # JPEG lossless prediction
+│   ├── context/        # CALIC, LOCO-I
+│   ├── transform/      # S-Transform, S+P, lifting wavelet
+│   ├── clustering/     # K-Means, Gath-Geva
+│   ├── optimization/   # PSO
+│   └── neural/         # FBPNN
+├── metrics/            # Compression ratio, MSE, PSNR
+├── visualization/      # Plotting and figure generation
+├── utils/              # Helper functions (bit I/O, entropy)
+├── tests/              # Unit tests for all algorithms
+└── notebooks/          # Jupyter notebooks for demonstrations
+\end{verbatim}
+
+\subsubsection{Common Interface Design}
+
+All compression algorithms implement a consistent interface:
+
+\begin{verbatim}
+class BaseCompressor:
+    """Base class for all compression algorithms"""
+    
+    def compress(self, image):
+        """
+        Compress an image.
+        
+        Args:
+            image: numpy array of shape (H, W) or (H, W, C)
+            
+        Returns:
+            compressed_data: Compressed representation
+            metadata: Dictionary containing compression metadata
+        """
+        pass
+    
+    def decompress(self, compressed_data, metadata):
+        """
+        Decompress to reconstruct original image.
+        
+        Returns:
+            image: Reconstructed numpy array
+        """
+        pass
+    
+    def evaluate(self, original, reconstructed):
+        """Calculate MSE, PSNR, and compression ratio"""
+        pass
+\end{verbatim}
+
+% ============================================================================
+% 4.3 CORE COMPONENTS
+% ============================================================================
 
 \subsection{Core Components}
 
-% TODO: Describe the implementation of core components
-% For each major component:
-% - Explain its purpose
-% - Describe key implementation details
-% - Mention any challenges faced and how they were resolved
+\subsubsection{Entropy Coding Components}
+
+\textbf{Purpose:} To exploit symbol frequency imbalances for lossless compression.
+
+\textbf{Key Implementation Details:}
+\begin{itemize}
+    \item \textbf{Huffman Coding}: Built a binary tree using a min-heap priority queue. Generated prefix-free codes where frequent symbols get shorter codes.
+    \item \textbf{Arithmetic Coding}: Used integer arithmetic with 32-bit precision to avoid floating-point errors. Implemented cumulative frequency tables for efficient encoding.
+    \item \textbf{LZW}: Maintained a dictionary of previously seen substrings; dynamically grew the dictionary during compression.
+\end{itemize}
+
+\textbf{Challenges and Solutions:}
+\begin{itemize}
+    \item \textit{Challenge:} Arithmetic coding precision issues.
+    \item \textit{Solution:} Implemented integer-based arithmetic coding instead of floating-point.
+\end{itemize}
+
+\subsubsection{GPU-Accelerated Components}
+
+\textbf{Purpose:} To accelerate computationally intensive algorithms (Gath-Geva, PSO, FBPNN) using Apple M4 Metal.
+
+\textbf{Key Implementation Details:}
+\begin{itemize}
+    \item Used JAX with Metal backend for GPU acceleration
+    \item Applied JIT compilation using \texttt{@jit} decorator
+    \item Implemented vectorized operations with \texttt{vmap} for batch processing
+    \item Added automatic fallback to CPU when GPU is unavailable
+\end{itemize}
+
+\begin{verbatim}
+@jit
+def gath_geva_update(X, U, m, c):
+    """GPU-accelerated Gath-Geva update step"""
+    Um = U ** m
+    numerator = jnp.dot(Um.T, X)
+    denominator = jnp.sum(Um, axis=0).reshape(-1, 1)
+    return numerator / (denominator + 1e-10)
+\end{verbatim}
+
+\textbf{Challenges and Solutions:}
+\begin{itemize}
+    \item \textit{Challenge:} Singular covariance matrices in Gath-Geva.
+    \item \textit{Solution:} Added regularization term (\(1\times10^{-6}I\)) to covariance matrices.
+\end{itemize}
+
+\subsubsection{Visualization Components}
+
+\textbf{Purpose:} To generate comprehensive visualizations for algorithm comparison.
+
+\textbf{Key Implementation Details:}
+\begin{itemize}
+    \item Side-by-side comparison of original and compressed images
+    \item Error maps using hot colormap (brighter = more error)
+    \item Histograms of pixel values and residuals
+    \item Convergence plots for iterative algorithms
+    \item Color palettes for clustering methods
+\end{itemize}
+
+\textbf{Challenges and Solutions:}
+\begin{itemize}
+    \item \textit{Challenge:} Visualizing large error ranges.
+    \item \textit{Solution:} Used logarithmic scaling and adaptive colormap limits.
+\end{itemize}
+
+\subsubsection{Testing Components}
+
+\textbf{Purpose:} To ensure correctness and lossless reconstruction.
+
+\textbf{Key Implementation Details:}
+\begin{itemize}
+    \item Unit tests for each algorithm using pytest
+    \item Test images included uniform, gradient, random, and natural images
+    \item Verified lossless reconstruction for all lossless algorithms
+    \item Benchmarked execution time for performance evaluation
+\end{itemize}
+
+\begin{verbatim}
+def test_huffman_lossless():
+    original = np.random.randint(0, 256, (64, 64), dtype=np.uint8)
+    compressed, metadata = huffman.compress(original)
+    reconstructed = huffman.decompress(compressed, metadata)
+    assert np.array_equal(original, reconstructed)
+\end{verbatim}
+
+\textbf{Challenges and Solutions:}
+\begin{itemize}
+    \item \textit{Challenge:} Ensuring consistent results across different platforms.
+    \item \textit{Solution:} Fixed random seeds and used deterministic algorithms.
+\end{itemize}
+
+\subsubsection{Optimization Techniques}
+
+The following optimization techniques were employed throughout the implementation:
+
+\begin{itemize}
+    \item \textbf{Vectorization}: Used NumPy vectorized operations instead of Python loops (10-50x speedup)
+    \item \textbf{JIT Compilation}: Applied JAX's just-in-time compilation for critical functions (5-10x speedup)
+    \item \textbf{Memory Efficiency}: Implemented lazy loading and streaming for large images
+    \item \textbf{Batch Processing}: Processed pixels in batches for clustering algorithms
+    \item \textbf{Caching}: Cached intermediate results to avoid recomputation
+\end{itemize}
+
+\subsection{Installation and Usage}
+
+The project can be installed and run using the following commands:
+
+\begin{verbatim}
+# Clone the repository
+git clone https://github.com/faizanrefai/IITJ-MTP-Template-Generator.git
+cd IITJ-MTP-Template-Generator
+
+# Create and activate virtual environment
+python -m venv venv
+source venv/bin/activate  # On macOS/Linux
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Run tests
+pytest tests/
+
+# Run the demo notebook
+jupyter notebook notebooks/demo.ipynb
+\end{verbatim}
 
 \subsubsection{Component 1}
 \textbf{[TODO: Add implementation details for component 1]}
