@@ -421,14 +421,12 @@ This practical bit rate is exceptionally close to the image's theoretical Shanno
 
 The varying bit lengths demonstrate the algorithm's core optimization mechanism: assigning shorter binary sequences to more statistically probable intensity values, while reserving longer sequences for less frequent values, thereby minimizing the total expected code length.
 
-\vspace{1em}
-\noindent\textbf{Visual Verification.} To verify the lossless nature of the compression, the image was reconstructed from the Huffman-encoded bitstream. As shown in Figure \ref{fig:huffman_visual}, the absolute error map between the original and reconstructed images demonstrates zero data loss, confirming the structural integrity of the decoding process.
 
-\paragraph{Huffman Coding Implementation}\mbox{}\\
+\subsubsection{Huffman Coding Implementation}
 
 The core compression logic for the Huffman algorithm is implemented in Python. The implementation utilizes a min-heap priority queue to efficiently construct the optimal prefix tree, followed by a Depth-First Search (DFS) traversal to assign the binary codewords.
 
-\begin{lstlisting}[language=Python, caption={Python implementation of the Huffman compression algorithm.}, label={lst:huffman_compress}]
+\begin{verbatim}
 import heapq
 from collections import Counter
 
@@ -438,7 +436,6 @@ class HuffmanCoding:
         frequency = dict(Counter(image_array.flatten()))
         
         # 2. Build Huffman tree using min-heap
-        # (Assuming HeapNode class is defined with __lt__ method)
         heap = [HeapNode(value, freq) for value, freq in frequency.items()]
         heapq.heapify(heap)
         
@@ -466,10 +463,14 @@ class HuffmanCoding:
         compression_ratio = original_bits / len(encoded_bits)
         
         return encoded_bits, compression_ratio, codes
-\end{lstlisting}
+\end{verbatim}
 
 \vspace{1em}
 \noindent\textbf{Time Complexity.} The time complexity is $\mathcal{O}(n \log n)$ for the heap operations, where $n$ is the number of distinct pixel values. For standard 8-bit images, $n \leq 256$, making the time complexity for tree construction effectively constant. The dominant factor in execution time becomes the linear $\mathcal{O}(N)$ traversal required to encode the $N$-pixel image array.
+
+
+\vspace{1em}
+\noindent\textbf{Visual Verification.} To verify the lossless nature of the compression, the image was reconstructed from the Huffman-encoded bitstream. As shown in Figure \ref{fig:huffman_visual}, the absolute error map between the original and reconstructed images demonstrates zero data loss, confirming the structural integrity of the decoding process.
 
 \begin{figure}[h]
     \centering
