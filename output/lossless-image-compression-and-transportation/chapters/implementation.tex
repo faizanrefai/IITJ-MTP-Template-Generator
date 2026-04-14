@@ -752,14 +752,16 @@ The experimental results on the Lenna image ($512 \times 512$, 8-bit grayscale) 
 
 \begin{table}[h]
     \centering
-    \begin{tabular}{llcl}
-        \hline\hline
+    \begin{tabular}{|l|c|c|p{6cm}|}
+        \hline
         \textbf{Method} & \textbf{Compression Ratio} & \textbf{Compression Time} & \textbf{Notes} \\
         \hline
         Huffman    & 1.071:1 & Moderate & 215 unique codes; near-entropy performance \\
+        \hline
         Arithmetic & 1.070:1 & Slowest  & Matches theoretical entropy ($7.445$ bpp) \\
+        \hline
         \textbf{LZW} & \textbf{1.528:1} & \textbf{Fast} & \textbf{Largest dictionary ($114,660$ entries)} \\
-        \hline\hline
+        \hline
     \end{tabular}
     \caption{Comparative performance of the implemented lossless compression algorithms. LZW exhibits the highest efficiency by exploiting spatial redundancies.}
     \label{tab:empirical_performance}
