@@ -1,0 +1,178 @@
+
+\subsubsection{Spatial Domain}
+
+\textbf{What are Spatial Domain Algorithms?}
+
+Instead of transforming the image into frequencies (like JPEG's Discrete Cosine Transform), spatial domain methods work directly on the pixel values themselves.
+
+\paragraph{The Two-Stage Process}
+
+\paragraph{Stage 1: Pre-processing}\mbox{}\\
+The image is broken down into regions or simplified using one of two approaches:
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{|l|p{4cm}|p{4.5cm}|p{3.5cm}|}
+        \hline
+        \textbf{Approach} & \textbf{What it does} & \textbf{Example} & \textbf{Storage cost} \\
+        \hline
+        \textbf{Regular shapes} & Split image into fixed grids (rectangles). & $8 \times 8$ blocks like JPEG. & \textbf{Low} -- just need block coordinates. \\
+        \hline
+        \textbf{Irregular shapes} & Segment based on image content. & Split sky region, then tree region separately. & \textbf{High} -- need to store complex boundaries. \\
+        \hline
+    \end{tabular}
+    \caption{Comparison of shape segmentation approaches in spatial domain algorithms.}
+    \label{tab:shape_segmentation}
+\end{table}
+
+\vspace{1em}
+\noindent\textbf{Visual Example:}
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{spatial.png}
+    \caption{Two-stage process of spatial domain compression. Left: Original image. Center: Regular shape segmentation (fixed blocks). Right: Irregular shape segmentation (content-based).}
+    \label{fig:the_two_stages_process}
+\end{figure}
+
+\paragraph{Stage 2: Encoding}\mbox{}\\
+After segmentation, each region is encoded efficiently based on its visual characteristics:
+\begin{itemize}
+    \item \textbf{Smooth regions} $\rightarrow$ store the average color.
+    \item \textbf{Textured regions} $\rightarrow$ store pattern information.
+    \item \textbf{Edges} $\rightarrow$ store boundary information.
+\end{itemize}
+
+\subsubsection*{Why Regular Shapes Win}
+
+In practical implementation, \textbf{regular shapes (rectangles) are typically preferred} over irregular content-based shapes because:
+\begin{itemize}
+    \item \textbf{Simple to store:} The algorithm only needs to record position and size.
+    \item \textbf{Less overhead:} There is no need to encode and transmit complex mathematical boundary data.
+    \item \textbf{Faster processing:} Fixed grids allow for highly predictable, parallelized computational patterns.
+\end{itemize}
+
+
+\paragraph{Empirical Demonstration of Segmentation Strategies}\mbox{}\\
+
+To practically illustrate the structural differences between regular and irregular spatial segmentation, a synthetic test image was generated and analyzed using Python. The image consists of distinct, nested homogeneous regions to simulate simplified visual content.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{sparesspatial.png}
+    \caption{Simulation comparing spatial domain segmentation strategies. Left: Original synthetic image. Center: Regular grid segmentation ($25 \times 25$ pixel blocks). Right: Irregular content-based segmentation bounding the distinct intensity regions.}
+    \label{fig:segmentation_demo}
+\end{figure}
+
+\vspace{1em}
+\noindent\textbf{Storage Cost Analysis.} The algorithm computed theoretical coordinate storage costs for both methods on this specific synthetic dataset, with the results summarized in Table \ref{tab:storage_demo}.
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{l c l}
+        \toprule
+        \textbf{Segmentation Strategy} & \textbf{Calculated Storage} & \textbf{Algorithm Observation} \\
+        \midrule
+        Regular Grid ($25 \times 25$) & $\approx 128$ bytes & Simple coordinate grid \\
+        \textbf{Irregular (Content-based)} & \textbf{$\approx 48$ bytes} & \textbf{Captures shapes more accurately!} \\
+        \bottomrule
+    \end{tabular}
+    \caption{Output from the Python simulation demonstrating the storage footprint of perfectly geometric synthetic regions.}
+    \label{tab:storage_demo}
+\end{table}
+
+\vspace{1em}
+\noindent\textbf{Contextualizing the Results.} In this highly simplified demonstration, the irregular segmentation mathematically results in a lower storage footprint ($48$ bytes). This occurs because the synthetic "content" consists of only two geometrically perfect rectangular regions, requiring very few vertices to define their boundaries. 
+
+However, in \textit{natural} images (such as standard photographic datasets), irregular content boundaries are highly complex, non-linear polygons. Encoding the exact mathematical contours of real-world objects (like the edge of a tree or a human face) requires thousands of coordinate vertices, making the storage overhead astronomically high. Consequently, modern spatial compression algorithms universally favor regular fixed grids, accepting a slight loss in boundary accuracy in exchange for massive, predictable reductions in structural storage overhead.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\subsection{Key Features}
+
+% TODO: Describe the implementation of key features
+% Include screenshots or code snippets where appropriate
+
+\textbf{[TODO: Add key features implementation here]}
+
+\subsection{Database Implementation}
+
+% TODO: Describe database schema and implementation
+% Include ER diagram or schema diagram if helpful
+
+\textbf{[TODO: Add database implementation details here]}
+
+\subsection{API Implementation}
+
+% TODO: Describe API endpoints and their implementation
+% Include API documentation or examples
+
+\textbf{[TODO: Add API implementation details here]}
+
+\subsection{User Interface}
+
+% TODO: Describe UI implementation
+% Include screenshots of key screens
+
+\textbf{[TODO: Add UI implementation details here]}
+
+\subsection{Testing}
+
+% TODO: Describe testing approach and implementation
+% Include:
+% - Unit testing
+% - Integration testing
+% - User testing
+% - Test coverage
+
+\textbf{[TODO: Add testing details here]}
+
+\subsection{Challenges and Solutions}
+
+% TODO: Discuss major challenges faced during implementation
+% How were they resolved?
+
+Table~\ref{tab:challenges} summarizes the main challenges and their solutions.
+
+\begin{table}[H]
+\centering
+\caption{Implementation Challenges and Solutions}
+\label{tab:challenges}
+\begin{tabular}{@{}p{5cm}p{8cm}@{}}
+\toprule
+\textbf{Challenge} & \textbf{Solution} \\ \midrule
+TODO: Challenge 1 & TODO: Solution 1 \\
+TODO: Challenge 2 & TODO: Solution 2 \\
+TODO: Challenge 3 & TODO: Solution 3 \\
+\end{tabular}
+\end{table}
