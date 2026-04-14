@@ -146,12 +146,15 @@ The algorithm initially divides the image into a coarse grid of $32 \times 32$ m
 \[
 \text{Block size} = 
 \begin{cases} 
-  32\times32 & \text{if } \rho(B) < \theta_1 \\
-             & \text{(smooth region)},\\[6pt]
-  16\times16 & \text{if } \theta_1 \le \rho(B) < \theta_2 \\
-             & \text{(moderate detail)},\\[6pt]
-  8\times8   & \text{if } \rho(B) \ge \theta_2 \\
-             & \text{(high detail)}.
+  32\times32 & \begin{aligned}[t]
+                 &\text{if } \rho(B) < \theta_1 \\
+                 &\text{(smooth region)}\end{aligned}\\[12pt]
+  16\times16 & \begin{aligned}[t]
+                 &\text{if } \theta_1 \le \rho(B) < \theta_2 \\
+                 &\text{(moderate detail)}\end{aligned}\\[12pt]
+  8\times8   & \begin{aligned}[t]
+                 &\text{if } \rho(B) \ge \theta_2 \\
+                 &\text{(high detail)}\end{aligned}
 \end{cases}
 \]
 
