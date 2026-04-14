@@ -296,7 +296,7 @@ jupyter notebook notebooks/demo.ipynb
 \subsubsection{Huffman Coding}
 
 
-\subsubsection{Source Entropy and the Shannon Bound}
+\paragraph{Source Entropy and the Shannon Bound}
 
 Let an image be represented as a discrete source that emits pixel intensity values from an alphabet $\mathcal{A} = \{0, 1, \dots, M-1\}$, where $M = 256$ for 8-bit grayscale images. For a given pixel value $i \in \mathcal{A}$, let $p_i$ denote its empirical probability (i.e., frequency divided by the total number of pixels). The source entropy $H(I)$ is defined as:
 
@@ -321,6 +321,168 @@ The two metrics are related by the simple identity:
 \end{equation}
 
 A compression ratio greater than $1$ indicates effective compression, while a ratio less than $1$ signifies expansion. The bit rate $BR$ should ideally be close to the source entropy $H(I)$ for an efficient algorithm.
+
+
+\paragraph{Algorithmic Principle}
+
+Huffman coding, introduced by David A. Huffman in his seminal 1952 paper while a Ph.D. student at MIT, is a greedy algorithm that constructs an optimal prefix code for a given set of symbols and their probabilities \cite[Section IV-A]{VemuriEtAl}. The algorithm operates on the principle that symbols occurring more frequently in the input data are assigned shorter codewords, while less frequent symbols receive longer codewords, thereby minimizing the expected code length.
+
+\vspace{0.5em}\noindent
+\textbf{Definition 4.1 (Prefix Code).} A code is a \textit{prefix code} (also called a prefix-free code) if no codeword is a prefix of any other codeword. This property ensures unique decodability without requiring delimiters between codewords.
+
+\vspace{0.5em}\noindent
+\textbf{Definition 4.2 (Kraft--McMillan Inequality).} A necessary and sufficient condition for the existence of a prefix code with codeword lengths $l_1, l_2, \dots, l_n$ is that the Kraft--McMillan inequality holds:
+
+\begin{equation}
+    \sum_{i=1}^{n} 2^{-l_i} \leq 1
+\end{equation}
+
+Huffman codes achieve equality in this inequality when the code is complete \cite{reference19}.
+
+\paragraph{The Huffman Algorithm}
+
+Given a set of symbols with associated probabilities (frequencies), the Huffman algorithm proceeds as follows:
+
+\begin{description}
+    \item[Frequency Analysis:] Compute the frequency of each pixel intensity value in the image.
+    \item[Tree Construction:] Create a leaf node for each symbol with its probability. While more than one node remains:
+    \begin{itemize}
+        \item Extract the two nodes with the smallest probabilities from a min-priority queue.
+        \item Create a new internal node whose probability is the sum of these two probabilities.
+        \item Set the two extracted nodes as left and right children of the new node.
+        \item Insert the new node back into the priority queue.
+    \end{itemize}
+    \item[Code Assignment:] Traverse the tree from the root to each leaf, assigning `0' for left branches and `1' for right branches. The sequence of bits along each path constitutes the Huffman codeword for the corresponding symbol.
+\end{description}
+
+\paragraph{Mathematical Optimality}
+
+The optimality of Huffman codes is formally established through the following theorem.
+
+\vspace{0.5em}\noindent
+\textbf{Theorem 4.1 (Huffman Optimality).} For a given source with symbol probabilities $\{p_1, p_2, \dots, p_n\}$, the Huffman algorithm produces a prefix code that minimizes the expected codeword length $L = \sum_{i=1}^{n} p_i l_i$ among all prefix codes \cite{reference20}.
+
+\vspace{0.5em}\noindent
+\textit{Proof Sketch.} The proof proceeds by induction on the number of symbols. The key insight is that in an optimal code, the two least probable symbols must have the longest codewords and must differ only in the last bit. Huffman's greedy merging strategy preserves this property at each iteration, leading to global optimality.
+
+\paragraph{Implementation Considerations}
+
+The present implementation employs a min-heap (priority queue) data structure to efficiently retrieve the two smallest probability nodes at each iteration, achieving $\mathcal{O}(n \log n)$ time complexity for constructing the Huffman tree, where $n$ is the number of distinct pixel values in the image. The encoding phase then produces a binary string by traversing the tree for each pixel.
+
+\paragraph{Empirical Observations.} For the $512 \times 512$ Lenna image with $215$ distinct pixel values, Huffman coding achieved a compression ratio of $1.071:1$, corresponding to an average bit rate of approximately $7.47$ bits per pixel (slightly above the empirical entropy of $7.445$ bits per pixel). This near-entropy performance demonstrates the theoretical optimality of the Huffman construction.
+
+However, Huffman coding exhibits two fundamental limitations \cite{reference9}:
+\begin{itemize}
+    \item Each symbol must be encoded with an integer number of bits, even when the symbol's self-information is fractional.
+    \item The code must be transmitted alongside the compressed data, incurring overhead that becomes significant for small alphabets.
+\end{itemize}
+
+These limitations motivate the development of arithmetic coding, which overcomes the per-symbol integer bit constraint.
+
+
+
+% NEW\subsubsection{Component 1}
+
+\paragraph{Experimental Results and Analysis}
+
+\subparagraph{Huffman Coding Performance}
+
+To evaluate the practical performance of the implemented Huffman coding algorithm, experiments were conducted on a standard $512 \times 512$ 8-bit grayscale test image. The original uncompressed image size is $262,144$ bytes ($2,097,152$ bits), corresponding to a fixed bit rate of $8$ bits per pixel (bpp). 
+
+\vspace{1em}
+\noindent\textbf{Quantitative Metrics.} Frequency analysis of the input image revealed an alphabet of $215$ distinct pixel intensity values out of the possible $256$ grayscale levels. The application of the Huffman algorithm yielded a \textbf{compression ratio of 1.071:1}. 
+
+Based on this compression ratio, the average bit rate of the encoded image is calculated as:
+\begin{equation}
+    BR_{\text{Huffman}} = \frac{8}{1.071} \approx 7.47 \text{ bits per pixel}
+\end{equation}
+
+This practical bit rate is exceptionally close to the image's theoretical Shannon entropy, which was calculated to be $7.445$ bits per pixel. The efficiency of the Huffman code—the ratio of theoretical source entropy to the empirical average code length—is thus approximately $99.6\%$. This confirms that the algorithm successfully constructed a near-optimal prefix code for this specific probability distribution, bounded only by the limitation that Huffman coding must assign integer bit lengths to each symbol.
+
+\vspace{1em}
+\noindent\textbf{Code Dictionary Analysis.} The variable-length nature of the Huffman prefix code is evident in the generated dictionary. A subset of the generated mappings between pixel intensity values (represented as 8-bit unsigned integers) and their corresponding binary codewords is provided in Table \ref{tab:huffman_samples}.
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{ccc}
+        \toprule
+        \textbf{Pixel Intensity} & \textbf{Codeword} & \textbf{Length (bits)} \\
+        \midrule
+        113 & \texttt{0000000} & 7 \\
+        117 & \texttt{0000001} & 7 \\
+        57  & \texttt{0000010} & 7 \\
+        164 & \texttt{0000011} & 7 \\
+        190 & \texttt{00001000} & 8 \\
+        \bottomrule
+    \end{tabular}
+    \caption{Sample Huffman prefix codes generated for the test image.}
+    \label{tab:huffman_samples}
+\end{table}
+
+The varying bit lengths demonstrate the algorithm's core optimization mechanism: assigning shorter binary sequences to more statistically probable intensity values, while reserving longer sequences for less frequent values, thereby minimizing the total expected code length.
+
+\vspace{1em}
+\noindent\textbf{Visual Verification.} To verify the lossless nature of the compression, the image was reconstructed from the Huffman-encoded bitstream. As shown in Figure \ref{fig:huffman_visual}, the absolute error map between the original and reconstructed images demonstrates zero data loss, confirming the structural integrity of the decoding process.
+
+
+\paragraph{Huffman Coding Implementation}
+
+The core compression logic for the Huffman algorithm is implemented in Python. The implementation utilizes a min-heap priority queue to efficiently construct the optimal prefix tree, followed by a Depth-First Search (DFS) traversal to assign the binary codewords.
+
+\begin{lstlisting}[language=Python, caption={Python implementation of the Huffman compression algorithm.}, label={lst:huffman_compress}]
+class HuffmanCoding:
+    def compress(self, image_array):
+        # 1. Build frequency dictionary
+        frequency = count_frequencies(image_array.flatten())
+        
+        # 2. Build Huffman tree using min-heap
+        heap = [HeapNode(value, freq) for value, freq in frequency.items()]
+        heapq.heapify(heap)
+        
+        while len(heap) > 1:
+            node1 = heapq.heappop(heap)
+            node2 = heapq.heappop(heap)
+            merged = HeapNode(None, node1.freq + node2.freq)
+            merged.left, merged.right = node1, node2
+            heapq.heappush(heap, merged)
+            
+        # 3. Generate codes via DFS traversal
+        codes = {}
+        def generate_codes(node, current_code):
+            if node.pixel_value is not None:
+                codes[node.pixel_value] = current_code
+                return
+            generate_codes(node.left, current_code + "0")
+            generate_codes(node.right, current_code + "1")
+            
+        generate_codes(heap[0], "")
+        
+        # 4. Encode image
+        encoded_bits = ''.join(codes[p] for p in image_array.flatten())
+        original_bits = image_array.size * 8
+        compression_ratio = original_bits / len(encoded_bits)
+        
+        return encoded_bits, compression_ratio, codes
+\end{lstlisting}
+
+\vspace{1em}
+\noindent\textbf{Time Complexity.} The time complexity is $\mathcal{O}(n \log n)$ for the heap operations, where $n$ is the number of distinct pixel values. For standard 8-bit images, $n \leq 256$, making the time complexity for tree construction effectively constant. The dominant factor in execution time becomes the linear $\mathcal{O}(N)$ traversal required to encode the $N$-pixel image array.
+
+
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.32\textwidth]{Huffman-compare.png}
+    \caption{HHuffman coding Analysis - Left: Original image; Center: Reconstructed image; Right: Absolute error map (all pixel values are zero, confirming lossless reconstruction).}
+    \label{fig:huffman_visual}
+\end{figure}
+
+
+
+
+
+
+
 
 
 \subsubsection{Component 2}
