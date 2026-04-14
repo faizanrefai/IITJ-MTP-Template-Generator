@@ -485,8 +485,97 @@ class HuffmanCoding:
 
 
 
-\subsubsection{Component 2}
-\textbf{[TODO: Add implementation details for component 2]}
+\subsubsection{Arithmetic Coding: Approaching the Entropy Bound}
+
+
+\paragraph{Theoretical Foundation}
+
+Arithmetic coding represents a significant advancement over Huffman coding by encoding an entire message as a single real number in the interval $[0, 1)$, rather than assigning discrete codewords to individual symbols \cite{VemuriSectionIVC}. This approach enables the encoding of fractional bits per symbol, allowing the code length to approach the entropy bound arbitrarily closely.
+
+The fundamental insight is that any message can be represented by a subinterval of $[0, 1)$, where the length of the subinterval equals the product of the probabilities of the symbols in the message. The encoder outputs a binary representation of any number within this final interval.
+
+\paragraph{Encoding Algorithm}
+
+Given an alphabet $\mathcal{A} = \{a_1, a_2, \dots, a_m\}$ with a cumulative probability distribution $F(a_i) = \sum_{j=1}^{i} p(a_j)$, where $F(a_0) = 0$ and $F(a_m) = 1$, the arithmetic encoding process proceeds as follows \cite{reference11}:
+
+\begin{enumerate}
+    \item Let $[L, H)$ denote the current interval, initialized to $[0, 1)$.
+    \item For each symbol $x_i$ in the input sequence:
+    \begin{itemize}
+        \item Compute the width of the current interval: $w = H - L$
+        \item Partition $[L, H)$ into subintervals proportional to the symbol probabilities. For symbol $x_i$, the new interval is mathematically defined as:
+        \begin{equation}
+            [L + w \cdot F(x_{i-1}), L + w \cdot F(x_i))
+        \end{equation}
+        \item Replace $[L, H)$ with the subinterval corresponding to the encoded symbol.
+        \item Output bits as they become known through a renormalization process.
+    \end{itemize}
+    \item After processing all symbols, any number within the final interval can be selected as the codeword. In practice, a binary fraction with sufficient precision is chosen.
+\end{enumerate}
+
+\vspace{0.5em}\noindent
+\textbf{Renormalization.} To prevent the interval width from becoming too small for finite-precision arithmetic, a renormalization procedure scales the interval whenever it falls below a threshold (typically $0.25$) and outputs the most significant bits of $L$ and $H$ as they become identical \cite{reference6}.
+
+\paragraph{Decoding Algorithm}
+
+The decoding process reconstructs the original message by iteratively determining which symbol's interval contains the encoded value $v$, then narrowing the interval accordingly:
+
+\begin{enumerate}
+    \item Initialize $[L, H) = [0, 1)$.
+    \item While symbols remain to be decoded:
+    \begin{itemize}
+        \item Find the symbol $x_i$ such that:
+        \begin{equation}
+            L + (H-L) \cdot F(x_{i-1}) \leq v < L + (H-L) \cdot F(x_i)
+        \end{equation}
+        \item Output $x_i$.
+        \item Narrow the interval to $[L + (H-L) \cdot F(x_{i-1}), L + (H-L) \cdot F(x_i))$.
+        \item Apply the same renormalization procedure as the encoder to maintain precision.
+    \end{itemize}
+\end{enumerate}
+
+\paragraph{Optimality and Advantages}
+
+\vspace{0.5em}\noindent
+\textbf{Theorem 4.2 (Arithmetic Coding Optimality).} For a memoryless source, the average length of an arithmetic code equals the source entropy $H$, measured in bits per symbol, asymptotically as the message length approaches infinity \cite{reference9}.
+
+\vspace{0.5em}
+Unlike Huffman coding, which requires an integer number of bits per symbol, arithmetic coding can encode fractional bits by distributing them across symbol boundaries. This capability yields two significant advantages:
+\begin{itemize}
+    \item \textbf{Fractional Bit Encoding:} Symbols with probabilities close to $1$ can be encoded using fewer than $1$ bit on average.
+    \item \textbf{Adaptive Modeling:} The probability model can be updated dynamically during encoding, enabling adaptation to non-stationary sources.
+\end{itemize}
+
+\paragraph{Implementation Challenges and Results}
+
+The primary challenge in implementing arithmetic coding lies in managing finite-precision arithmetic while maintaining correctness. The present implementation uses 16-bit integer arithmetic with careful renormalization to avoid underflow. The encoding process maintains three primary state variables:
+\begin{itemize}
+    \item \texttt{low}: the lower bound of the current interval.
+    \item \texttt{high}: the upper bound of the current interval.
+    \item \texttt{underflow\_bits}: a counter for bits that cannot yet be emitted due to ambiguous most-significant bits.
+\end{itemize}
+
+\subparagraph{Experimental Results and Analysis}
+
+Applying the arithmetic coding implementation to the $512 \times 512$ Lenna test image yielded a \textbf{compression ratio of 1.070:1}. Based on the original 8-bit depth, this translates to an average bit rate of:
+
+\begin{equation}
+    BR_{\text{Arithmetic}} = \frac{8}{1.070} \approx 7.476 \text{ bits per pixel}
+\end{equation}
+
+This bit rate closely traces the theoretical Shannon entropy of the image ($7.445$ bits per pixel). While theoretically capable of surpassing Huffman coding by avoiding the integer-bit constraint, finite-precision constraints and renormalization overhead in the practical 16-bit implementation result in competitive, yet similarly bounded, performance for this specific image alphabet. 
+
+As extracted from the algorithm analysis pipeline, the absolute error map generated during the decoding phase exhibited a maximum error of zero, definitively confirming the mathematically lossless nature of the reconstruction.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=1.0\textwidth]{arithmetic-ana.png}
+    \caption{Visual analysis of the Arithmetic Coding implementation. The absolute error map (right) confirms perfect lossless reconstruction of the original image.}
+    \label{fig:arithmetic_visual}
+\end{figure}
+
+
+
 
 \subsubsection{Component 3}
 \textbf{[TODO: Add implementation details for component 3]}
