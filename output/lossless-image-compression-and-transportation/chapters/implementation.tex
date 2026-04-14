@@ -778,6 +778,64 @@ LZW's superior compression ratio (approximately $43\%$ better than Huffman) demo
     \label{fig:lzw_visual}
 \end{figure}
 
+
+\subsection{Spatial Domain}
+
+\textbf{What are Spatial Domain Algorithms?}
+
+Instead of transforming the image into frequencies (like JPEG's Discrete Cosine Transform), spatial domain methods work directly on the pixel values themselves.
+
+\subsubsection{The Two-Stage Process}
+
+\paragraph{Stage 1: Pre-processing}\mbox{}\\
+The image is broken down into regions or simplified using one of two approaches:
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{|l|p{4cm}|p{4.5cm}|p{3.5cm}|}
+        \hline
+        \textbf{Approach} & \textbf{What it does} & \textbf{Example} & \textbf{Storage cost} \\
+        \hline
+        \textbf{Regular shapes} & Split image into fixed grids (rectangles). & $8 \times 8$ blocks like JPEG. & \textbf{Low} -- just need block coordinates. \\
+        \hline
+        \textbf{Irregular shapes} & Segment based on image content. & Split sky region, then tree region separately. & \textbf{High} -- need to store complex boundaries. \\
+        \hline
+    \end{tabular}
+    \caption{Comparison of shape segmentation approaches in spatial domain algorithms.}
+    \label{tab:shape_segmentation}
+\end{table}
+
+\vspace{1em}
+\noindent\textbf{Visual Example:}
+\begin{verbatim}
+Regular shapes (grid):        Irregular shapes (content-based):
+┌────┬────┬────┐              ┌─────────────────┐
+│    │    │    │              │   Sky (smooth)  │
+├────┼────┼────┤              ├────────┬────────┤
+│    │    │    │              │ Tree   │ House  │
+├────┼────┼────┤              │texture │(edges) │
+│    │    │    │              └────────┴────────┘
+└────┴────┴────┘
+Simple to store               Complex boundaries
+\end{verbatim}
+
+\paragraph{Stage 2: Encoding}\mbox{}\\
+After segmentation, each region is encoded efficiently based on its visual characteristics:
+\begin{itemize}
+    \item \textbf{Smooth regions} $\rightarrow$ store the average color.
+    \item \textbf{Textured regions} $\rightarrow$ store pattern information.
+    \item \textbf{Edges} $\rightarrow$ store boundary information.
+\end{itemize}
+
+\subsubsection*{Why Regular Shapes Win}
+
+In practical implementation, \textbf{regular shapes (rectangles) are typically preferred} over irregular content-based shapes because:
+\begin{itemize}
+    \item \textbf{Simple to store:} The algorithm only needs to record position and size.
+    \item \textbf{Less overhead:} There is no need to encode and transmit complex mathematical boundary data.
+    \item \textbf{Faster processing:} Fixed grids allow for highly predictable, parallelized computational patterns.
+\end{itemize}
+
 \subsection{Key Features}
 
 % TODO: Describe the implementation of key features
