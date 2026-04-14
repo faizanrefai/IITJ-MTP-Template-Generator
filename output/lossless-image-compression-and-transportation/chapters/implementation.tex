@@ -24,8 +24,6 @@
 % % - Mention any challenges faced and how they were resolved
 
 
-\section{Implementation}
-
 % ============================================================================
 % 4.1 DEVELOPMENT ENVIRONMENT
 % ============================================================================
@@ -295,8 +293,35 @@ pytest tests/
 jupyter notebook notebooks/demo.ipynb
 \end{verbatim}
 
-\subsubsection{Component 1}
-\textbf{[TODO: Add implementation details for component 1]}
+\subsubsection{Huffman Coding}
+
+
+\subsubsection{Source Entropy and the Shannon Bound}
+
+Let an image be represented as a discrete source that emits pixel intensity values from an alphabet $\mathcal{A} = \{0, 1, \dots, M-1\}$, where $M = 256$ for 8-bit grayscale images. For a given pixel value $i \in \mathcal{A}$, let $p_i$ denote its empirical probability (i.e., frequency divided by the total number of pixels). The source entropy $H(I)$ is defined as:
+
+\begin{equation}
+    H(I) = -\sum_{i=0}^{M-1} p_i \log_{2} p_i \quad \text{(bits per pixel)}
+\end{equation}
+
+This quantity represents the theoretical lower bound on the average number of bits per pixel required to encode the image losslessly \cite{VemuriSectionII}. The practical implication is that no lossless compression algorithm can achieve an average bit rate lower than $H(I)$; the degree to which an algorithm approaches this bound serves as a primary measure of its coding efficiency.
+
+\paragraph{Compression Ratio and Bit Rate}
+
+The performance of a lossless compression algorithm is typically quantified by the \textit{compression ratio} ($CR$) or the \textit{bit rate} ($BR$, measured in bits per pixel). For an image of dimensions $R \times C$ originally stored with $b$ bits per pixel, the original size is $R \cdot C \cdot b$ bits. If the compressed representation occupies $S$ bits, then:
+
+\begin{equation}
+    CR = \frac{R \cdot C \cdot b}{S}, \quad BR = \frac{S}{R \cdot C}
+\end{equation}
+
+The two metrics are related by the simple identity:
+
+\begin{equation}
+    CR = \frac{b}{BR}
+\end{equation}
+
+A compression ratio greater than $1$ indicates effective compression, while a ratio less than $1$ signifies expansion. The bit rate $BR$ should ideally be close to the source entropy $H(I)$ for an efficient algorithm.
+
 
 \subsubsection{Component 2}
 \textbf{[TODO: Add implementation details for component 2]}
