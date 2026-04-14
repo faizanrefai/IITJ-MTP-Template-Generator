@@ -1,4 +1,3 @@
-
 \subsubsection{Spatial Domain}
 
 \textbf{What are Spatial Domain Algorithms?}
@@ -93,9 +92,9 @@ However, in \textit{natural} images (such as standard photographic datasets), ir
 
 
 
-\section{Variable Block Size Compression with Adaptive Encoding}
+\subsubsection{Variable Block Size Compression with Adaptive Encoding}
 
-\subsection{Motivation and Core Principle}
+\paragraph{Motivation and Core Principle}
 
 Conventional lossless image compression algorithms typically employ a single, globally fixed encoding strategy. Huffman coding achieves first‑order entropy optimality but cannot exploit spatial correlations beyond symbol frequencies. Arithmetic coding approaches the entropy bound yet incurs high computational complexity. LZW adaptively builds a dictionary but suffers from overhead that grows with image size. Lossless JPEG uses fixed predictors that lack adaptability to local image characteristics.
 
@@ -107,11 +106,19 @@ The fundamental limitation of these methods is their inability to adapt the comp
     \item Exploiting both local and global redundancies through block matching.
 \end{enumerate}
 
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{VBSRLE.png}
+    \caption{Illustration of the Variable Block Size Compression (VBSC) algorithm. The original image is segmented into blocks of varying sizes based on local edge density. Each block is then encoded using the most efficient method (RLE, Base+Offset, Block Matching, or Raw) according to its content.}
+    \label{fig:vbsc_illustration}
+\end{figure}
+
 This adaptive approach yields compression ratios that significantly surpass those of non‑adaptive methods, as demonstrated on the standard Lenna test image.
 
-\subsection{Algorithm Description}
+\subsubsubsection{Algorithm Description}
 
-\subsubsection{Local Complexity Estimation}
+\paragraph{Local Complexity Estimation}
 
 The algorithm first computes a local complexity metric for each candidate block. Let $I(i,j)$ denote the pixel intensity at coordinates $(i,j)$ for a grayscale image of dimensions $M \times N$. For a block $B$ of size $s \times s$, we compute the edge density using the Sobel operator, which approximates the gradient magnitude:
 
@@ -145,7 +152,7 @@ Alternatively, the local variance $\sigma^2(B)$ can be used as a complexity meas
 \mu_B = \frac{1}{s^2} \sum_{(x,y)\in B} I(x,y).
 \]
 
-\subsubsection{Adaptive Block Size Selection}
+\paragraph{Adaptive Block Size Selection}
 
 The algorithm initially divides the image into a coarse grid of $32 \times 32$ macro‑blocks. For each macro‑block, the edge density $\rho$ is evaluated. Based on empirically determined thresholds $\theta_1$ and $\theta_2$, the block size is adapted as follows:
 
@@ -160,11 +167,20 @@ The algorithm initially divides the image into a coarse grid of $32 \times 32$ m
 
 For the Lenna image, the thresholds are set to $\theta_1 = 0.1$ and $\theta_2 = 0.2$ (normalised gradient magnitude). This yields approximately 35\% large blocks, 30\% medium blocks, and 35\% small blocks, as illustrated in Figure~\ref{fig:block_distribution}.
 
-\subsubsection{Encoding Strategies}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{VariableBlock1.png}
+    \caption{Distribution of block sizes in the VBSC algorithm applied to the Lenna image. The image is segmented into $32\times32$ blocks (blue), $16\times16$ blocks (orange), and $8\times8$ blocks (green) based on local edge density.}
+    \label{fig:AdaptiveBlockSizes}
+\end{figure}
+
+\paragraph{Encoding Strategies}
 
 Once the block size is determined, the algorithm selects the most efficient encoding method based on the block's content.
 
-\paragraph{Run‑Length Encoding (RLE)} For smooth, nearly uniform blocks ($\rho(B) < 0.1$), RLE is applied. The block is represented as a sequence of tuples $(value, run)$. For a block of size $s \times s$, the number of bits required is:
+\subsubsubsection{Run‑Length Encoding (RLE)} 
+
+For smooth, nearly uniform blocks ($\rho(B) < 0.1$), RLE is applied. The block is represented as a sequence of tuples $(value, run)$. For a block of size $s \times s$, the number of bits required is:
 
 \[
 B_{\text{RLE}} = 8 \times k + \lceil \log_2(s^2) \rceil \times k,
@@ -190,7 +206,7 @@ where $\ell(o)$ is the codeword length for offset $o$. This approach efficiently
 
 \paragraph{Raw Encoding} Blocks with high edge density ($\rho(B) \ge 0.2$) are transmitted without compression, requiring $8s^2$ bits. This prevents degradation of fine details.
 
-\subsection{Experimental Results on Lenna Image}
+\subsubsubsection{Experimental Results on Lenna Image}
 
 The VBSC algorithm was implemented in Python using the \texttt{scikit‑image} library for edge detection and block processing. The standard $512\times512$, 8‑bit grayscale Lenna image was used as the test benchmark.
 
@@ -225,11 +241,11 @@ Figure~\ref{fig:lenna_results} (to be inserted) presents six visual components:
 
 The distribution of encoding methods (Figure~\ref{fig:encoding_pie}) shows that 35\% of blocks are encoded with RLE, 30\% with Base+Offset, 15\% with block matching, and 20\% are left raw. This reflects the heterogeneous nature of the Lenna image and validates the adaptive selection logic.
 
-\subsection{Complexity Analysis}
+\subsubsubsection{Complexity Analysis}
 
 Let $N$ be the total number of pixels. The Sobel edge detection and block variance computations require $O(N)$ operations. The adaptive block subdivision and encoding method selection also run in $O(N)$ because each pixel is processed a constant number of times. Block matching for $2\times2$ blocks has a worst‑case complexity of $O(N \log M)$, where $M$ is the size of the search window; in practice, the search is bounded and the overhead is negligible. Overall, the algorithm maintains linear time complexity with respect to image size, making it suitable for real‑time or near‑real‑time applications.
 
-\subsection{Summary}
+\subsubsubsection{Summary}
 
 This section has presented a variable block size compression algorithm that adaptively partitions an image based on local edge density and selects the most appropriate encoding method for each block. Run‑length encoding efficiently compresses uniform areas; base+offset coding handles smooth gradients; block matching eliminates global redundancies; and raw encoding preserves fine details. Experimental evaluation on the Lenna image demonstrates a compression ratio of 1.45:1, outperforming Huffman, arithmetic, LZW, and lossless JPEG by a substantial margin. The algorithm's adaptive nature and linear complexity make it a strong candidate for practical lossless image compression systems.
 
