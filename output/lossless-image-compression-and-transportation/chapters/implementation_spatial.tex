@@ -215,7 +215,16 @@ JPEG Lossless           & 1.20:1 \\
 
 As shown in Table~\ref{tab:compression_ratios}, the proposed VBSC algorithm achieves a compression ratio of 1.45:1, which represents a \textbf{20–35\% improvement} over the best conventional method (JPEG Lossless). The gain stems from the adaptive selection of block sizes and encoding strategies tailored to local image characteristics.
 
-Figure~\ref{fig:lenna_results} (to be inserted) presents six visual components:
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{vbscleena.png}
+    \caption{VBSC encoding results for the Lenna image. (a) Original image with annotated regions (face, hat, background). (b) Adaptive block segmentation overlay, colour‑coded by encoding method. (c) Local complexity map (edge density). (d) Distribution of block sizes across the image. (e) Compression ratio bar chart comparing VBSC to other methods. (f) Pie chart showing the proportion of blocks encoded with each method.}
+    \label{fig:lenna_results}
+\end{figure}
+
+
 \begin{enumerate}
     \item Original Lenna image with annotated regions (face, hat, background).
     \item Adaptive block segmentation overlay, colour‑coded by encoding method.
@@ -225,13 +234,13 @@ Figure~\ref{fig:lenna_results} (to be inserted) presents six visual components:
     \item Pie chart showing the proportion of blocks encoded with each method.
 \end{enumerate}
 
-The distribution of encoding methods (Figure~\ref{fig:encoding_pie}) shows that 35\% of blocks are encoded with RLE, 30\% with Base+Offset, 15\% with block matching, and 20\% are left raw. This reflects the heterogeneous nature of the Lenna image and validates the adaptive selection logic.
+The distribution of encoding methods (Figure~\ref{fig:lenna_results}) shows that 35\% of blocks are encoded with RLE, 30\% with Base+Offset, 15\% with block matching, and 20\% are left raw. This reflects the heterogeneous nature of the Lenna image and validates the adaptive selection logic.
 
-\subsubsection{Complexity Analysis}
+\paragraph{Complexity Analysis}
 
 Let $N$ be the total number of pixels. The Sobel edge detection and block variance computations require $O(N)$ operations. The adaptive block subdivision and encoding method selection also run in $O(N)$ because each pixel is processed a constant number of times. Block matching for $2\times2$ blocks has a worst‑case complexity of $O(N \log M)$, where $M$ is the size of the search window; in practice, the search is bounded and the overhead is negligible. Overall, the algorithm maintains linear time complexity with respect to image size, making it suitable for real‑time or near‑real‑time applications.
 
-\subsubsection{Summary}
+\paragraph{Summary}
 
 This section has presented a variable block size compression algorithm that adaptively partitions an image based on local edge density and selects the most appropriate encoding method for each block. Run‑length encoding efficiently compresses uniform areas; base+offset coding handles smooth gradients; block matching eliminates global redundancies; and raw encoding preserves fine details. Experimental evaluation on the Lenna image demonstrates a compression ratio of 1.45:1, outperforming Huffman, arithmetic, LZW, and lossless JPEG by a substantial margin. The algorithm's adaptive nature and linear complexity make it a strong candidate for practical lossless image compression systems.
 

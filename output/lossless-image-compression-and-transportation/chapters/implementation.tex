@@ -644,13 +644,13 @@ class ArithmeticCodingLossless:
 
 \subsubsection{LZW Coding: Dictionary-Based Compression}\mbox{}\\
 
-\subparagraph{Algorithmic Framework}\mbox{}\\
+\paragraph{Algorithmic Framework}\mbox{}\\
 
 Lempel--Ziv--Welch (LZW) coding belongs to the class of dictionary-based compression algorithms, which replace repeated substrings with shorter codes referencing entries in a dynamically constructed dictionary \cite{VemuriSectionIVB}. Unlike Huffman and arithmetic coding, which rely on explicit probability models of individual symbols, LZW adaptively learns patterns from the input data during a single pass.
 
 The algorithm was developed by Abraham Lempel and Jacob Ziv (LZ78, 1978) and subsequently refined by Terry Welch (1984). LZW is widely deployed in standard formats, including the GIF image format, the UNIX \texttt{compress} utility, and the PDF file format \cite{reference18}.
 
-\subparagraph{Encoding Process}\mbox{}\\
+\paragraph{Encoding Process}\mbox{}\\
 
 Let $\Sigma$ denote the set of all possible symbols (pixel intensity values $0$--$255$). The LZW encoder maintains a dictionary $\mathcal{D}$ that maps strings (sequences of symbols) to fixed-length codes. The encoding procedure follows these steps \cite{reference17}:
 
@@ -671,7 +671,7 @@ Let $\Sigma$ denote the set of all possible symbols (pixel intensity values $0$-
 
 Formally, let the input be a sequence $x_1, x_2, \dots, x_N$. Define the dictionary as a set of strings with associated codes. For iteration $i$, maintain a prefix $w$. When reading the next symbol $c$, if $wc \in \mathcal{D}$, extend $w \leftarrow wc$; otherwise, output $\text{code}(w)$, add $wc$ to $\mathcal{D}$, and reset $w \leftarrow c$.
 
-\subparagraph{Decoding Process}\mbox{}\\
+\paragraph{Decoding Process}\mbox{}\\
 
 A remarkable property of LZW is that the decoder can reconstruct both the original data and the dictionary simultaneously without receiving the dictionary explicitly \cite{reference18}. The decoder processes the compressed code sequence, reconstructing strings by:
 
@@ -688,7 +688,7 @@ A remarkable property of LZW is that the decoder can reconstruct both the origin
 
 The special case occurs when the encoder would have added a string that the decoder has not yet encountered---a situation that arises for certain repeating patterns (e.g., character sequences like $cScSc$). The decoder elegantly resolves it by recognizing that the extension character must be the first character of the previous output.
 
-\subparagraph{Complexity and Performance}\mbox{}\\
+\paragraph{Complexity and Performance}\mbox{}\\
 
 LZW achieves $\mathcal{O}(N)$ time complexity for both encoding and decoding, with dictionary operations (lookup and insertion) amortized to constant time using hash-based data structures. The primary performance characteristic is the growth of the dictionary during processing: each new string encountered adds an entry, and the dictionary size is bounded by the available code space (e.g., $2^{12} = 4096$ entries for standard 12-bit codes, though modern implementations allow dynamic resizing).
 
@@ -739,6 +739,8 @@ The experimental results on the Lenna image ($512 \times 512$, 8-bit grayscale) 
     \caption{Comparative performance of the implemented lossless compression algorithms. LZW exhibits the highest efficiency by exploiting spatial redundancies.}
     \label{tab:empirical_performance}
 \end{table}
+
+\paragraph{LZW's superior compression ratio}
 
 LZW's superior compression ratio (approximately $43\%$ better than Huffman) demonstrates the importance of exploiting inter-pixel dependencies beyond first-order statistics. While Huffman and arithmetic coding approach the first-order entropy bound, they treat each pixel independently, failing to capture spatial redundancies that LZW effectively exploits through dynamic pattern matching.
 
