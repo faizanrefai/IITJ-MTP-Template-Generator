@@ -145,12 +145,16 @@ The algorithm initially divides the image into a coarse grid of $32 \times 32$ m
 
 \[
 \text{Block size} = 
-\begin{cases}
-32\times32 & \text{if } \rho(B) < \theta_1 \quad (\text{smooth region}),\\[4pt]
-16\times16 & \text{if } \theta_1 \le \rho(B) < \theta_2 \quad (\text{moderate detail}),\\[4pt]
-8\times8   & \text{if } \rho(B) \ge \theta_2 \quad (\text{high detail}).
+\begin{cases} 
+  32\times32 & \text{if } \rho(B) < \theta_1 \\
+             & \text{(smooth region)},\\[6pt]
+  16\times16 & \text{if } \theta_1 \le \rho(B) < \theta_2 \\
+             & \text{(moderate detail)},\\[6pt]
+  8\times8   & \text{if } \rho(B) \ge \theta_2 \\
+             & \text{(high detail)}.
 \end{cases}
 \]
+
 
 For the Lenna image, the thresholds are set to $\theta_1 = 0.1$ and $\theta_2 = 0.2$ (normalised gradient magnitude). This yields approximately 35\% large blocks, 30\% medium blocks, and 35\% small blocks, as illustrated in Figure~\ref{fig:AdaptiveBlockSizes}.
 
