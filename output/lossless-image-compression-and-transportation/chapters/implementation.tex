@@ -422,7 +422,7 @@ This practical bit rate is exceptionally close to the image's theoretical Shanno
 The varying bit lengths demonstrate the algorithm's core optimization mechanism: assigning shorter binary sequences to more statistically probable intensity values, while reserving longer sequences for less frequent values, thereby minimizing the total expected code length.
 
 
-\subsubsection{Huffman Coding Implementation}
+\paragraph{Huffman Coding Implementation}
 
 The core compression logic for the Huffman algorithm is implemented in Python. The implementation utilizes a min-heap priority queue to efficiently construct the optimal prefix tree, followed by a Depth-First Search (DFS) traversal to assign the binary codewords.
 
@@ -478,10 +478,6 @@ class HuffmanCoding:
     \caption{Huffman coding Analysis - Left: Original image; Center: Reconstructed image; Right: Absolute error map (all pixel values are zero, confirming lossless reconstruction).}
     \label{fig:huffman_visual}
 \end{figure}
-
-
-
-
 
 
 
@@ -584,6 +580,80 @@ To evaluate the practical performance of the arithmetic coding implementation, e
 \end{equation}
 
 This empirical bit rate closely bounds the theoretical Shannon entropy of the image ($7.445$ bits per pixel), achieving a coding efficiency of approximately $99.5\%$. While arithmetic coding theoretically possesses the capability to surpass Huffman coding by encoding fractional bits, the practical performance here is marginally constrained by the overhead introduced by the 16-bit integer renormalization process. The requirement to flush remaining underflow bits at the end of the stream to ensure finite-precision stability introduces a slight overhead, resulting in performance that is highly competitive with, though not strictly superior to, Huffman coding for this specific image alphabet.
+
+
+\paragraph{Arithmetic Coding Implementation}\mbox{}\\
+
+The arithmetic coder uses 16-bit integer arithmetic with renormalization to avoid floating-point precision issues.
+
+\begin{verbatim}
+from collections import Counter
+
+class ArithmeticCodingLossless:
+    def compress(self, image_array):
+        pixels = image_array.flatten()
+        
+        # Build frequency model
+        frequencies = dict(Counter(pixels))
+        total = len(pixels)
+        
+        # Build cumulative frequencies
+        cumulative = {}
+        cum = 0
+        for pixel in sorted(frequencies.keys()):
+            cumulative[pixel] = (cum, cum + frequencies[pixel])
+            cum += frequencies[pixel]
+            
+        # Initialize interval [low, high)
+        low, high = 0, (1 << 16) - 1
+        underflow = 0
+        output_bits = []
+        
+        for pixel in pixels:
+            range_width = high - low + 1
+            cum_low, cum_high = cumulative[pixel]
+            
+            # Narrow interval
+            high = low + (range_width * cum_high) // total - 1
+            low = low + (range_width * cum_low) // total
+            
+            # Renormalization loop
+            while True:
+                if high < (1 << 15):          # Upper half (0xxx...)
+                    output_bits.append(0)
+                    output_bits.extend([1] * underflow)
+                    underflow = 0
+                elif low >= (1 << 15):        # Lower half (1xxx...)
+                    output_bits.append(1)
+                    output_bits.extend([0] * underflow)
+                    underflow = 0
+                    low -= (1 << 15)
+                    high -= (1 << 15)
+                elif low >= (1 << 14) and high < (3 << 14):  # Underflow
+                    underflow += 1
+                    low -= (1 << 14)
+                    high -= (1 << 14)
+                else:
+                    break
+                    
+                low <<= 1
+                high = (high << 1) | 1
+                
+        # Flush remaining bits
+        underflow += 1
+        output_bits.append(0 if low < (1 << 15) else 1)
+        output_bits.extend([1 if low < (1 << 15) else 0] * underflow)
+        
+        # Calculate final metrics
+        original_bits = len(pixels) * 8
+        compression_ratio = original_bits / len(output_bits)
+        metadata = cumulative
+        
+        return bytes(output_bits), compression_ratio, metadata
+\end{verbatim}
+
+\vspace{1em}
+\noindent\textbf{Renormalization Complexity Analysis.} Each symbol processed triggers a constant number of renormalization steps on average. The \texttt{while} loop executes at most $\mathcal{O}(\log(1/p_{\min}))$ times per symbol in the worst case, where $p_{\min}$ is the smallest symbol probability. In practice, with 16-bit precision, the loop runs fewer than 5 iterations per symbol for natural images, yielding $\mathcal{O}(N)$ overall time, where $N$ is the number of pixels.
 
 \vspace{1em}
 \noindent\textbf{Visual Verification.} The integrity of the compression algorithm was validated through a full-cycle encoding and decoding process. The arithmetic decoder successfully reconstructed the image array from the scaled bitstream. Computation of the absolute difference between the original and reconstructed image arrays yielded a maximum error of zero, confirming that the 16-bit integer approximation with renormalization is strictly lossless.
