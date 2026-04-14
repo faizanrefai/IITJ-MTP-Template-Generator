@@ -424,18 +424,21 @@ The varying bit lengths demonstrate the algorithm's core optimization mechanism:
 \vspace{1em}
 \noindent\textbf{Visual Verification.} To verify the lossless nature of the compression, the image was reconstructed from the Huffman-encoded bitstream. As shown in Figure \ref{fig:huffman_visual}, the absolute error map between the original and reconstructed images demonstrates zero data loss, confirming the structural integrity of the decoding process.
 
-
-\paragraph{Huffman Coding Implementation}
+\paragraph{Huffman Coding Implementation}\mbox{}\\
 
 The core compression logic for the Huffman algorithm is implemented in Python. The implementation utilizes a min-heap priority queue to efficiently construct the optimal prefix tree, followed by a Depth-First Search (DFS) traversal to assign the binary codewords.
 
 \begin{lstlisting}[language=Python, caption={Python implementation of the Huffman compression algorithm.}, label={lst:huffman_compress}]
+import heapq
+from collections import Counter
+
 class HuffmanCoding:
     def compress(self, image_array):
-        # 1. Build frequency dictionary
-        frequency = count_frequencies(image_array.flatten())
+        # 1. Build frequency dictionary using standard library
+        frequency = dict(Counter(image_array.flatten()))
         
         # 2. Build Huffman tree using min-heap
+        # (Assuming HeapNode class is defined with __lt__ method)
         heap = [HeapNode(value, freq) for value, freq in frequency.items()]
         heapq.heapify(heap)
         
@@ -467,8 +470,6 @@ class HuffmanCoding:
 
 \vspace{1em}
 \noindent\textbf{Time Complexity.} The time complexity is $\mathcal{O}(n \log n)$ for the heap operations, where $n$ is the number of distinct pixel values. For standard 8-bit images, $n \leq 256$, making the time complexity for tree construction effectively constant. The dominant factor in execution time becomes the linear $\mathcal{O}(N)$ traversal required to encode the $N$-pixel image array.
-
-
 
 \begin{figure}[h]
     \centering
@@ -566,6 +567,26 @@ Applying the arithmetic coding implementation to the $512 \times 512$ Lenna test
 This bit rate closely traces the theoretical Shannon entropy of the image ($7.445$ bits per pixel). While theoretically capable of surpassing Huffman coding by avoiding the integer-bit constraint, finite-precision constraints and renormalization overhead in the practical 16-bit implementation result in competitive, yet similarly bounded, performance for this specific image alphabet. 
 
 As extracted from the algorithm analysis pipeline, the absolute error map generated during the decoding phase exhibited a maximum error of zero, definitively confirming the mathematically lossless nature of the reconstruction.
+
+
+\paragraph{Experimental Results and Analysis}
+
+\subparagraph{Arithmetic Coding Performance}
+
+To evaluate the practical performance of the arithmetic coding implementation, experiments were conducted on the same standard $512 \times 512$ 8-bit grayscale test image used for evaluating the Huffman algorithm. 
+
+\vspace{1em}
+\noindent\textbf{Quantitative Metrics.} The application of the arithmetic encoding algorithm yielded a \textbf{compression ratio of 1.070:1}. Based on this ratio, the average bit rate of the encoded image is calculated as:
+
+\begin{equation}
+    BR_{\text{Arithmetic}} = \frac{8}{1.070} \approx 7.476 \text{ bits per pixel}
+\end{equation}
+
+This empirical bit rate closely bounds the theoretical Shannon entropy of the image ($7.445$ bits per pixel), achieving a coding efficiency of approximately $99.5\%$. While arithmetic coding theoretically possesses the capability to surpass Huffman coding by encoding fractional bits, the practical performance here is marginally constrained by the overhead introduced by the 16-bit integer renormalization process. The requirement to flush remaining underflow bits at the end of the stream to ensure finite-precision stability introduces a slight overhead, resulting in performance that is highly competitive with, though not strictly superior to, Huffman coding for this specific image alphabet.
+
+\vspace{1em}
+\noindent\textbf{Visual Verification.} The integrity of the compression algorithm was validated through a full-cycle encoding and decoding process. The arithmetic decoder successfully reconstructed the image array from the scaled bitstream. Computation of the absolute difference between the original and reconstructed image arrays yielded a maximum error of zero, confirming that the 16-bit integer approximation with renormalization is strictly lossless.
+
 
 \begin{figure}[h]
     \centering
