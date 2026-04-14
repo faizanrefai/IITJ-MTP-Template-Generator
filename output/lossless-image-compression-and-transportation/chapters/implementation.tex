@@ -746,7 +746,26 @@ This superior performance stems from LZW's ability to exploit repetitive pixel p
     \label{fig:lzw_visual}
 \end{figure}
 
+\paragraph{Empirical Performance}\mbox{}\\
 
+The experimental results on the Lenna image ($512 \times 512$, 8-bit grayscale) reveal distinct performance characteristics across the three implemented algorithms, as summarized in Table \ref{tab:empirical_performance}.
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{llcl}
+        \hline\hline
+        \textbf{Method} & \textbf{Compression Ratio} & \textbf{Compression Time} & \textbf{Notes} \\
+        \hline
+        Huffman    & 1.071:1 & Moderate & 215 unique codes; near-entropy performance \\
+        Arithmetic & 1.070:1 & Slowest  & Matches theoretical entropy ($7.445$ bpp) \\
+        \textbf{LZW} & \textbf{1.528:1} & \textbf{Fast} & \textbf{Largest dictionary ($114,660$ entries)} \\
+        \hline\hline
+    \end{tabular}
+    \caption{Comparative performance of the implemented lossless compression algorithms. LZW exhibits the highest efficiency by exploiting spatial redundancies.}
+    \label{tab:empirical_performance}
+\end{table}
+
+LZW's superior compression ratio (approximately $43\%$ better than Huffman) demonstrates the importance of exploiting inter-pixel dependencies beyond first-order statistics. While Huffman and arithmetic coding approach the first-order entropy bound, they treat each pixel independently, failing to capture spatial redundancies that LZW effectively exploits through dynamic pattern matching.
 
 \subsection{Key Features}
 
