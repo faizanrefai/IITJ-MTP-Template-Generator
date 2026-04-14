@@ -739,7 +739,7 @@ This superior performance stems from LZW's ability to exploit repetitive pixel p
 \vspace{1em}
 \noindent\textbf{Visual Verification.} As with the entropy coders, LZW is strictly mathematically lossless. The decoding phase successfully regenerated the complete dictionary on the fly and reconstructed the exact image array, verified by an absolute error map showing zero deviation across all $262,144$ pixels.
 
-\begin{figure}[h]
+\begin{figure}[H]
     \centering
     \includegraphics[width=1.0\textwidth]{lzw-ana.png}
     \caption{Visual verification of lossless LZW compression. Left: Original $512 \times 512$ image. Center: Reconstructed image. Right: Absolute error map indicating zero data loss.}
@@ -769,24 +769,24 @@ The experimental results on the Lenna image ($512 \times 512$, 8-bit grayscale) 
 
 LZW's superior compression ratio (approximately $43\%$ better than Huffman) demonstrates the importance of exploiting inter-pixel dependencies beyond first-order statistics. While Huffman and arithmetic coding approach the first-order entropy bound, they treat each pixel independently, failing to capture spatial redundancies that LZW effectively exploits through dynamic pattern matching.
 
-\begin{figure}[h]
+\begin{figure}[H]
     \centering
     \includegraphics[width=1.0\textwidth]{comparision.png}
     \label{fig:comparison_visual}
 \end{figure}
 
-% \begin{figure}[h]
-%     \centering
-%     \includegraphics[width=1.0\textwidth]{lzwhisto.png}
-%     \label{fig:histogram_visual}
-% \end{figure}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{lzwhisto.png}
+    \label{fig:histogram_visual}
+\end{figure}
 
-% \begin{figure}[h]
-%     \centering
-%     \includegraphics[width=1.0\textwidth]{lzwfocus.png}
-%     \caption{Visual verification of lossless LZW compression. Left: Original $512 \times 512$ image. Center: Reconstructed image. Right: Absolute error map indicating zero data loss.}
-%     \label{fig:lzw_focus_visual}
-% \end{figure}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{lzwfocus.png}
+    \caption{Visual verification of lossless LZW compression. Left: Original $512 \times 512$ image. Center: Reconstructed image. Right: Absolute error map indicating zero data loss.}
+    \label{fig:lzw_focus_visual}
+\end{figure}
 
 
 \subsubsection{Spatial Domain}
@@ -819,7 +819,7 @@ The image is broken down into regions or simplified using one of two approaches:
 \noindent\textbf{Visual Example:}
 
 
-\begin{figure}[h]
+\begin{figure}[H]
     \centering
     \includegraphics[width=1.0\textwidth]{spatial.png}
     \caption{Two-stage process of spatial domain compression. Left: Original image. Center: Regular shape segmentation (fixed blocks). Right: Irregular shape segmentation (content-based).}
