@@ -767,6 +767,15 @@ The experimental results on the Lenna image ($512 \times 512$, 8-bit grayscale) 
 
 LZW's superior compression ratio (approximately $43\%$ better than Huffman) demonstrates the importance of exploiting inter-pixel dependencies beyond first-order statistics. While Huffman and arithmetic coding approach the first-order entropy bound, they treat each pixel independently, failing to capture spatial redundancies that LZW effectively exploits through dynamic pattern matching.
 
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=1.0\textwidth]{comparison.png}
+    \includegraphics[width=1.0\textwidth]{lzwfocus.png}
+    \includegraphics[width=1.0\textwidth]{lzwhisto.png}
+    \caption{Visual verification of lossless LZW compression. Left: Original $512 \times 512$ image. Center: Reconstructed image. Right: Absolute error map indicating zero data loss.}
+    \label{fig:lzw_visual}
+\end{figure}
+
 \subsection{Key Features}
 
 % TODO: Describe the implementation of key features
