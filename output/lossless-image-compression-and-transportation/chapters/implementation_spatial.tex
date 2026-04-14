@@ -80,7 +80,7 @@ To practically illustrate the structural differences between regular and irregul
 
 However, in \textit{natural} images (such as standard photographic datasets), irregular content boundaries are highly complex, non-linear polygons. Encoding the exact mathematical contours of real-world objects (like the edge of a tree or a human face) requires thousands of coordinate vertices, making the storage overhead astronomically high. Consequently, modern spatial compression algorithms universally favor regular fixed grids, accepting a slight loss in boundary accuracy in exchange for massive, predictable reductions in structural storage overhead.
 
-\subsection{Variable Block Size Compression with Adaptive Encoding}
+\subsubsection{Variable Block Size Compression with Adaptive Encoding}
 
 \paragraph{Motivation and Core Principle}
 
@@ -103,11 +103,11 @@ The fundamental limitation of these methods is their inability to adapt the comp
 
 This adaptive approach yields compression ratios that significantly surpass those of non‑adaptive methods, as demonstrated on the standard Lenna test image.
 
-\subsubsection{Algorithm Description}
+\paragraph{Algorithm Description}
+The algorithm first computes a local complexity metric for each candidate block. Let $I(i,j)$ denote the pixel intensity at coordinates $(i,j)$ for a grayscale image of dimensions $M \times N$. For a block $B$ of size $s \times s$, we compute the edge density using the Sobel operator, which approximates the gradient magnitude:
 
 \paragraph{Local Complexity Estimation}
 
-The algorithm first computes a local complexity metric for each candidate block. Let $I(i,j)$ denote the pixel intensity at coordinates $(i,j)$ for a grayscale image of dimensions $M \times N$. For a block $B$ of size $s \times s$, we compute the edge density using the Sobel operator, which approximates the gradient magnitude:
 
 \[
 G_x = \begin{bmatrix}
@@ -165,7 +165,7 @@ For the Lenna image, the thresholds are set to $\theta_1 = 0.1$ and $\theta_2 = 
 
 Once the block size is determined, the algorithm selects the most efficient encoding method based on the block's content.
 
-\subparagraph{Run‑Length Encoding (RLE)} 
+\subsubsection{Run‑Length Encoding (RLE)} 
 For smooth, nearly uniform blocks ($\rho(B) < 0.1$), RLE is applied. The block is represented as a sequence of tuples $(value, run)$. For a block of size $s \times s$, the number of bits required is:
 
 \[
@@ -192,7 +192,7 @@ where $\ell(o)$ is the codeword length for offset $o$. This approach efficiently
 
 \paragraph{Raw Encoding} Blocks with high edge density ($\rho(B) \ge 0.2$) are transmitted without compression, requiring $8s^2$ bits. This prevents degradation of fine details.
 
-\subsubsection{Experimental Results on Lenna Image}
+\paragraph{Experimental Results on Lenna Image}
 
 The VBSC algorithm was implemented in Python using the \texttt{scikit‑image} library for edge detection and block processing. The standard $512\times512$, 8‑bit grayscale Lenna image was used as the test benchmark.
 
