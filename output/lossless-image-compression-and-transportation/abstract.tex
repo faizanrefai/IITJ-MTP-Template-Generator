@@ -4,15 +4,17 @@
 
 \vspace{0.5cm}
 
-This project presents a comprehensive implementation and comparative analysis of lossless image compression algorithms, spanning classical entropy-based methods, spatial and transform domain techniques, context-based approaches, clustering algorithms, optimization strategies, and neural network-based methods.
+In this project, I implemented and compared several lossless image compression algorithms. I looked at classical entropy methods, spatial and transform techniques, context‑based approaches, clustering, optimization, and even neural networks.
 
-The research begins with fundamental entropy coding techniques including Huffman coding, Arithmetic coding, and LZW coding, providing a basic understanding of image compression principles. Spatial domain methods are explored through Variable Block Size Compression and Run-Length Encoding (RLE), demonstrating how local redundancy can be exploited for compression gains. The Lossy+Residual approach is implemented to achieve lossless reconstruction by transmitting a lossy image followed by the residual difference.
+I started with basic entropy coding: Huffman, arithmetic, and LZW. These give you a foundation. Then I tried spatial methods – variable block size compression and run‑length encoding (RLE). The idea is to exploit local repetition in an image. I also implemented a lossy‑plus‑residual scheme: you send a lossy version first, then the difference, so you can reconstruct the original exactly.
 
-The JPEG Lossless Prediction standard is implemented using seven prediction modes based on neighboring pixels. Advanced context-based algorithms including CALIC (Context-based Adaptive Lossless Image Coding) and LOCO-I (Low Complexity Lossless Compression) are implemented, demonstrating superior compression through gradient-based prediction and context modeling of prediction errors.
+Next, I used the JPEG lossless prediction standard with its seven prediction modes. Then I moved to more advanced context‑based algorithms – CALIC and LOCO‑I. They work better because they use gradient information and model the prediction errors.
 
-Transform domain methods are explored through the S-Transform, S+P Transform, and Integer Wavelet Transforms using the lifting scheme, highlighting their ability to compact energy into fewer coefficients. Clustering-based compression is implemented using K-Means and Gath-Geva fuzzy clustering algorithms for color quantization, with Gath-Geva detecting ellipsoidal clusters of varying sizes and densities. Particle Swarm Optimization (PSO) is employed to find optimal color palettes through swarm intelligence. Finally, a Fuzzy Backpropagation Neural Network (FBPNN) is developed, combining Gath-Geva fuzzy memberships with backpropagation learning for adaptive weight updates.
+For transform methods, I implemented the S‑Transform, S+P, and integer wavelet transforms using the lifting scheme. These methods concentrate energy into fewer coefficients, which helps compression.
 
-All algorithms are implemented in Python utilizing NumPy, Matplotlib, Pillow, and GPU-accelerated frameworks including JAX and PyTorch MPS on Apple M4 architecture. Comprehensive visualizations compare original and compressed images, compression ratios, and quality metrics including MSE and PSNR. Experimental results demonstrate that context-based methods achieve superior compression performance, with CALIC and LOCO-I outperforming traditional approaches.
+I also tried clustering for color quantization: K‑means and Gath‑Geva fuzzy clustering. Gath‑Geva can find ellipsoidal clusters of different sizes and densities. Then I used particle swarm optimization (PSO) to search for good color palettes. Finally, I built a fuzzy backpropagation neural network (FBPNN) that combines Gath‑Geva memberships with backpropagation learning.
+
+All the code is in Python. I used NumPy, Matplotlib, Pillow, and GPU‑accelerated frameworks like JAX and PyTorch on an Apple M4. I compared the algorithms with visual outputs, compression ratios, MSE, and PSNR. In the end, the context‑based methods – CALIC and LOCO‑I – gave the best compression, outperforming the traditional ones.
 
 \vspace{1cm}
 
