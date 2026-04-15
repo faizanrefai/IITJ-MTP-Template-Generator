@@ -39,10 +39,11 @@ jobs:
             # First pass
             pdflatex -interaction=nonstopmode "$base.tex" || echo "⚠️ First pass had warnings"
             
-            # Run bibtex if .bib file exists
-            if ls *.bib 1> /dev/null 2>&1; then
-              bibtex "$base" || echo "⚠️ BibTeX had warnings"
-            fi
+            # --- THIS IS THE UPDATED SECTION ---
+            # Force BibTeX to run instead of relying on folder checks
+            echo "📚 Running BibTeX for $base..."
+            bibtex "$base" || echo "⚠️ BibTeX had warnings or found no citations"
+            # -----------------------------------
             
             # Second pass
             pdflatex -interaction=nonstopmode "$base.tex" || echo "⚠️ Second pass had warnings"
