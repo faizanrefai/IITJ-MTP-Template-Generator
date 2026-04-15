@@ -28,26 +28,17 @@
 Throughout the implementation and evaluation of the various lossless and lossy compression algorithms, several non‑trivial challenges arose. These ranged from numerical instability in arithmetic coding to convergence issues in clustering and slow optimisation in metaheuristics. Table~\ref{tab:challenges} summarises the main challenges encountered and the corresponding solutions adopted.
 
 
-\usepackage{longtable}  % Add to preamble if not already present
 
-\begin{longtable}{|p{4.5cm}|X|}
-\caption{Implementation Challenges and Solutions} \\
-\label{tab:challenges} \\
+
+\begin{table}[H]
+\centering
+\small
+\caption{Implementation Challenges and Solutions (Part 1)}
+\label{tab:challenges_a}
+\begin{tabularx}{\textwidth}{|p{4.5cm}|X|}
 \hline
 \textbf{Challenge} & \textbf{Solution} \\
 \hline
-\endfirsthead
-\multicolumn{2}{c}{{\tablename\ \thetable{} -- continued from previous page}} \\
-\hline
-\textbf{Challenge} & \textbf{Solution} \\
-\hline
-\endhead
-\hline
-\multicolumn{2}{r}{{Continued on next page}} \\
-\endfoot
-\hline
-\endlastfoot
-
 \textbf{Arithmetic coding underflow/overflow} & 
 Implemented 16‑bit integer interval arithmetic with explicit renormalisation and underflow counting. The interval $[low, high)$ was scaled whenever it fell into the $[0.25, 0.75)$ range, and pending bits were emitted later. This eliminated floating‑point errors while maintaining lossless reconstruction. \\
 \hline
@@ -63,6 +54,20 @@ When a cluster received no pixels, its centre was reinitialised to a random pixe
 \textbf{Numerical instability in Gath‑Geva distance computation} & 
 Clipped determinant of fuzzy covariance matrices to $[10^{-10}, 10^{10}]$ and used pseudo‑inverse (`pinv`) with a small regularisation term ($\lambda = 10^{-6}$). This prevented singular matrices and kept the exponential distance well‑behaved. \\
 \hline
+\end{tabularx}
+\end{table}
+
+
+
+\begin{table}[H]
+\centering
+\small
+\caption{Implementation Challenges and Solutions (Part 2)}
+\label{tab:challenges_b}
+\begin{tabularx}{\textwidth}{|p{4.5cm}|X|}
+\hline
+\textbf{Challenge} & \textbf{Solution} \\
+\hline
 \textbf{Overflow in JPEG lossless prediction (mode 4)} & 
 Cast intermediate results to 32‑bit integers before addition/subtraction and clamped final predictions to $[0,255]$. This eliminated the overflow warnings seen in early implementations and maintained perfect reconstruction. \\
 \hline
@@ -75,4 +80,5 @@ Applied the transform recursively only to the low‑pass subband, halving the di
 \textbf{Choosing the optimal number of clusters in Gath‑Geva} & 
 Implemented an elbow method using the Xie‑Beni index. The algorithm was run for $K = 2,4,8,\dots,64$, and the $K$ at which the relative improvement fell below $5\%$ was selected automatically. For Lenna, this gave $K=15$, which matched the visual quality vs. compression trade‑off. \\
 \hline
-\end{longtable}
+\end{tabularx}
+\end{table}
