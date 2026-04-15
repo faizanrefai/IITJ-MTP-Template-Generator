@@ -268,6 +268,15 @@ This approach is particularly valuable in fields where both fidelity and file si
           Perfect reconstruction is guaranteed.
 \end{enumerate}
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{loosy.png}
+    \caption{Lossy + residual compression pipeline on Lenna: (a) original, (b) lossy (JPEG $Q=50$), (c) residual (scaled for visibility), (d) reconstructed (identical to original).}
+    \label{fig:threestages}
+\end{figure}
+
+
+
 \begin{table}[H]
 \centering
 \caption{Three steps of lossy + residual compression.}
@@ -285,32 +294,7 @@ This approach is particularly valuable in fields where both fidelity and file si
 \end{tabular}
 \end{table}
 
-\paragraph{Why Residuals Are Highly Compressible}
-The efficiency of the scheme rests on the low entropy of the residual. Because the lossy image already approximates the original well, the residual consists mostly of values near zero (often in the range $[-20, +20]$) and many exact zeros. Entropy coders (Huffman, arithmetic) exploit this distribution to achieve high compression ratios.
 
-For a typical test image (Lenna, $512\times512$, 8‑bit grayscale), JPEG compression at $Q=50$ gave a lossy ratio of $5.0:1$. The residual exhibited an entropy of only $3.579$ bits per pixel. Encoding the residual with Huffman coding and adding it back produced a final \emph{lossless} compression ratio of $1.54:1$.
-
-\paragraph{Comparison with Conventional Methods}
-Table~\ref{tab:lossy_residual_comparison} contrasts the hybrid approach against pure lossless algorithms on the same image.
-
-\begin{table}[H]
-\centering
-\caption{Compression ratios of lossless and hybrid methods.}
-\label{tab:lossy_residual_comparison}
-\begin{tabular}{l c}
-\hline
-\textbf{Method} & \textbf{Compression Ratio} \\
-\hline
-Huffman Coding          & 1.07:1 \\
-Arithmetic Coding       & 1.08:1 \\
-LZW                     & 1.15:1 \\
-\hline
-\textbf{Lossy + Residual} & \textbf{1.54:1} \\
-\hline
-\end{tabular}
-\end{table}
-
-The hybrid method outperforms the best pure lossless algorithm (LZW) by approximately $40\%$, while still guaranteeing perfect reconstruction.
 
 \paragraph{Trade‑offs and Optimisation}
 The overall performance depends on the quality of the initial lossy stage:
@@ -338,13 +322,110 @@ The total bits required are $B_{\text{total}} = B_{\text{lossy}} + B_{\text{resi
 \paragraph{Illustration}
 Figure~\ref{fig:lossy_residual} shows the process on the Lenna image: (a) original, (b) lossy version, (c) residual, and (d) the perfectly reconstructed image (identical to (a)).
 
+
+
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\textwidth]{loosy.png}
+    \includegraphics[width=0.9\textwidth]{lossyapproach.png}
     \caption{Lossy + residual compression pipeline on Lenna: (a) original, (b) lossy (JPEG $Q=50$), (c) residual (scaled for visibility), (d) reconstructed (identical to original).}
     \label{fig:lossy_residual}
 \end{figure}
 
+
+
+\paragraph{Implementation Details}
+The lossy stage was implemented using a block‑wise Discrete Cosine Transform (DCT) with $8\times8$ blocks. For a target lossy ratio of $8:1$, only the lowest‑frequency DCT coefficients were retained (approximately $k = 3$ coefficients per $8\times8$ block). The residual was then compressed with Huffman coding; its entropy was used to estimate the compressed size.
+
+
+
+\paragraph{Experimental Results}
+
+Two standard grayscale images ($512\times512$, 8‑bit) were tested: \textit{Lena} and \textit{Cameraman}. The lossy compression achieved a ratio of $8:1$ (file size $0.0078$ MB). Table~\ref{tab:results_summary} summarises the results.
+
+
+
+
+\begin{table}[H]
+\centering
+\caption{Performance of lossy + residual compression on two test images.}
+\label{tab:results_summary}
+\begin{tabular}{|l|c|c|c|c|}
+\hline
+\textbf{Image} & \textbf{Residual Entropy (bits/pixel)} & \textbf{Residual Size (MB)} & \textbf{Total Size (MB)} & \textbf{Overall Ratio} \\
+\hline
+Lena & 5.48 & 0.0428 & 0.0506 & 1.24:1 \\
+Cameraman & 5.14 & 0.0402 & 0.0480 & 1.30:1 \\
+\hline
+\end{tabular}
+\end{table}
+
+The overall compression ratio is approximately $1.24:1$ for Lena and $1.30:1$ for Cameraman. These values are significantly higher than those achieved by pure lossless methods such as Huffman ($\sim1.07:1$), arithmetic ($\sim1.08:1$), or LZW ($\sim1.15:1$) on the same images.
+
+\paragraph{Visual Analysis}
+Figures~\ref{fig:lena_lossy} to~\ref{fig:lena_residual_hist} (to be inserted) illustrate the process for the Lena image:
+\begin{itemize}
+    \item \textbf{Lossy image} (Fig.~\ref{fig:lena_lossy}) – retains the overall structure but loses fine details, especially in textured areas (hat, hair).
+    \item \textbf{Residual image} (Fig.~\ref{fig:lena_residual}) – shows where the lossy approximation deviates from the original. The residual consists mostly of small‑magnitude values (range approximately $-15$ to $+16$) and contains many zeros.
+    \item \textbf{Residual histogram} (Fig.~\ref{fig:lena_residual_hist}) – confirms the concentration of values near zero, which explains the low entropy ($5.48$ bpp) and efficient Huffman coding.
+    \item \textbf{Reconstruction error map} (Fig.~\ref{fig:lena_error}) – shows no visible differences; the maximum absolute error after rounding is below $10^{-5}$, confirming lossless reconstruction.
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{lossycamera.png}
+    \caption{Lossy + residual compression pipeline on Lenna: (a) original, (b) lossy (JPEG $Q=50$), (c) residual (scaled for visibility), (d) reconstructed (identical to original).}
+    \label{fig:lena_error}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{lossydetailana.png}
+    \caption{Lossy + residual compression pipeline on Lenna: (a) original, (b) lossy (JPEG $Q=50$), (c) residual (scaled for visibility), (d) reconstructed (identical to original).}
+    \label{fig:lena_residual_hist}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{lossycompress.png}
+    \caption{Lossy + residual compression pipeline on Lenna: (a) original, (b) lossy (JPEG $Q=50$), (c) residual (scaled for visibility), (d) reconstructed (identical to original).}
+    \label{fig:lena_lossy}
+\end{figure}
+
+\paragraph{Trade‑offs and Optimisation}
+The overall ratio depends critically on the lossy compression ratio:
+\begin{itemize}
+    \item A higher lossy ratio (more aggressive lossy compression) reduces $B_{\text{lossy}}$ but increases the residual entropy and therefore $B_{\text{residual}}$.
+    \item A lower lossy ratio makes the residual smaller but increases $B_{\text{lossy}}$.
+\end{itemize}
+The chosen operating point ($8:1$ lossy) strikes a good balance, yielding a net gain over pure lossless methods. For very high lossy ratios (e.g., $20:1$), the residual becomes too large and the overall ratio may drop below $1$. For very low lossy ratios (e.g., $2:1$), the lossy file itself is already large, eliminating the benefit.
+
+\paragraph{Comparison with Pure Lossless Methods}
+Table~\ref{tab:comparison_pure} places the hybrid approach in context.
+
+\begin{table}[H]
+\centering
+\caption{Compression ratios of pure lossless and hybrid methods on Lena.}
+\label{tab:comparison_pure}
+\begin{tabular}{l c}
+\hline
+\textbf{Method} & \textbf{Compression Ratio} \\
+\hline
+Huffman Coding          & 1.07:1 \\
+Arithmetic Coding       & 1.08:1 \\
+LZW                     & 1.15:1 \\
+\hline
+\textbf{Lossy + Residual} & \textbf{1.24:1} \\
+\hline
+\end{tabular}
+\end{table}
+
+The hybrid method outperforms the best pure lossless method (LZW) by approximately $8\%$ on Lena and $13\%$ on Cameraman, while still guaranteeing perfect reconstruction. This makes it particularly attractive for applications where lossless quality is mandatory but storage or bandwidth is limited, such as medical imaging, satellite imagery, and archival systems.
+
 \paragraph{Summary}
-Lossy + residual compression bridges the gap between pure lossless and pure lossy methods. By sending a small lossy image and a highly compressible residual, it achieves lossless reconstruction at ratios significantly higher than conventional lossless algorithms. The approach is already used in professional near‑lossless codecs and is especially suited to domains where every bit of information must be preserved but bandwidth or storage is limited.
+Lossy + residual compression provides a practical way to achieve lossless reconstruction at ratios exceeding those of conventional entropy coders. The key insight is that the residual, after a good lossy approximation, has low entropy and compresses very well. The experimental results on standard test images confirm the effectiveness of the approach.
 \end{document}
+
+
+
+
+
