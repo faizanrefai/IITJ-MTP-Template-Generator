@@ -4,17 +4,19 @@
 
 \vspace{0.5cm}
 
-In this project, I implemented and compared several lossless image compression algorithms. I looked at classical entropy methods, spatial and transform techniques, context‑based approaches, clustering, optimization, and even neural networks.
 
-I started with basic entropy coding: Huffman, arithmetic, and LZW. These give you a foundation. Then I tried spatial methods – variable block size compression and run‑length encoding (RLE). The idea is to exploit local repetition in an image. I also implemented a lossy‑plus‑residual scheme: you send a lossy version first, then the difference, so you can reconstruct the original exactly.
+Many image compression algorithms exist. Some are lossy; others are lossless. Lossless methods allow exact reconstruction of the original image from the compressed data. In this project, we implement and compare several lossless compression techniques. These include classical entropy coding, spatial and transform domain methods, context‑based algorithms, clustering, optimization, and neural network approaches.
 
-Next, I used the JPEG lossless prediction standard with its seven prediction modes. Then I moved to more advanced context‑based algorithms – CALIC and LOCO‑I. They work better because they use gradient information and model the prediction errors.
+We begin with fundamental entropy coding methods. Huffman coding, arithmetic coding, and LZW coding are implemented. These provide a baseline for understanding compression principles. Next, we explore spatial domain methods. Variable block size compression and run‑length encoding (RLE) are used to exploit local redundancy in images. We also implement a lossy‑plus‑residual scheme. In this scheme, a lossy image is transmitted first. The residual difference between the lossy image and the original is then sent. This allows lossless reconstruction.
 
-For transform methods, I implemented the S‑Transform, S+P, and integer wavelet transforms using the lifting scheme. These methods concentrate energy into fewer coefficients, which helps compression.
+The JPEG lossless prediction standard is implemented using its seven prediction modes. These modes are based on neighboring pixel values. We then implement two advanced context‑based algorithms: CALIC and LOCO‑I. CALIC uses gradient‑based nonlinear prediction and context modeling of prediction errors. LOCO‑I uses a lower complexity approach based on local gradients. Both achieve good compression.
 
-I also tried clustering for color quantization: K‑means and Gath‑Geva fuzzy clustering. Gath‑Geva can find ellipsoidal clusters of different sizes and densities. Then I used particle swarm optimization (PSO) to search for good color palettes. Finally, I built a fuzzy backpropagation neural network (FBPNN) that combines Gath‑Geva memberships with backpropagation learning.
+Transform domain methods are also examined. We implement the S‑Transform, the S+P Transform, and integer wavelet transforms using the lifting scheme. These methods compact energy into fewer coefficients. Clustering‑based compression is implemented for color quantization. Two algorithms are used: K‑Means and Gath‑Geva fuzzy clustering. Gath‑Geva can detect ellipsoidal clusters of varying sizes and densities. Particle swarm optimization (PSO) is then used to find optimal color palettes. Finally, we develop a fuzzy backpropagation neural network (FBPNN). This network combines Gath‑Geva fuzzy memberships with backpropagation learning for adaptive weight updates.
 
-All the code is in Python. I used NumPy, Matplotlib, Pillow, and GPU‑accelerated frameworks like JAX and PyTorch on an Apple M4. I compared the algorithms with visual outputs, compression ratios, MSE, and PSNR. In the end, the context‑based methods – CALIC and LOCO‑I – gave the best compression, outperforming the traditional ones.
+All algorithms are implemented in Python. We use NumPy, Matplotlib, and Pillow. GPU acceleration is provided by JAX and PyTorch on an Apple M4 architecture. Visualizations compare original and compressed images. Compression ratios, MSE, and PSNR are reported. Experimental results show that context‑based methods achieve the best performance. CALIC and LOCO‑I outperform traditional approaches on most test images.
+
+
+
 
 \vspace{1cm}
 
