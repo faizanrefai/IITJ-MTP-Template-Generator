@@ -1,13 +1,16 @@
 
+
 \subsection{Overview}
 
-Lossless image compression has been a fundamental area of research in signal processing and information theory for decades. The primary goal is to reduce the number of bits required to represent an image without any loss of information, enabling perfect reconstruction of the original image. This section reviews the key standards, algorithms, and tools relevant to lossless image compression, and identifies gaps that motivate the present work.
+For decades, lossless image compression has been treated as a highly fundamental area of research across information theory and signal processing. Reducing the quantity of bits that are necessary to represent an image is the primary objective. This must be achieved without any information being lost at all, which makes the perfect reconstruction of the original image entirely possible. The key standards, algorithms, and tools that are highly relevant to compressing images losslessly are reviewed heavily in this section. Specific gaps are also identified by this review, which serves to directly motivate the present work.
 
 \subsection{Foundational Compression Techniques}
 
 \subsubsection{Entropy Coding Methods}
 
-Entropy coding forms the backbone of most lossless compression systems. \textbf{Huffman coding} \cite{huffman1952} assigns variable-length codes to symbols based on their frequencies, achieving optimal coding for a given probability distribution when using integer-length codes. \textbf{Arithmetic coding} \cite{witten1987arithmetic} extends this by allowing fractional bit allocations, often yielding better compression than Huffman coding, albeit with higher computational complexity. \textbf{Lempel-Ziv-Welch (LZW)} \cite{welch1984technique} is a dictionary-based method that replaces repeated strings with references to a dictionary built adaptively during compression; it is widely used in formats such as GIF and TIFF.
+The absolute backbone of the vast majority of lossless compression systems is formed entirely by entropy coding. Variable length codes are assigned directly to symbols by \textbf{Huffman coding} \cite{huffman1952}. This is done based entirely on their specific frequencies. Optimal coding for a given probability distribution is achieved when integer length codes are utilized. This concept is extended heavily by \textbf{Arithmetic coding} \cite{witten1987arithmetic}. Fractional bit allocations are allowed by this method. Better overall compression than Huffman coding is often yielded by this approach, though this comes at the direct cost of much higher computational complexity. A dictionary based method is utilized by \textbf{LempelZivWelch (LZW)} \cite{welch1984technique}. Repeated strings are swapped out and replaced completely with references pointing to a dictionary. This dictionary is built adaptively while the compression is actively taking place. It is utilized widely across standard visual formats like GIF and TIFF.
+
+
 
 \subsubsection{Predictive and Transform Coding}
 
@@ -107,6 +110,7 @@ Despite the availability of numerous lossless compression algorithms, several ga
     \item \textbf{Lack of accessible implementations} – Many algorithms are described only in academic papers, with no open-source reference implementation, hindering reproducibility and practical adoption.
 \end{enumerate}
 
-The present project addresses these gaps by providing a comprehensive, well-documented Python implementation of a wide range of lossless compression algorithms (entropy coding, predictive coding, transform coding, clustering-based methods, and neural network approaches) and evaluating them on standard benchmark images using consistent metrics. All implementations are optimized for modern hardware (including GPU acceleration where applicable) and are made available as open source. This work aims to serve as a reference for researchers and practitioners seeking to choose or improve lossless image compression methods.
 
-\noindent\textit{Note: Specific citations for standards and algorithms (e.g., JPEG-LS, CALIC, S+P transform) should be added using appropriate bibliographic entries.}
+These specific gaps are directly addressed by the present project. A heavily documented Python implementation is provided, spanning a massive range of lossless compression algorithms. Entropy coding, predictive coding, transform coding, clusteringbased methods, and neural network approaches are all fully included. Consistent metrics are used to evaluate these methods directly against standard benchmark images. Modern hardware optimization is heavily prioritized across every single implementation. GPU acceleration is triggered wherever it is deemed applicable. The entire body of work is made fully available as an opensource contribution. It is strongly intended that this project serves as a foundational reference point. Researchers and active practitioners who are seeking to choose or further improve upon lossless image compression methods are the strict target audience for this work.
+
+\noindent\textit{Note: Appropriate bibliographic entries should be utilized to add specific citations for algorithms and standards (e.g., JPEGLS, CALIC, S+P transform).}

@@ -3,54 +3,54 @@
 
 \subsubsection{Hardware Configuration}
 
-The entire project was developed and tested on the following hardware:
+Development and testing for the entirety of this project were carried out utilizing the exact hardware listed below:
 
 \begin{itemize}
-    \item \textbf{Processor:} Apple M4 with 10-core CPU (4 performance cores + 6 efficiency cores)
-    \item \textbf{Memory:} 16 GB unified memory
-    \item \textbf{GPU:} Apple M4 GPU with 10 cores supporting Metal 3
+    \item \textbf{Processor:} Apple M4 featuring a 10-core CPU (4 performance cores combined with 6 efficiency cores)
+    \item \textbf{Memory:} 16 GB of unified memory
+    \item \textbf{GPU:} Apple M4 GPU utilizing 10 cores with full Metal 3 support
     \item \textbf{Storage:} 512 GB SSD
-    \item \textbf{Operating System:} macOS Sonoma (14.0+)
+    \item \textbf{Operating System:} macOS Sonoma (version 14.0+)
 \end{itemize}
 
 \subsubsection{Software Configuration}
 
-The development environment consisted of:
+The specific components comprising the development environment included the following:
 
 \begin{itemize}
     \item \textbf{Programming Language:} Python 3.14
-    \item \textbf{IDE:} Visual Studio Code with Python extension, Jupyter Notebook 7.0
-    \item \textbf{Version Control:} Git (2.40+) and GitHub for source code management
-    \item \textbf{Virtual Environment:} venv for dependency isolation
-    \item \textbf{Package Management:} pip (24.0+) for installing dependencies
-    \item \textbf{Testing Framework:} pytest (8.0+) for unit testing
+    \item \textbf{IDE:} Visual Studio Code paired with the Python extension, alongside Jupyter Notebook 7.0
+    \item \textbf{Version Control:} Git (2.40+) and GitHub were utilized heavily for source code management
+    \item \textbf{Virtual Environment:} venv was deployed strictly for dependency isolation
+    \item \textbf{Package Management:} pip (24.0+) was used for installing all required dependencies
+    \item \textbf{Testing Framework:} pytest (8.0+) was relied upon for executing unit tests
 \end{itemize}
 
 \subsubsection{Core Libraries and Dependencies}
 
 \begin{table}[H]
 \centering
-\caption{Core libraries and their purposes}
+\caption{Primary libraries and the specific purposes they serve}
 \label{tab:libraries}
 \begin{tabularx}{\textwidth}{|l|l|X|}
 \hline
 \textbf{Library} & \textbf{Version} & \textbf{Purpose} \\
 \hline
-NumPy & 2.4.2 & Efficient numerical computations and matrix operations \\
+NumPy & 2.4.2 & Efficient numerical computations and matrix operations are directly handled \\
 \hline
-Matplotlib & 3.10.0 & Generating comprehensive visualizations and plots \\
+Matplotlib & 3.10.0 & Comprehensive visual plots and figures are actively generated \\
 \hline
-Pillow (PIL) & 10.0.0 & Image loading, processing, and manipulation \\
+Pillow (PIL) & 10.0.0 & The loading, manipulation, and raw processing of images are executed \\
 \hline
-Scikit-learn & 1.5.0 & K-Means clustering implementation and metrics \\
+Scikit-learn & 1.5.0 & KMeans clustering and related metrics are completely provided \\
 \hline
-JAX & 0.9.1 & GPU-accelerated computations on Apple M4 \\
+JAX & 0.9.1 & Computations are heavily accelerated via GPU directly on the Apple M4 hardware \\
 \hline
-PyTorch & 2.5.0 & Metal Performance Shaders acceleration \\
+PyTorch & 2.5.0 & Acceleration via Metal Performance Shaders is tightly integrated \\
 \hline
-SciPy & 1.17.1 & Scientific computing and signal processing \\
+SciPy & 1.17.1 & Deep scientific computing and signal processing tasks are supported \\
 \hline
-pytest & 8.0.0 & Unit testing framework \\
+pytest & 8.0.0 & The core framework for unit testing is provided \\
 \hline
 \end{tabularx}
 \end{table}
@@ -63,75 +63,79 @@ pytest & 8.0.0 & Unit testing framework \\
 
 \subsubsection{Development Methodology}
 
-The project followed an **iterative, test-driven development (TDD)** methodology. The implementation process consisted of four main phases:
+An iterative, testdriven development (TDD) methodology was strictly adhered to throughout the lifespan of the project. Four primary phases made up the core implementation process:
 
 \begin{enumerate}
-    \item \textbf{Phase 1: Foundation (Weeks 1-2)} – Set up project structure, implemented base classes, and established the common interface for all compression algorithms.
+    \item \textbf{Phase 1: Foundation (Weeks 1-2)} – The base structure of the project was set up. Base classes were implemented, and the common interface shared by all compression algorithms was firmly established.
     
-    \item \textbf{Phase 2: Core Algorithms (Weeks 3-6)} – Implemented entropy coding methods (Huffman, Arithmetic, LZW) and spatial domain techniques (RLE, variable block size).
+    \item \textbf{Phase 2: Core Algorithms (Weeks 3-6)} – Entropy coding methods (Huffman, Arithmetic, LZW) were implemented alongside foundational spatial domain techniques (RLE, variable block size).
     
-    \item \textbf{Phase 3: Advanced Algorithms (Weeks 7-10)} – Developed predictive coding (JPEG lossless), context-based methods (CALIC, LOCO-I), and transform domain techniques.
+    \item \textbf{Phase 3: Advanced Algorithms (Weeks 7-10)} – Predictive coding (JPEG lossless), contextbased methods (CALIC, LOCOI), and various transform domain techniques were thoroughly developed.
     
-    \item \textbf{Phase 4: AI/ML Methods (Weeks 11-14)} – Implemented clustering (K-Means, Gath-Geva), optimization (PSO), and neural network (FBPNN) approaches with GPU acceleration.
+    \item \textbf{Phase 4: AI/ML Methods (Weeks 11-14)} – Neural network (FBPNN), optimization (PSO), and clustering (KMeans, GathGeva) approaches were completely implemented. GPU acceleration was heavily utilized during this phase.
 \end{enumerate}
 
 \subsubsection{Project Structure}
 
-The codebase was organized into a modular, layered architecture:
+A highly modular and heavily layered architecture was chosen to organize the complete codebase:
 
 \begin{verbatim}
 project/
-├── data/               # Image I/O and preprocessing
-├── algorithms/         # All compression algorithm implementations
+├── data/               # Image I/O and raw preprocessing
+├── algorithms/         # Implementations of all compression algorithms
 │   ├── entropy/        # Huffman, Arithmetic, LZW
-│   ├── spatial/        # RLE, variable block, lossy+residual
-│   ├── predictive/     # JPEG lossless prediction
-│   ├── context/        # CALIC, LOCO-I
-│   ├── transform/      # S-Transform, S+P, lifting wavelet
-│   ├── clustering/     # K-Means, Gath-Geva
+│   ├── spatial/        # RLE, variable block, lossyplusresidual
+│   ├── predictive/     # JPEG lossless prediction standard
+│   ├── context/        # CALIC, LOCOI
+│   ├── transform/      # S Transform, S+P, lifting wavelet
+│   ├── clustering/     # KMeans, GathGeva
 │   ├── optimization/   # PSO
 │   └── neural/         # FBPNN
 ├── metrics/            # Compression ratio, MSE, PSNR
-├── visualization/      # Plotting and figure generation
+├── visualization/      # Plotting and raw figure generation
 ├── utils/              # Helper functions (bit I/O, entropy)
-├── tests/              # Unit tests for all algorithms
-└── notebooks/          # Jupyter notebooks for demonstrations
+├── tests/              # Unit tests covering every algorithm
+└── notebooks/          # Jupyter notebooks utilized for demonstrations
 \end{verbatim}
+
+
+
 
 \subsubsection{Common Interface Design}
 
-All compression algorithms implement a consistent interface:
+A strictly consistent interface is completely implemented across every single compression algorithm:
 
 \begin{verbatim}
 class BaseCompressor:
-    """Base class for all compression algorithms"""
+    """The base class utilized by all compression algorithms"""
     
     def compress(self, image):
         """
-        Compress an image.
+        An image is directly compressed.
         
         Args:
-            image: numpy array of shape (H, W) or (H, W, C)
+            image: numpy array taking the shape (H, W) or (H, W, C)
             
         Returns:
-            compressed_data: Compressed representation
-            metadata: Dictionary containing compression metadata
+            compressed_data: The compressed representation
+            metadata: A dictionary containing compression metadata
         """
         pass
     
     def decompress(self, compressed_data, metadata):
         """
-        Decompress to reconstruct original image.
+        Decompression is performed so the original image is reconstructed.
         
         Returns:
-            image: Reconstructed numpy array
+            image: The reconstructed numpy array
         """
         pass
     
     def evaluate(self, original, reconstructed):
-        """Calculate MSE, PSNR, and compression ratio"""
+        """MSE, PSNR, and compression ratio metrics are calculated"""
         pass
 \end{verbatim}
+
 
 % ============================================================================
 % 4.3 CORE COMPONENTS
@@ -141,31 +145,31 @@ class BaseCompressor:
 
 \subsubsection{Entropy Coding Components}
 
-\textbf{Purpose:} To exploit symbol frequency imbalances for lossless compression.
+\textbf{Purpose:} The complete exploitation of symbol frequency imbalances for the sake of lossless compression is heavily intended.
 
 \textbf{Key Implementation Details:}
 \begin{itemize}
-    \item \textbf{Huffman Coding}: Built a binary tree using a min-heap priority queue. Generated prefix-free codes where frequent symbols get shorter codes.
-    \item \textbf{Arithmetic Coding}: Used integer arithmetic with 32-bit precision to avoid floating-point errors. Implemented cumulative frequency tables for efficient encoding.
-    \item \textbf{LZW}: Maintained a dictionary of previously seen substrings; dynamically grew the dictionary during compression.
+    \item \textbf{Huffman Coding}: A binary tree was built utilizing a minheap priority queue. Prefixfree codes were completely generated. In these codes, significantly shorter lengths are assigned directly to the most frequent symbols.
+    \item \textbf{Arithmetic Coding}: Integer arithmetic relying on 32bit precision was utilized heavily so that floatingpoint errors could be entirely avoided. Cumulative frequency tables were completely implemented to ensure efficient encoding.
+    \item \textbf{LZW}: A dictionary containing previously seen substrings was strictly maintained. During the active compression phase, this dictionary was dynamically grown.
 \end{itemize}
 
 \textbf{Challenges and Solutions:}
 \begin{itemize}
-    \item \textit{Challenge:} Arithmetic coding precision issues.
-    \item \textit{Solution:} Implemented integer-based arithmetic coding instead of floating-point.
+    \item \textit{Challenge:} Precision issues tied to arithmetic coding were encountered.
+    \item \textit{Solution:} Integerbased arithmetic coding was implemented completely instead of relying on standard floatingpoint methods.
 \end{itemize}
 
-\subsubsection{GPU-Accelerated Components}
+\subsubsection{GPU Accelerated Components}
 
-\textbf{Purpose:} To accelerate computationally intensive algorithms (Gath-Geva, PSO, FBPNN) using Apple M4 Metal.
+\textbf{Purpose:} Computationally intensive algorithms (GathGeva, PSO, FBPNN) are heavily accelerated by utilizing Apple M4 Metal.
 
 \textbf{Key Implementation Details:}
 \begin{itemize}
-    \item Used JAX with Metal backend for GPU acceleration
-    \item Applied JIT compilation using \texttt{@jit} decorator
-    \item Implemented vectorized operations with \texttt{vmap} for batch processing
-    \item Added automatic fallback to CPU when GPU is unavailable
+    \item JAX paired with a Metal backend was utilized heavily to achieve raw GPU acceleration.
+    \item JIT compilation was actively applied through the deployment of the \texttt{@jit} decorator.
+    \item Vectorized operations were implemented tightly via \texttt{vmap} so that batch processing could be executed.
+    \item An automatic fallback mechanism routing to the CPU was added for situations where the GPU is completely unavailable.
 \end{itemize}
 
 \begin{verbatim}
@@ -180,39 +184,39 @@ def gath_geva_update(X, U, m, c):
 
 \textbf{Challenges and Solutions:}
 \begin{itemize}
-    \item \textit{Challenge:} Singular covariance matrices in Gath-Geva.
-    \item \textit{Solution:} Added regularization term (\(1\times10^{-6}I\)) to covariance matrices.
+    \item \textit{Challenge:} Singular covariance matrices were discovered to form within the GathGeva logic.
+    \item \textit{Solution:} A strict regularization term ($1\times10^{-6}I$) was added directly to the covariance matrices.
 \end{itemize}
 
 \subsubsection{Visualization Components}
 
-\textbf{Purpose:} To generate comprehensive visualizations for algorithm comparison.
+\textbf{Purpose:} Comprehensive visualizations are generated completely for the sake of strict algorithm comparison.
 
 \textbf{Key Implementation Details:}
 \begin{itemize}
-    \item Side-by-side comparison of original and compressed images
-    \item Error maps using hot colormap (brighter = more error)
-    \item Histograms of pixel values and residuals
-    \item Convergence plots for iterative algorithms
-    \item Color palettes for clustering methods
+    \item Sidebyside comparisons showing the original and heavily compressed images are generated.
+    \item Error maps are actively produced using a hot colormap (where brighter outputs equal more error).
+    \item Full histograms detailing pixel values and raw residuals are outputted.
+    \item Deep convergence plots are drawn up for all iterative algorithms.
+    \item Exact color palettes are heavily extracted for clustering methods.
 \end{itemize}
 
 \textbf{Challenges and Solutions:}
 \begin{itemize}
-    \item \textit{Challenge:} Visualizing large error ranges.
-    \item \textit{Solution:} Used logarithmic scaling and adaptive colormap limits.
+    \item \textit{Challenge:} Visualizing massively large error ranges presented a massive issue.
+    \item \textit{Solution:} Logarithmic scaling was heavily utilized alongside highly adaptive colormap limits.
 \end{itemize}
 
 \subsubsection{Testing Components}
 
-\textbf{Purpose:} To ensure correctness and lossless reconstruction.
+\textbf{Purpose:} Total correctness and completely lossless reconstruction are strictly ensured.
 
 \textbf{Key Implementation Details:}
 \begin{itemize}
-    \item Unit tests for each algorithm using pytest
-    \item Test images included uniform, gradient, random, and natural images
-    \item Verified lossless reconstruction for all lossless algorithms
-    \item Benchmarked execution time for performance evaluation
+    \item Unit tests covering every single algorithm are completely driven by pytest.
+    \item Uniform, gradient, random, and purely natural images were included heavily in the test image batch.
+    \item Perfect lossless reconstruction was completely verified across all lossless algorithms.
+    \item Total execution time was actively benchmarked so that raw performance evaluation could be conducted.
 \end{itemize}
 
 \begin{verbatim}
@@ -225,25 +229,25 @@ def test_huffman_lossless():
 
 \textbf{Challenges and Solutions:}
 \begin{itemize}
-    \item \textit{Challenge:} Ensuring consistent results across different platforms.
-    \item \textit{Solution:} Fixed random seeds and used deterministic algorithms.
+    \item \textit{Challenge:} Ensuring highly consistent results across completely different operating platforms was difficult.
+    \item \textit{Solution:} Random seeds were strictly fixed and completely deterministic algorithms were utilized.
 \end{itemize}
 
 \subsubsection{Optimization Techniques}
 
-The following optimization techniques were employed throughout the implementation:
+The optimization techniques listed below were actively employed throughout the entire implementation phase:
 
 \begin{itemize}
-    \item \textbf{Vectorization}: Used NumPy vectorized operations instead of Python loops (10-50x speedup)
-    \item \textbf{JIT Compilation}: Applied JAX's just-in-time compilation for critical functions (5-10x speedup)
-    \item \textbf{Memory Efficiency}: Implemented lazy loading and streaming for large images
-    \item \textbf{Batch Processing}: Processed pixels in batches for clustering algorithms
-    \item \textbf{Caching}: Cached intermediate results to avoid recomputation
+    \item \textbf{Vectorization}: NumPy vectorized operations were utilized completely instead of standard Python loops (resulting in a 10-50x speedup).
+    \item \textbf{JIT Compilation}: The justintime compilation provided by JAX was applied directly to critical functions (yielding a 5-10x speedup).
+    \item \textbf{Memory Efficiency}: Lazy loading combined with streaming was completely implemented for massively large images.
+    \item \textbf{Batch Processing}: Pixels were heavily processed in giant batches for the clustering algorithms.
+    \item \textbf{Caching}: Intermediate results were heavily cached so that redundant recomputation was entirely avoided.
 \end{itemize}
 
 \subsubsection{Installation and Usage}
 
-The project can be installed and run using the following commands:
+The massive project can be fully installed and actively run by executing the commands listed precisely below:
 
 \begin{verbatim}
 # Clone the repository
@@ -264,6 +268,9 @@ pytest tests/
 jupyter notebook notebooks/demo.ipynb
 \end{verbatim}
 
+
+
+
 \subsection{Implementation Chapters}
 
 \subsubsection{Huffman Coding}
@@ -271,109 +278,108 @@ jupyter notebook notebooks/demo.ipynb
 
 \paragraph{Source Entropy and the Shannon Bound}
 
-Let an image be represented as a discrete source that emits pixel intensity values from an alphabet $\mathcal{A} = \{0, 1, \dots, M-1\}$, where $M = 256$ for 8-bit grayscale images. For a given pixel value $i \in \mathcal{A}$, let $p_i$ denote its empirical probability (i.e., frequency divided by the total number of pixels). The source entropy $H(I)$ is defined as:
+An image is represented heavily as a discrete source by which pixel intensity values are actively emitted. These values are pulled from an alphabet $\mathcal{A} = \{0, 1, \dots, M-1\}$, in which $M = 256$ is utilized for standard 8bit grayscale images. For any given pixel value $i \in \mathcal{A}$, its empirical probability is denoted entirely by $p_i$ (calculated strictly as the frequency divided by the absolute total number of pixels). Source entropy $H(I)$ is defined clearly below:
 
 \begin{equation}
     H(I) = -\sum_{i=0}^{M-1} p_i \log_{2} p_i \quad \text{(bits per pixel)}
 \end{equation}
 
-This quantity represents the theoretical lower bound on the average number of bits per pixel required to encode the image losslessly \cite{VemuriSectionII}. The practical implication is that no lossless compression algorithm can achieve an average bit rate lower than $H(I)$; the degree to which an algorithm approaches this bound serves as a primary measure of its coding efficiency.
+The theoretical lower bound regarding the average number of bits per pixel that are strictly required to encode the image losslessly is represented completely by this quantity \cite{VemuriSectionII}. A strict practical implication is created by this. An average bit rate lower than $H(I)$ cannot possibly be achieved by any lossless compression algorithm. Coding efficiency is measured primarily by looking directly at the exact degree to which an algorithm approaches this specific bound.
 
 \paragraph{Compression Ratio and Bit Rate}
 
-The performance of a lossless compression algorithm is typically quantified by the \textit{compression ratio} ($CR$) or the \textit{bit rate} ($BR$, measured in bits per pixel). For an image of dimensions $R \times C$ originally stored with $b$ bits per pixel, the original size is $R \cdot C \cdot b$ bits. If the compressed representation occupies $S$ bits, then:
+The raw performance of a lossless compression algorithm is quantified typically by looking at the \textit{compression ratio} ($CR$) or the \textit{bit rate} ($BR$, measured strictly in bits per pixel). When observing an image containing dimensions $R \times C$ that was stored originally with $b$ bits per pixel, $R \cdot C \cdot b$ bits is calculated as the original size. If $S$ bits are completely occupied by the compressed representation, the following is established:
 
 \begin{equation}
     CR = \frac{R \cdot C \cdot b}{S}, \quad BR = \frac{S}{R \cdot C}
 \end{equation}
 
-The two metrics are related by the simple identity:
+A highly simple identity relates the two metrics together:
 
 \begin{equation}
     CR = \frac{b}{BR}
 \end{equation}
 
-A compression ratio greater than $1$ indicates effective compression, while a ratio less than $1$ signifies expansion. The bit rate $BR$ should ideally be close to the source entropy $H(I)$ for an efficient algorithm.
+Effective compression is indicated strongly when a compression ratio greater than $1$ is produced, whereas expansion is signified entirely if a ratio less than $1$ is observed. To ensure an efficient algorithm is achieved, the bit rate $BR$ should ideally sit very close to the source entropy $H(I)$.
 
 
 \paragraph{Algorithmic Principle}
 
-Huffman coding, introduced by David A. Huffman in his seminal 1952 paper while a Ph.D. student at MIT, is a greedy algorithm that constructs an optimal prefix code for a given set of symbols and their probabilities \cite[Section IV-A]{VemuriEtAl}. The algorithm operates on the principle that symbols occurring more frequently in the input data are assigned shorter codewords, while less frequent symbols receive longer codewords, thereby minimizing the expected code length.
+Huffman coding was introduced fully by David A. Huffman back in his seminal 1952 paper, which was written while he was still an active Ph.D. student over at MIT. An optimal prefix code is constructed completely for a given set of symbols alongside their probabilities by this highly greedy algorithm \cite[Section IV-A]{VemuriEtAl}. A core principle is operated upon by the algorithm. Shorter codewords are assigned directly to symbols that occur significantly more frequently within the input data. Longer codewords are subsequently received by symbols that appear much less frequently. The expected code length is minimized entirely by doing this.
 
 \vspace{0.5em}\noindent
-\textbf{Definition 4.1 (Prefix Code).} A code is a \textit{prefix code} (also called a prefix-free code) if no codeword is a prefix of any other codeword. This property ensures unique decodability without requiring delimiters between codewords.
+\textbf{Definition 4.1 (Prefix Code).} A code is classified strictly as a \textit{prefix code} (referred to also as a prefixfree code) if it is ensured that no codeword acts as a prefix for any other available codeword. Unique decodability is ensured completely by this specific property. Delimiters are not required at all between the codewords.
 
 \vspace{0.5em}\noindent
-\textbf{Definition 4.2 (Kraft--McMillan Inequality).} A necessary and sufficient condition for the existence of a prefix code with codeword lengths $l_1, l_2, \dots, l_n$ is that the Kraft--McMillan inequality holds:
+\textbf{Definition 4.2 (Kraft--McMillan Inequality).} To guarantee the existence of a prefix code containing specific codeword lengths of $l_1, l_2, \dots, l_n$, a necessary and entirely sufficient condition is demanded. The Kraft--McMillan inequality must hold true:
 
 \begin{equation}
     \sum_{i=1}^{n} 2^{-l_i} \leq 1
 \end{equation}
 
-Huffman codes achieve equality in this inequality when the code is complete \cite{reference19}.
+Equality within this specific inequality is achieved perfectly by Huffman codes whenever the code itself is rendered complete \cite{reference19}.
 
 \paragraph{The Huffman Algorithm}
 
-Given a set of symbols with associated probabilities (frequencies), the Huffman algorithm proceeds as follows:
+When a set of symbols paired closely with associated probabilities (frequencies) is provided, the Huffman algorithm proceeds directly through the steps listed below:
 
 \begin{description}
-    \item[Frequency Analysis:] Compute the frequency of each pixel intensity value in the image.
-    \item[Tree Construction:] Create a leaf node for each symbol with its probability. While more than one node remains:
+    \item[Frequency Analysis:] The exact frequency of every single pixel intensity value contained within the image is computed heavily.
+    \item[Tree Construction:] A dedicated leaf node is created for each individual symbol alongside its matched probability. As long as more than one node remains fully available:
     \begin{itemize}
-        \item Extract the two nodes with the smallest probabilities from a min-priority queue.
-        \item Create a new internal node whose probability is the sum of these two probabilities.
-        \item Set the two extracted nodes as left and right children of the new node.
-        \item Insert the new node back into the priority queue.
+        \item The two nodes possessing the absolute smallest probabilities are extracted directly out of a minpriority queue.
+        \item A completely new internal node is created. The combined sum of these two probabilities serves exactly as its assigned probability.
+        \item The two initially extracted nodes are set actively as the left and right children belonging to the new node.
+        \item The new node is inserted straight back into the priority queue.
     \end{itemize}
-    \item[Code Assignment:] Traverse the tree from the root to each leaf, assigning `0' for left branches and `1' for right branches. The sequence of bits along each path constitutes the Huffman codeword for the corresponding symbol.
+    \item[Code Assignment:] The tree is traversed fully, moving straight from the root down to each individual leaf. A value of `0' is assigned strictly for left branches while a `1' is assigned for right branches. The sequence of bits collected along each isolated path constitutes the finalized Huffman codeword utilized for the corresponding symbol.
 \end{description}
 
 \paragraph{Mathematical Optimality}
 
-The optimality of Huffman codes is formally established through the following theorem.
+Formal establishment of the sheer optimality possessed by Huffman codes is achieved completely through the theorem detailed below.
 
 \vspace{0.5em}\noindent
-\textbf{Theorem 4.1 (Huffman Optimality).} For a given source with symbol probabilities $\{p_1, p_2, \dots, p_n\}$, the Huffman algorithm produces a prefix code that minimizes the expected codeword length $L = \sum_{i=1}^{n} p_i l_i$ among all prefix codes \cite{reference20}.
+\textbf{Theorem 4.1 (Huffman Optimality).} When dealing with a given source containing strict symbol probabilities $\{p_1, p_2, \dots, p_n\}$, a specific prefix code is produced completely by the Huffman algorithm. The expected codeword length $L = \sum_{i=1}^{n} p_i l_i$ is minimized entirely among all possible prefix codes by this output \cite{reference20}.
 
 \vspace{0.5em}\noindent
-\textit{Proof Sketch.} The proof proceeds by induction on the number of symbols. The key insight is that in an optimal code, the two least probable symbols must have the longest codewords and must differ only in the last bit. Huffman's greedy merging strategy preserves this property at each iteration, leading to global optimality.
+\textit{Proof Sketch.} Induction resting upon the total number of symbols is utilized to drive the proof forward. A key insight is highlighted heavily here. Within an optimal code, the two absolutely least probable symbols are required to have the longest codewords. Furthermore, they must differ exclusively by the final bit. This specific property is preserved completely at every single iteration by Huffman's greedy merging strategy. Global optimality is reached entirely as a result.
 
 \paragraph{Implementation Considerations}
 
-The present implementation employs a min-heap (priority queue) data structure to efficiently retrieve the two smallest probability nodes at each iteration, achieving $\mathcal{O}(n \log n)$ time complexity for constructing the Huffman tree, where $n$ is the number of distinct pixel values in the image. The encoding phase then produces a binary string by traversing the tree for each pixel.
+A minheap (priority queue) data structure is employed actively by the present implementation. This allows the two smallest probability nodes to be retrieved with massive efficiency during each iteration. A strict time complexity of $\mathcal{O}(n \log n)$ is achieved completely for constructing the Huffman tree, with $n$ representing the absolute number of distinct pixel values held in the image. A binary string is subsequently produced during the encoding phase. This happens as the tree is traversed completely for every single pixel.
 
-\paragraph{Empirical Observations.} For the $512 \times 512$ Lenna image with $215$ distinct pixel values, Huffman coding achieved a compression ratio of $1.071:1$, corresponding to an average bit rate of approximately $7.47$ bits per pixel (slightly above the empirical entropy of $7.445$ bits per pixel). This near-entropy performance demonstrates the theoretical optimality of the Huffman construction.
+\paragraph{Empirical Observations.} The $512 \times 512$ Lenna image, possessing exactly $215$ distinct pixel values, was tested. A compression ratio sitting at $1.071:1$ was achieved completely by the Huffman coding setup. An average bit rate roughly equaling $7.47$ bits per pixel was observed (resting slightly above the empirical entropy bound of $7.445$ bits per pixel). The sheer theoretical optimality tied to the Huffman construction is demonstrated perfectly by this nearentropy performance.
 
-However, Huffman coding exhibits two fundamental limitations \cite{reference9}:
+Two heavily fundamental limitations are exhibited by Huffman coding, however \cite{reference9}:
 \begin{itemize}
-    \item Each symbol must be encoded with an integer number of bits, even when the symbol's self-information is fractional.
-    \item The code must be transmitted alongside the compressed data, incurring overhead that becomes significant for small alphabets.
+    \item An integer number of bits must be utilized to encode every single symbol. This rule remains strict even whenever the selfinformation of the symbol itself is highly fractional.
+    \item The code is required to be transmitted directly alongside the completely compressed data. Heavy overhead is incurred by this action, becoming massively significant when dealing with small alphabets.
 \end{itemize}
 
-These limitations motivate the development of arithmetic coding, which overcomes the per-symbol integer bit constraint.
+The active development of arithmetic coding is motivated entirely by these massive limitations. The strict persymbol integer bit constraint is completely overcome by arithmetic methods.
 
 
-
-% NEW\subsubsection{Component 1}
+\subsubsection{Component 1}
 
 \paragraph{Experimental Results and Analysis}
 
 \subparagraph{Huffman Coding Performance}
 
-To evaluate the practical performance of the implemented Huffman coding algorithm, experiments were conducted on a standard $512 \times 512$ 8-bit grayscale test image. The original uncompressed image size is $262,144$ bytes ($2,097,152$ bits), corresponding to a fixed bit rate of $8$ bits per pixel (bpp). 
+Practical performance evaluation of the fully implemented Huffman coding algorithm was conducted heavily through experiments. A standard $512 \times 512$ 8-bit grayscale test image was utilized for this precise purpose. An original uncompressed image size sitting exactly at $262,144$ bytes ($2,097,152$ bits) is possessed by the image. A strictly fixed bit rate of exactly $8$ bits per pixel (bpp) corresponds directly to this.
 
 \vspace{1em}
-\noindent\textbf{Quantitative Metrics.} Frequency analysis of the input image revealed an alphabet of $215$ distinct pixel intensity values out of the possible $256$ grayscale levels. The application of the Huffman algorithm yielded a \textbf{compression ratio of 1.071:1}. 
+\noindent\textbf{Quantitative Metrics.} An alphabet containing exactly $215$ distinct pixel intensity values was fully revealed by the frequency analysis conducted directly upon the input image. This is pulled strictly out of the total $256$ possible grayscale levels. A strict \textbf{compression ratio sitting at 1.071:1} was yielded completely by the direct application of the Huffman algorithm.
 
-Based on this compression ratio, the average bit rate of the encoded image is calculated as:
+The average bit rate belonging to the completely encoded image is calculated strictly below, based heavily upon this exact compression ratio:
 \begin{equation}
     BR_{\text{Huffman}} = \frac{8}{1.071} \approx 7.47 \text{ bits per pixel}
 \end{equation}
 
-This practical bit rate is exceptionally close to the image's theoretical Shannon entropy, which was calculated to be $7.445$ bits per pixel. The efficiency of the Huffman code—the ratio of theoretical source entropy to the empirical average code length—is thus approximately $99.6\%$. This confirms that the algorithm successfully constructed a near-optimal prefix code for this specific probability distribution, bounded only by the limitation that Huffman coding must assign integer bit lengths to each symbol.
+The theoretical Shannon entropy of the image was calculated heavily to be $7.445$ bits per pixel. The practical bit rate generated is exceptionally close to this theoretical bound. An efficiency sitting at roughly $99.6\%$ is possessed by the Huffman code. This is derived directly as the strict ratio calculated between the theoretical source entropy and the empirical average code length. A near-optimal prefix code was successfully constructed entirely by the algorithm for this highly specific probability distribution. This is heavily confirmed by the high efficiency metric. The algorithm is bounded entirely by the strict limitation that integer bit lengths must be assigned to every single symbol by Huffman coding.
 
 \vspace{1em}
-\noindent\textbf{Code Dictionary Analysis.} The variable-length nature of the Huffman prefix code is evident in the generated dictionary. A subset of the generated mappings between pixel intensity values (represented as 8-bit unsigned integers) and their corresponding binary codewords is provided in Table \ref{tab:huffman_samples}.
+\noindent\textbf{Code Dictionary Analysis.} The fully generated dictionary makes the strictly variable-length nature of the Huffman prefix code entirely evident. Mappings are generated heavily between pixel intensity values (which are represented directly as 8-bit unsigned integers) and their explicitly matched binary codewords. A tight subset of these specific mappings is provided entirely within Table \ref{tab:huffman_samples}.
 
 \begin{table}[h]
     \centering
@@ -388,16 +394,16 @@ This practical bit rate is exceptionally close to the image's theoretical Shanno
         190 & \texttt{00001000} & 8 \\
         \bottomrule
     \end{tabular}
-    \caption{Sample Huffman prefix codes generated for the test image.}
+    \caption{Sample Huffman prefix codes completely generated for the test image.}
     \label{tab:huffman_samples}
 \end{table}
 
-The varying bit lengths demonstrate the algorithm's core optimization mechanism: assigning shorter binary sequences to more statistically probable intensity values, while reserving longer sequences for less frequent values, thereby minimizing the total expected code length.
+The core optimization mechanism driving the algorithm is demonstrated completely by the widely varying bit lengths. Shorter binary sequences are assigned heavily to the highly probable intensity values. Longer sequences are subsequently reserved directly for values that occur far less frequently. The total expected code length is minimized entirely through this specific action.
 
 
 \paragraph{Huffman Coding Implementation}
 
-The core compression logic for the Huffman algorithm is implemented in Python. The implementation utilizes a min-heap priority queue to efficiently construct the optimal prefix tree, followed by a Depth-First Search (DFS) traversal to assign the binary codewords.
+Python is utilized heavily to implement the core compression logic required for the Huffman algorithm. The optimal prefix tree is constructed massively efficiently by utilizing a strictly defined minheap priority queue within the implementation. The exact assignment of the binary codewords is handled directly by a subsequent DepthFirst Search (DFS) traversal.
 
 \begin{verbatim}
 import heapq
@@ -439,16 +445,16 @@ class HuffmanCoding:
 \end{verbatim}
 
 \vspace{1em}
-\noindent\textbf{Time Complexity.} The time complexity is $\mathcal{O}(n \log n)$ for the heap operations, where $n$ is the number of distinct pixel values. For standard 8-bit images, $n \leq 256$, making the time complexity for tree construction effectively constant. The dominant factor in execution time becomes the linear $\mathcal{O}(N)$ traversal required to encode the $N$-pixel image array.
+\noindent\textbf{Time Complexity.} For the required heap operations, a strict time complexity of $\mathcal{O}(n \log n)$ is completely established. The number of strictly distinct pixel values is represented by $n$. For purely standard 8-bit images, $n \leq 256$ is completely guaranteed. The actual time complexity tied to tree construction is rendered effectively constant by this strict bounding. The absolute dominant factor driving the total execution time becomes the heavily linear $\mathcal{O}(N)$ traversal. This traversal is strictly required so that the massive $N$-pixel image array can be fully encoded.
 
 
 \vspace{1em}
-\noindent\textbf{Visual Verification.} To verify the lossless nature of the compression, the image was reconstructed from the Huffman-encoded bitstream. As shown in Figure \ref{fig:huffman_visual}, the absolute error map between the original and reconstructed images demonstrates zero data loss, confirming the structural integrity of the decoding process.
+\noindent\textbf{Visual Verification.} The fully lossless nature of the applied compression was verified heavily. The original image was completely reconstructed directly out of the heavily Huffman-encoded bitstream. Zero data loss is demonstrated completely by the absolute error map generated directly between the purely original and fully reconstructed images. This is shown visibly in Figure \ref{fig:huffman_visual}. The deep structural integrity possessed by the decoding process is confirmed completely by this finding.
 
 \begin{figure}[h]
     \centering
     \includegraphics[width=1.0\textwidth]{Huffman-compare.png}
-    \caption{Huffman coding Analysis - Left: Original image; Center: Reconstructed image; Right: Absolute error map (all pixel values are zero, confirming lossless reconstruction).}
+    \caption{Huffman coding Analysis - Left: Original image; Center: Reconstructed image; Right: Absolute error map (all pixel values hit strictly zero, ensuring entirely lossless reconstruction).}
     \label{fig:huffman_visual}
 \end{figure}
 
@@ -461,103 +467,103 @@ class HuffmanCoding:
 
 \paragraph{Theoretical Foundation}
 
-Arithmetic coding represents a significant advancement over Huffman coding by encoding an entire message as a single real number in the interval $[0, 1)$, rather than assigning discrete codewords to individual symbols \cite{VemuriSectionIVC}. This approach enables the encoding of fractional bits per symbol, allowing the code length to approach the entropy bound arbitrarily closely.
+A massive advancement over standard Huffman coding is completely represented by arithmetic coding. An entire message is completely encoded purely as a single real number falling directly within the strict interval of $[0, 1)$ rather than discrete codewords being assigned directly to isolated symbols \cite{VemuriSectionIVC}. The direct encoding of highly fractional bits per symbol is entirely enabled by this specific approach. Approaching the absolute entropy bound arbitrarily closely is entirely permitted by this code length dynamic.
 
-The fundamental insight is that any message can be represented by a subinterval of $[0, 1)$, where the length of the subinterval equals the product of the probabilities of the symbols in the message. The encoder outputs a binary representation of any number within this final interval.
+That any given message can be completely represented strictly by a subinterval of $[0, 1)$ serves as the fundamental insight here. The product of the strict probabilities tied directly to the symbols within the message is equal entirely to the length of this generated subinterval. A binary representation detailing any number housed within this final interval is subsequently outputted completely by the encoder.
 
 \paragraph{Encoding Algorithm}
 
-Given an alphabet $\mathcal{A} = \{a_1, a_2, \dots, a_m\}$ with a cumulative probability distribution $F(a_i) = \sum_{j=1}^{i} p(a_j)$, where $F(a_0) = 0$ and $F(a_m) = 1$, the arithmetic encoding process proceeds as follows \cite{reference11}:
+Given an alphabet $\mathcal{A} = \{a_1, a_2, \dots, a_m\}$ alongside a cumulative probability distribution strictly defined as $F(a_i) = \sum_{j=1}^{i} p(a_j)$ (where $F(a_0) = 0$ and $F(a_m) = 1$ are firmly established), the arithmetic encoding process is executed directly as follows \cite{reference11}:
 
 \begin{enumerate}
-    \item Let $[L, H)$ denote the current interval, initialized to $[0, 1)$.
-    \item For each symbol $x_i$ in the input sequence:
+    \item The current interval is denoted completely by $[L, H)$. Strict initialization to $[0, 1)$ is heavily performed.
+    \item For every single symbol $x_i$ present entirely within the input sequence:
     \begin{itemize}
-        \item Compute the width of the current interval: $w = H - L$
-        \item Partition $[L, H)$ into subintervals proportional to the symbol probabilities. For symbol $x_i$, the new interval is mathematically defined as:
+        \item The exact width of the active interval is heavily computed: $w = H - L$
+        \item Partitioning of the active $[L, H)$ into strict subintervals is heavily executed. This is strictly proportional to the raw symbol probabilities. The entirely new interval generated directly for symbol $x_i$ is defined mathematically below:
         \begin{equation}
             [L + w \cdot F(x_{i-1}), L + w \cdot F(x_i))
         \end{equation}
-        \item Replace $[L, H)$ with the subinterval corresponding to the encoded symbol.
-        \item Output bits as they become known through a renormalization process.
+        \item The active $[L, H)$ is replaced entirely by the strict subinterval matched directly to the encoded symbol.
+        \item Bits are actively outputted completely as they become heavily known via a strict renormalization process.
     \end{itemize}
-    \item After processing all symbols, any number within the final interval can be selected as the codeword. In practice, a binary fraction with sufficient precision is chosen.
+    \item After every single symbol is completely processed, the selection of any number trapped within the final interval can be performed directly as the ultimate codeword. A pure binary fraction containing highly sufficient precision is completely chosen in heavy practice.
 \end{enumerate}
 
 \vspace{0.5em}\noindent
-\textbf{Renormalization.} To prevent the interval width from becoming too small for finite-precision arithmetic, a renormalization procedure scales the interval whenever it falls below a threshold (typically $0.25$) and outputs the most significant bits of $L$ and $H$ as they become identical \cite{reference6}.
+\textbf{Renormalization.} The absolute interval width must be completely prevented from becoming far too small for finiteprecision arithmetic. A strict renormalization procedure is utilized actively. The interval is actively scaled entirely whenever it manages to fall below a tight threshold (typically sitting around $0.25$). The mostsignificant bits belonging directly to $L$ and $H$ are actively outputted completely as soon as they become entirely identical \cite{reference6}.
 
 \paragraph{Decoding Algorithm}
 
-The decoding process reconstructs the original message by iteratively determining which symbol's interval contains the encoded value $v$, then narrowing the interval accordingly:
+The original message is reconstructed heavily by the decoding process. This is achieved completely by iteratively determining exactly which specific symbol's interval completely houses the encoded value $v$. The active interval is then narrowed down heavily accordingly:
 
 \begin{enumerate}
-    \item Initialize $[L, H) = [0, 1)$.
-    \item While symbols remain to be decoded:
+    \item $[L, H) = [0, 1)$ is heavily initialized.
+    \item While remaining symbols are actively waiting to be decoded:
     \begin{itemize}
-        \item Find the symbol $x_i$ such that:
+        \item The specific symbol $x_i$ is actively hunted down strictly such that:
         \begin{equation}
             L + (H-L) \cdot F(x_{i-1}) \leq v < L + (H-L) \cdot F(x_i)
         \end{equation}
-        \item Output $x_i$.
-        \item Narrow the interval to $[L + (H-L) \cdot F(x_{i-1}), L + (H-L) \cdot F(x_i))$.
-        \item Apply the same renormalization procedure as the encoder to maintain precision.
+        \item $x_i$ is completely outputted.
+        \item The active interval is narrowed forcefully down strictly to $[L + (H-L) \cdot F(x_{i-1}), L + (H-L) \cdot F(x_i))$.
+        \item The precise renormalization procedure utilized previously by the pure encoder is actively applied to strictly maintain tight precision.
     \end{itemize}
 \end{enumerate}
 
 \paragraph{Optimality and Advantages}
 
 \vspace{0.5em}\noindent
-\textbf{Theorem 4.2 (Arithmetic Coding Optimality).} For a memoryless source, the average length of an arithmetic code equals the source entropy $H$, measured in bits per symbol, asymptotically as the message length approaches infinity \cite{reference9}.
+\textbf{Theorem 4.2 (Arithmetic Coding Optimality).} When heavily analyzing a memoryless source, the exact average length belonging directly to an arithmetic code equals the source entropy $H$ completely. This is measured directly in bits per symbol asymptotically purely as the total message length approaches absolute infinity \cite{reference9}.
 
 \vspace{0.5em}
-Unlike Huffman coding, which requires an integer number of bits per symbol, arithmetic coding can encode fractional bits by distributing them across symbol boundaries. This capability yields two significant advantages:
+Standard Huffman coding requires a strict integer number of bits to be heavily assigned per symbol. Arithmetic coding differs completely by actively encoding fractional bits. Distributing them massively across direct symbol boundaries entirely achieves this. Two massively significant advantages are strictly yielded completely by this highly specific capability:
 \begin{itemize}
-    \item \textbf{Fractional Bit Encoding:} Symbols with probabilities close to $1$ can be encoded using fewer than $1$ bit on average.
-    \item \textbf{Adaptive Modeling:} The probability model can be updated dynamically during encoding, enabling adaptation to non-stationary sources.
+    \item \textbf{Fractional Bit Encoding:} Fewer than $1$ absolute bit on average can be utilized strictly to encode symbols possessing probabilities sitting highly close to $1$.
+    \item \textbf{Adaptive Modeling:} Updating the pure probability model dynamically while active encoding occurs is entirely permitted. Heavy adaptation strictly to nonstationary sources is massively enabled by this.
 \end{itemize}
 
 \paragraph{Implementation Challenges and Results}
 
-The primary challenge in implementing arithmetic coding lies in managing finite-precision arithmetic while maintaining correctness. The present implementation uses 16-bit integer arithmetic with careful renormalization to avoid underflow. The encoding process maintains three primary state variables:
+The complete management of finiteprecision arithmetic while strictly maintaining mathematical correctness serves completely as the massive primary challenge encountered when implementing pure arithmetic coding. Strict 16-bit integer arithmetic is utilized heavily by the present implementation. Extreme care via strict renormalization is actively deployed to completely avoid nasty underflow. Three strictly primary state variables are heavily maintained completely by the pure encoding process:
 \begin{itemize}
-    \item \texttt{low}: the lower bound of the current interval.
-    \item \texttt{high}: the upper bound of the current interval.
-    \item \texttt{underflow\_bits}: a counter for bits that cannot yet be emitted due to ambiguous most-significant bits.
+    \item \texttt{low}: the absolute lower bound assigned directly to the active interval.
+    \item \texttt{high}: the absolute upper bound assigned directly to the active interval.
+    \item \texttt{underflow\_bits}: a heavy counter tracking raw bits that cannot possibly be emitted quite yet entirely due to highly ambiguous mostsignificant bits.
 \end{itemize}
 
 \subparagraph{Experimental Results and Analysis}
 
-Applying the arithmetic coding implementation to the $512 \times 512$ Lenna test image yielded a \textbf{compression ratio of 1.070:1}. Based on the original 8-bit depth, this translates to an average bit rate of:
+A strict \textbf{compression ratio sitting at 1.070:1} was actively yielded by completely applying the arithmetic coding implementation directly to the standard $512 \times 512$ Lenna test image. An absolute average bit rate is completely calculated below based heavily on the original 8-bit depth constraint:
 
 \begin{equation}
     BR_{\text{Arithmetic}} = \frac{8}{1.070} \approx 7.476 \text{ bits per pixel}
 \end{equation}
 
-This bit rate closely traces the theoretical Shannon entropy of the image ($7.445$ bits per pixel). While theoretically capable of surpassing Huffman coding by avoiding the integer-bit constraint, finite-precision constraints and renormalization overhead in the practical 16-bit implementation result in competitive, yet similarly bounded, performance for this specific image alphabet. 
+The theoretical Shannon entropy belonging strictly to the image ($7.445$ bits per pixel) is traced incredibly closely completely by this generated bit rate. The absolute capability to surpass Huffman coding completely by totally avoiding the strict integerbit constraint is possessed theoretically. However, finiteprecision constraints partnered heavily with pure renormalization overhead within the strictly practical 16-bit implementation heavily result in performance that is highly competitive, yet totally bounded similarly, strictly for this highly specific image alphabet. 
 
-As extracted from the algorithm analysis pipeline, the absolute error map generated during the decoding phase exhibited a maximum error of zero, definitively confirming the mathematically lossless nature of the reconstruction.
+A maximum error strictly hitting zero was actively exhibited completely by the absolute error map. This visual map was generated completely during the active decoding phase, completely extracted straight out of the algorithm analysis pipeline. The mathematically flawless lossless nature entirely characterizing the exact reconstruction is definitively confirmed completely by this extraction.
 
 
 \paragraph{Experimental Results and Analysis}
 
 \subparagraph{Arithmetic Coding Performance}
 
-To evaluate the practical performance of the arithmetic coding implementation, experiments were conducted on the same standard $512 \times 512$ 8-bit grayscale test image used for evaluating the Huffman algorithm. 
+Heavy experiments were completely conducted upon the exact same standard $512 \times 512$ 8-bit grayscale test image utilized previously strictly for evaluating the Huffman algorithm. Evaluating the completely practical performance associated directly with the arithmetic coding implementation was the strict goal. 
 
 \vspace{1em}
-\noindent\textbf{Quantitative Metrics.} The application of the arithmetic encoding algorithm yielded a \textbf{compression ratio of 1.070:1}. Based on this ratio, the average bit rate of the encoded image is calculated as:
+\noindent\textbf{Quantitative Metrics.} A strict \textbf{compression ratio sitting exactly at 1.070:1} was yielded completely by the direct active application of the arithmetic encoding algorithm. The exact average bit rate belonging to the completely encoded image is heavily calculated strictly as follows:
 
 \begin{equation}
     BR_{\text{Arithmetic}} = \frac{8}{1.070} \approx 7.476 \text{ bits per pixel}
 \end{equation}
 
-This empirical bit rate closely bounds the theoretical Shannon entropy of the image ($7.445$ bits per pixel), achieving a coding efficiency of approximately $99.5\%$. While arithmetic coding theoretically possesses the capability to surpass Huffman coding by encoding fractional bits, the practical performance here is marginally constrained by the overhead introduced by the 16-bit integer renormalization process. The requirement to flush remaining underflow bits at the end of the stream to ensure finite-precision stability introduces a slight overhead, resulting in performance that is highly competitive with, though not strictly superior to, Huffman coding for this specific image alphabet.
+The strict theoretical Shannon entropy belonging completely to the image ($7.445$ bits per pixel) is bounded incredibly closely directly by this strictly empirical bit rate. A pure coding efficiency sitting heavily at roughly $99.5\%$ is achieved completely. Highly fractional bits can be encoded perfectly by arithmetic coding, theoretically allowing it completely to surpass Huffman coding logic. The strictly practical performance demonstrated completely here is, however, marginally constrained entirely by the heavy overhead forcefully introduced directly by the 16-bit integer renormalization process. The lingering underflow bits must be flushed completely directly at the tail end of the bit stream so that absolute finiteprecision stability is strictly ensured. A highly slight overhead is massively introduced entirely by this required specific action. Performance that is incredibly competitive with, although completely not strictly superior completely to, standard Huffman coding is completely resulted in directly for this highly specific pure image alphabet.
 
 
 \paragraph{Arithmetic Coding Implementation}\mbox{}\\
 
-The arithmetic coder uses 16-bit integer arithmetic with renormalization to avoid floating-point precision issues.
+Strict 16-bit integer arithmetic partnered heavily with absolute renormalization is completely used by the arithmetic coder. Nasty floatingpoint precision issues are completely avoided entirely by heavily doing this.
 
 \begin{verbatim}
 from collections import Counter
@@ -626,102 +632,102 @@ class ArithmeticCodingLossless:
 \end{verbatim}
 
 \vspace{1em}
-\noindent\textbf{Renormalization Complexity Analysis.} Each symbol processed triggers a constant number of renormalization steps on average. The \texttt{while} loop executes at most $\mathcal{O}(\log(1/p_{\min}))$ times per symbol in the worst case, where $p_{\min}$ is the smallest symbol probability. In practice, with 16-bit precision, the loop runs fewer than 5 iterations per symbol for natural images, yielding $\mathcal{O}(N)$ overall time, where $N$ is the number of pixels.
+\noindent\textbf{Renormalization Complexity Analysis.} A highly constant number of pure renormalization steps is actively triggered completely on absolute average by every single processed symbol. The active \texttt{while} loop is heavily executed directly at most $\mathcal{O}(\log(1/p_{\min}))$ times strictly per individual symbol completely within the absolute worst case scenario. The strict smallest pure symbol probability is entirely denoted by $p_{\min}$. With absolute 16-bit precision fully engaged actively in practice, fewer than 5 active iterations are completely run by the specific loop per symbol for pure natural images. Absolute $\mathcal{O}(N)$ overall time is completely yielded entirely, where the exact absolute number of pixels is completely denoted directly by $N$.
 
 \vspace{1em}
-\noindent\textbf{Visual Verification.} The integrity of the compression algorithm was validated through a full-cycle encoding and decoding process. The arithmetic decoder successfully reconstructed the image array from the scaled bitstream. Computation of the absolute difference between the original and reconstructed image arrays yielded a maximum error of zero, confirming that the 16-bit integer approximation with renormalization is strictly lossless.
+\noindent\textbf{Visual Verification.} A completely fullcycle encoding and active decoding process was strictly utilized to deeply validate the sheer integrity possessed by the compression algorithm. The entire image array was completely reconstructed with absolute success directly from the heavily scaled bitstream entirely by the arithmetic decoder. A strict maximum error hitting precisely zero was completely yielded when the pure absolute difference between the strictly original and entirely newly reconstructed image arrays was fully computed. That the tight 16-bit integer approximation actively partnered directly with strict renormalization is strictly and entirely lossless is confirmed completely.
 
 
 \begin{figure}[h]
     \centering
     \includegraphics[width=1.0\textwidth]{arithmetic-ana.png}
-    \caption{Visual analysis of the Arithmetic Coding implementation. The absolute error map (right) confirms perfect lossless reconstruction of the original image.}
+    \caption{Visual analysis heavily detailing the active Arithmetic Coding implementation. That perfect lossless reconstruction completely tied directly to the original image was achieved entirely is confirmed heavily by the pure absolute error map (right).}
     \label{fig:arithmetic_visual}
 \end{figure}
 
 
 
 
-\subsubsection{LZW Coding: Dictionary-Based Compression}\mbox{}\\
+\subsubsection{LZW Coding: DictionaryBased Compression}\mbox{}\\
 
 \paragraph{Algorithmic Framework}\mbox{}\\
 
-Lempel--Ziv--Welch (LZW) coding belongs to the class of dictionary-based compression algorithms, which replace repeated substrings with shorter codes referencing entries in a dynamically constructed dictionary \cite{VemuriSectionIVB}. Unlike Huffman and arithmetic coding, which rely on explicit probability models of individual symbols, LZW adaptively learns patterns from the input data during a single pass.
+The class of dictionarybased compression algorithms is exactly where LempelZivWelch (LZW) coding completely belongs. Repeated substrings are actively replaced by shorter codes that reference entries housed within a dynamically constructed dictionary by these algorithms \cite{VemuriSectionIVB}. Explicit probability models completely tied to individual symbols are heavily relied upon by standard Huffman and arithmetic coding. LZW differs completely by adaptively learning massive patterns strictly from the input data during one singlepass execution. 
 
-The algorithm was developed by Abraham Lempel and Jacob Ziv (LZ78, 1978) and subsequently refined by Terry Welch (1984). LZW is widely deployed in standard formats, including the GIF image format, the UNIX \texttt{compress} utility, and the PDF file format \cite{reference18}.
+The algorithm was actively developed entirely by Abraham Lempel and Jacob Ziv (LZ78, 1978). Subsequent refinement was heavily performed later by Terry Welch (1984). Wide deployment across standard formats is completely enjoyed by LZW, heavily including the GIF image format, the UNIX \texttt{compress} utility, and the standard PDF file format \cite{reference18}.
 
 \paragraph{Encoding Process}\mbox{}\\
 
-Let $\Sigma$ denote the set of all possible symbols (pixel intensity values $0$--$255$). The LZW encoder maintains a dictionary $\mathcal{D}$ that maps strings (sequences of symbols) to fixed-length codes. The encoding procedure follows these steps \cite{reference17}:
+The strict set of all possible symbols (pixel intensity values falling strictly between $0$--$255$) is completely denoted by $\Sigma$. A massive dictionary $\mathcal{D}$ is actively maintained directly by the LZW encoder. Strings (sequences of raw symbols) are mapped heavily to fixedlength codes entirely by this dictionary. The steps listed completely below are actively followed by the strict encoding procedure \cite{reference17}:
 
 \begin{description}
-    \item[Dictionary Initialization:] Initialize $\mathcal{D}$ with all single-symbol strings, assigning each symbol a unique code ($0$--$255$ for 8-bit grayscale).
-    \item[String Matching:] Initialize the current string $s$ to the first symbol. For each subsequent symbol $c$ in the input:
+    \item[Dictionary Initialization:] $\mathcal{D}$ is completely initialized utilizing every single singlesymbol string. A highly unique code ($0$--$255$ specifically for 8-bit grayscale) is actively assigned to every single symbol.
+    \item[String Matching:] The strictly current string $s$ is heavily initialized directly to the absolute first symbol. For every single subsequent symbol $c$ found actively within the input:
     \begin{itemize}
-        \item If the concatenation $s + c$ exists in $\mathcal{D}$, set $s = s + c$.
+        \item If the direct concatenation $s + c$ is found to exist completely within $\mathcal{D}$, $s = s + c$ is strictly set.
         \item Otherwise:
         \begin{itemize}
-            \item Output the code for $s$.
-            \item Add $s + c$ to $\mathcal{D}$ with the next available code.
-            \item Set $s = c$.
+            \item The exact code matched to $s$ is actively outputted.
+            \item $s + c$ is actively added completely to $\mathcal{D}$ alongside the highly next available code.
+            \item $s = c$ is strictly set.
         \end{itemize}
     \end{itemize}
-    \item[Termination:] After processing all symbols, output the code for the final string $s$.
+    \item[Termination:] The strict code belonging entirely to the final string $s$ is actively outputted completely after every single symbol is heavily processed.
 \end{description}
 
-Formally, let the input be a sequence $x_1, x_2, \dots, x_N$. Define the dictionary as a set of strings with associated codes. For iteration $i$, maintain a prefix $w$. When reading the next symbol $c$, if $wc \in \mathcal{D}$, extend $w \leftarrow wc$; otherwise, output $\text{code}(w)$, add $wc$ to $\mathcal{D}$, and reset $w \leftarrow c$.
+Formally, the input is strictly defined as a massive sequence $x_1, x_2, \dots, x_N$. The dictionary is actively defined completely as a massive set of strings paired directly with associated codes. A strict prefix $w$ is completely maintained specifically for iteration $i$. When the exact next symbol $c$ is actively read, $w \leftarrow wc$ is heavily extended strictly if $wc \in \mathcal{D}$. Otherwise, $\text{code}(w)$ is heavily outputted, $wc$ is completely added directly to $\mathcal{D}$, and $w \leftarrow c$ is strictly reset.
 
 \paragraph{Decoding Process}\mbox{}\\
 
-A remarkable property of LZW is that the decoder can reconstruct both the original data and the dictionary simultaneously without receiving the dictionary explicitly \cite{reference18}. The decoder processes the compressed code sequence, reconstructing strings by:
+A highly remarkable property is completely possessed by LZW. Both the purely original data and the massive dictionary can be reconstructed heavily and entirely simultaneously directly by the decoder. The dictionary never needs to be received explicitly for this to happen \cite{reference18}. The highly compressed code sequence is heavily processed entirely by the decoder. Strings are completely reconstructed by heavily following these steps:
 
 \begin{description}
-    \item[Initialization:] Initialize the same base dictionary as the encoder ($0$--$255$ mapping to single symbols).
-    \item[Decoding Loop:] For each input code $k$:
+    \item[Initialization:] The exact same base dictionary utilized previously by the encoder ($0$--$255$ mapping directly to absolute single symbols) is heavily initialized.
+    \item[Decoding Loop:] For every single active input code $k$:
     \begin{itemize}
-        \item If $k$ is in the dictionary, output the corresponding string $str$.
-        \item If $k$ equals the next code to be added (a special edge case), set $str = prev + \text{first\_char}(prev)$.
-        \item Add $prev + \text{first\_char}(str)$ to the dictionary.
-        \item Set $prev = str$.
+        \item The strictly corresponding string $str$ is actively outputted completely if $k$ is found trapped entirely within the dictionary.
+        \item $str = prev + \text{first\_char}(prev)$ is strictly set entirely if $k$ is perfectly equal completely to the absolute next code waiting heavily to be added (acting entirely as a highly special edge case).
+        \item $prev + \text{first\_char}(str)$ is heavily added completely directly to the active dictionary.
+        \item $prev = str$ is strictly set.
     \end{itemize}
 \end{description}
 
-The special case occurs when the encoder would have added a string that the decoder has not yet encountered---a situation that arises for certain repeating patterns (e.g., character sequences like $cScSc$). The decoder elegantly resolves it by recognizing that the extension character must be the first character of the previous output.
+This highly special case actively occurs strictly when a string that the decoder has not yet completely encountered would have been heavily added purely by the encoder. This highly specific situation completely arises primarily for certain repeating patterns (e.g., character sequences looking exactly like $cScSc$). It is elegantly resolved entirely by the decoder. It is actively recognized completely that the highly specific extension character must absolutely be the precise first character belonging completely to the previous output.
 
 \paragraph{Complexity and Performance}\mbox{}\\
 
-LZW achieves $\mathcal{O}(N)$ time complexity for both encoding and decoding, with dictionary operations (lookup and insertion) amortized to constant time using hash-based data structures. The primary performance characteristic is the growth of the dictionary during processing: each new string encountered adds an entry, and the dictionary size is bounded by the available code space (e.g., $2^{12} = 4096$ entries for standard 12-bit codes, though modern implementations allow dynamic resizing).
+Absolute $\mathcal{O}(N)$ time complexity is successfully achieved completely by LZW strictly for both pure encoding and active decoding. Dictionary operations (massive lookup and insertion) are heavily amortized entirely to constant time by strictly utilizing hashbased data structures. The massive growth experienced completely by the dictionary during active processing serves heavily as the absolute primary performance characteristic. A totally new entry is actively added completely whenever a totally new string is actively encountered. The strict dictionary size is completely bounded entirely by the strictly available code space (e.g., $2^{12} = 4096$ total entries are used heavily for standard 12-bit codes, although dynamic resizing is completely allowed entirely by highly modern implementations).
 
 \vspace{1em}
 \noindent\textbf{Experimental Results and Analysis}\mbox{}\\
 
-To evaluate the practical performance of LZW coding, the algorithm was tested on the same $512 \times 512$ 8-bit grayscale Lenna image used for prior evaluations. 
+The completely practical performance associated directly with LZW coding was actively evaluated. The algorithm was heavily tested completely upon the exact same $512 \times 512$ 8-bit grayscale Lenna image completely utilized heavily for purely prior evaluations.
 
 \vspace{1em}
-\noindent\textbf{Quantitative Metrics.} LZW achieved a remarkable \textbf{compression ratio of 1.528:1}, significantly outperforming both Huffman ($1.071:1$) and arithmetic coding ($1.070:1$) on this specific dataset. Based on this ratio, the effective bit rate of the encoded image is:
+\noindent\textbf{Quantitative Metrics.} A highly remarkable \textbf{compression ratio sitting exactly at 1.528:1} was successfully achieved completely by LZW. Both standard Huffman ($1.071:1$) and active arithmetic coding ($1.070:1$) were massively outperformed completely on this highly specific dataset. The purely effective average bit rate tied completely to the highly encoded image is entirely calculated below, drawn heavily from this strict ratio:
 
 \begin{equation}
     BR_{\text{LZW}} = \frac{8}{1.528} \approx 5.235 \text{ bits per pixel}
 \end{equation}
 
-This superior performance stems from LZW's ability to exploit repetitive pixel patterns and spatial correlations inherent in natural images. Huffman and arithmetic coding, as purely symbol-wise memoryless entropy coders, cannot directly capture these higher-order redundancies without explicit multi-symbol probability modeling.
+This massively superior performance completely stems entirely from LZW's strict ability to completely exploit repetitive pixel patterns alongside heavy spatial correlations inherently trapped within natural images. Firstorder redundancies cannot possibly be captured directly by Huffman and arithmetic coding. They act completely as purely symbolwise memoryless entropy coders. Explicit multisymbol probability modeling would be strictly required to fully capture these massive redundancies.
 
 \vspace{1em}
-\noindent\textbf{Dictionary and Data Analysis.} During the single-pass encoding, the dynamic dictionary expanded to contain $114,660$ entries, indicating substantial pattern repetition within the image data. The final compressed data comprised $114,405$ codes. Assuming a standard 12-bit code width, this represents a reduction from the original $2,097,152$ bits to approximately $1,372,860$ bits.
+\noindent\textbf{Dictionary and Data Analysis.} The massive dynamic dictionary heavily expanded entirely to strictly contain $114,660$ full entries completely during the pure singlepass encoding. Substantial absolute pattern repetition occurring completely within the raw image data is heavily indicated entirely by this. Exactly $114,405$ codes were fully comprised completely by the final highly compressed data. A strict reduction plunging perfectly from the absolute original $2,097,152$ bits down completely to approximately $1,372,860$ bits is entirely represented by this, strictly assuming a purely standard 12-bit code width is entirely deployed.
 
 \vspace{1em}
-\noindent\textbf{Visual Verification.} As with the entropy coders, LZW is strictly mathematically lossless. The decoding phase successfully regenerated the complete dictionary on the fly and reconstructed the exact image array, verified by an absolute error map showing zero deviation across all $262,144$ pixels.
+\noindent\textbf{Visual Verification.} LZW operates completely and strictly as a mathematically lossless mechanism, mirroring exactly the earlier entropy coders. The massive complete dictionary was actively and successfully regenerated entirely on the fly purely by the highly active decoding phase. The exact pure image array was completely reconstructed. This was actively verified completely by generating an absolute error map heavily showing strictly zero deviation completely across all massive $262,144$ pixels.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=1.0\textwidth]{lzw-ana.png}
-    \caption{Visual verification of lossless LZW compression. Left: Original $512 \times 512$ image. Center: Reconstructed image. Right: Absolute error map indicating zero data loss.}
+    \caption{Visual verification completely detailing absolute lossless LZW compression. Left: Pure original $512 \times 512$ image. Center: Completely reconstructed image. Right: Absolute pure error map heavily indicating strictly zero data loss.}
     \label{fig:lzw_visual}
 \end{figure}
 
 \paragraph{Empirical Performance}
 
-The experimental results on the Lenna image ($512 \times 512$, 8-bit grayscale) reveal distinct performance characteristics across the three implemented algorithms, as summarized in Table \ref{tab:empirical_performance}.
+Highly distinct absolute performance characteristics occurring completely across the three heavily implemented algorithms are entirely revealed directly by the strict experimental results generated heavily on the Lenna image ($512 \times 512$, purely 8-bit grayscale). These are summarized completely within strictly Table \ref{tab:empirical_performance}.
 
 \begin{table}[h]
     \centering
@@ -736,13 +742,13 @@ The experimental results on the Lenna image ($512 \times 512$, 8-bit grayscale) 
         \textbf{LZW} & \textbf{1.528:1} & \textbf{Fast} & \textbf{Largest dictionary ($114,660$ entries)} \\
         \hline
     \end{tabular}
-    \caption{Comparative performance of the implemented lossless compression algorithms. LZW exhibits the highest efficiency by exploiting spatial redundancies.}
+    \caption{Highly comparative performance mapping out the completely implemented absolute lossless compression algorithms. The absolutely highest efficiency is completely exhibited directly by LZW, primarily achieved entirely by heavily exploiting massive spatial redundancies.}
     \label{tab:empirical_performance}
 \end{table}
 
-\paragraph{LZW's superior compression ratio}
+\paragraph{LZW's heavily superior compression ratio}
 
-LZW's superior compression ratio (approximately $43\%$ better than Huffman) demonstrates the importance of exploiting inter-pixel dependencies beyond first-order statistics. While Huffman and arithmetic coding approach the first-order entropy bound, they treat each pixel independently, failing to capture spatial redundancies that LZW effectively exploits through dynamic pattern matching.
+The sheer massive importance completely surrounding the pure exploitation tied heavily to interpixel dependencies completely beyond strictly firstorder statistics is heavily demonstrated directly by LZW's entirely superior compression ratio (sitting approximately $43\%$ totally better than pure Huffman outputs). The strict firstorder entropy bound is completely approached entirely by Huffman and pure arithmetic coding. However, every single pixel is heavily treated completely independently by these methods. Massive spatial redundancies are actively failed to be captured. These exact redundancies are effectively and actively exploited completely by LZW strictly through heavily dynamic pattern matching.
 
 \begin{figure}[H]
     \centering
@@ -759,7 +765,6 @@ LZW's superior compression ratio (approximately $43\%$ better than Huffman) demo
 \begin{figure}[H]
     \centering
     \includegraphics[width=1.0\textwidth]{lzwfocus.png}
-    \caption{Visual verification of lossless LZW compression. Left: Original $512 \times 512$ image. Center: Reconstructed image. Right: Absolute error map indicating zero data loss.}
+    \caption{Visual verification completely detailing absolute lossless LZW compression. Left: Pure original $512 \times 512$ image. Center: Completely reconstructed image. Right: Absolute pure error map heavily indicating strictly zero data loss.}
     \label{fig:lzw_focus_visual}
 \end{figure}
-

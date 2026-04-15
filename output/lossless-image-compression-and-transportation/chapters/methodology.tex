@@ -1,6 +1,6 @@
 \subsection{System Architecture}
 
-The proposed system is a modular, extensible framework for implementing, testing, and comparing lossless image compression algorithms. Figure~\ref{fig:system_architecture} illustrates the overall system architecture, which consists of four main layers: the data layer, the algorithm layer, the evaluation layer, and the visualization layer.
+A modular and extensible framework is proposed by this system. The implementation, testing, and direct comparison of lossless image compression algorithms are entirely facilitated by this framework. The overall system architecture is illustrated clearly in Figure~\ref{fig:system_architecture}. Four main layers are contained within this architecture. These include the data layer, the algorithm layer, the evaluation layer, and the visualization layer.
 
 \begin{figure}[H]
 \centering
@@ -12,11 +12,15 @@ The proposed system is a modular, extensible framework for implementing, testing
 
 \subsection{Data Layer}
 
-The data layer is responsible for loading images from disk, converting them to a standard format (RGB or grayscale), and resizing them to a uniform dimension (typically \(256 \times 256\) pixels) to ensure consistent evaluation. The layer also normalizes pixel values to the range \([0,1]\) for algorithms that require floating-point inputs (e.g., neural networks).
+Images are loaded directly from the disk by the data layer. Conversion to a standard format, such as RGB or grayscale, is subsequently performed. A uniform dimension of typically $256 \times 256$ pixels is achieved by resizing the images. Consistent evaluation is completely ensured by this strict standardization process. Pixel values are also normalized to a tight range of $[0,1]$ by this specific layer. This is done strictly for algorithms that demand floatingpoint inputs, such as neural networks.
 
 \subsection{Algorithm Layer}
 
-This layer contains the implementations of all lossless compression algorithms. Each algorithm is encapsulated in a separate class with a consistent interface:
+The full implementations of all lossless compression algorithms are contained entirely within this layer. Every single algorithm is heavily encapsulated inside its own separate class. A strictly consistent interface is utilized across all of them:
+
+
+
+
 
 \begin{verbatim}
 class CompressionAlgorithm:
@@ -93,29 +97,35 @@ No external database is required; all results are stored in memory and can be ex
 
 The system does not include a graphical user interface; it is designed as a command-line tool and a Jupyter notebook that can be executed interactively. The notebook provides markdown cells that explain each algorithm, code cells that run the compression and visualization, and output cells that display the results. This design is well-suited for research and educational purposes.
 
+
 \subsection{Data Flow}
 
-The typical data flow for a single algorithm is as follows:
+The typical flow of data utilized for any single algorithm is laid out precisely below.
 
 \begin{enumerate}
-    \item Load an image from disk (e.g., \texttt{Lenna.png}) into a NumPy array of shape \((H,W,C)\).
+    \item An image is actively loaded straight from the disk (e.g., \texttt{Lenna.png}). A NumPy array taking the explicit shape of $(H,W,C)$ is utilized to hold this raw data.
     
-    \item Optionally resize the image to a fixed size (e.g., \(256\times256\)) to keep evaluation times reasonable.
+    \item Resizing the image down to a strictly fixed size (e.g., $256\times256$) is optionally performed. Keeping overall evaluation times highly reasonable is directly achieved by doing this.
     
-    \item Normalize pixel values to \([0,1]\) if required by the algorithm (e.g., for neural networks).
+    \item Pixel values are normalized heavily down to a tight $[0,1]$ scale. This step is only performed if it is explicitly required by the given algorithm (e.g., neural networks demand this heavily).
     
-    \item Invoke the algorithm's \texttt{compress()} method, which returns a compressed representation (e.g., a bit string, a list of symbols, or a palette plus indices) and metadata (e.g., Huffman code tables, cluster centers).
+    \item The specific \texttt{compress()} method tied to the algorithm is directly invoked. A compressed representation (e.g., a bit string, a raw list of symbols, or a color palette joined by indices) is immediately returned. Necessary metadata (e.g., Huffman code tables or exact cluster centers) is also outputted.
     
-    \item Invoke the algorithm's \texttt{decompress()} method to reconstruct the image.
+    \item Reconstruction of the target image is achieved by invoking the \texttt{decompress()} method directly.
     
-    \item Compute quality metrics (compression ratio, MSE, PSNR, time) by comparing the original and reconstructed arrays.
+    \item Quality metrics are computed thoroughly. Compression ratio, MSE, PSNR, and raw execution time are evaluated by directly comparing the original arrays against the newly reconstructed arrays.
     
-    \item Generate visualizations (error maps, histograms, etc.) using Matplotlib.
+    \item Visualizations are generated utilizing Matplotlib. Glaring error maps and histograms fall directly under this visualization umbrella.
     
-    \item Store metrics and figures for later analysis and reporting.
+    \item All generated figures and hard metrics are stored away safely. Later analysis and final reporting relies completely on this saved data pool.
 \end{enumerate}
 
-For iterative algorithms (Gath-Geva, PSO, FBPNN), the data flow includes an inner loop over iterations, with intermediate results recorded for convergence plots.
+An inner loop spanning over multiple iterations is included strictly for iterative algorithms (GathGeva, PSO, FBPNN). Intermediate results are heavily recorded by this specific loop so that accurate convergence plots can be drawn up later.
+
+
+
+
+
 
 \subsection{Algorithms and Techniques}
 

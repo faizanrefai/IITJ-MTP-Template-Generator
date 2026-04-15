@@ -5,30 +5,14 @@
 \vspace{0.5cm}
 
 
-
-This project? It’s a deep dive into lossless image compression. Not just one or two methods. A whole bunch. We’re talking classical entropy stuff – Huffman, Arithmetic, LZW. But also spatial tricks, transform domain wizardry, context‑aware algorithms, clustering, optimization hacks, and even neural nets.
-
-Let me back up.
-
-First, you need the basics. So I implemented Huffman. Arithmetic coding too. And LZW. That gives you a feel for how entropy‑based methods work. They’re simple. They work okay. But they ignore the fact that pixels near each other tend to look alike.
-
-So then I moved to spatial methods. Variable block size compression. Run‑length encoding – RLE for short. The idea? Find local repetition and squash it. Then there’s this clever trick: lossy plus residual. You send a lossy version first – smaller, uglier – then transmit the leftover difference. Reconstruct the original perfectly. Neat, right?
-
-After that, I tackled the JPEG lossless prediction standard. Seven prediction modes. All based on neighbors – left, above, that sort of thing.
-
-But the real heavy hitters came next. CALIC. LOCO‑I. These are context‑based beasts. They look at gradients. They model prediction errors in different contexts. And they crush it on compression ratio.
-
-Transform domain? Yeah, did that too. S‑Transform. S+P Transform. Integer wavelet transforms using the lifting scheme. Why? Because these methods pack energy into fewer coefficients. Less numbers to store.
-
-Clustering? You bet. K‑Means. Gath‑Geva fuzzy clustering. The latter is weird – it finds ellipsoidal clusters of different sizes and densities. Not your everyday circle stuff. Then I threw Particle Swarm Optimization at the problem. Swarm intelligence. Little virtual particles buzzing around, hunting for the best color palette.
-
-And the cherry on top: a fuzzy backpropagation neural network. FBPNN. I combined Gath‑Geva’s fuzzy membership values with classic backprop learning. The network adapts its weights on the fly.
-
-All this runs in Python. NumPy, Matplotlib, Pillow – the usual suspects. But I also used GPU acceleration – JAX and PyTorch MPS on an Apple M4 chip. Because why wait?
-
-I generated lots of pictures. Original vs compressed. Compression ratios. MSE. PSNR. The whole nine yards.
-
-What did I learn? Context‑based methods win. CALIC and LOCO‑I consistently beat the older approaches. No contest.
+Digital images are ubiquitous. Enormous volumes of visual data are produced by the medical and satellite imaging communities, and through the use of social networking. To facilitate the storage and transmission of such volumes of visual data efficiently, effective compression must be achieved. Lossless compression methods are critically important in applications where data must never be lost, such as medical imaging and archiving legal documents.
+A vast number of lossless compression algorithms exist, and they have various strengths and weaknesses. Traditional entropy coders (Huffman, Arithmetic, LZW) consider only symbol frequencies; spatial patterns are entirely ignored. The spatial and transform domain techniques (JPEG lossless prediction, S+P transform, lifting wavelets) exploit local correlations and can perform poorly on certain types of texture. Context-based techniques (CALIC, LOCOI) provide extremely high compression but at the cost of increased computational overhead. Neural network and clustering based techniques (GathGeva, PSO, FBPNN) offer versatility, but require significant tuning.
+This project provides implementations of a range of lossless image compression algorithms and evaluates their performance. The primary algorithms implemented include those in each major group of lossless techniques. Entropy coding (Huffman, Arithmetic, LZW) provide a reference point, followed by spatial domain algorithms (variable block size compression, runlength encoding, and a lossyplusresidual technique). In this method, a lossy version of the image is compressed first. The difference (residual) between the compressed image and the original (perfectly reconstructable using the compressed image and the lossy image) can then be compressed using other techniques.
+The standard JPEG lossless prediction scheme, using its seven available prediction modes that exploit the correlations in neighboring pixels, is included. Two context-based methods are also developed: CALIC, that uses context based on gradient-based prediction error, and the computationally simpler and quicker LOCOI standard.
+The use of transform techniques will be demonstrated by implementing the S transform, the S+P Transform, and integer based wavelets implemented using the lifting scheme, which is more efficient. Both types of transforms are aimed at energy packing to aid compression.
+Color images are also tackled by implementing the use of color quantization schemes. K Means and GathGeva fuzzy clustering will be implemented. GathGeva fuzzy clustering allows detection of ellipsoidal clusters of different shapes and densities. Particle swarm optimization is also used to select near-optimal color palettes. A fuzzy backpropagation neural network (FBPNN) is also developed. This network integrates the use of GathGeva fuzzy memberships alongside backpropagation learning. During the training phase, the weights of the network are dynamically adapted.
+The implementation of all code is carried out utilizing Python. Libraries utilized include NumPy, Matplotlib, and Pillow. To achieve GPU acceleration, JAX and PyTorch are run upon an Apple M4 architecture. A comparison of all algorithms is conducted by evaluating the compression ratio, MSE, PSNR, and runtime. Visualizations are generated, which include comparisons of original and compressed images, as well as error maps and convergence plots.
+The findings from the experimental results indicate that the highest compression is provided by context-based methods. Traditional entropy and transform methods are outperformed by CALIC and LOCOI on the vast majority of test images. To serve as a benchmark for future research endeavors, the full implementation is made available as an open-source contribution.
 
 
 \vspace{1cm}

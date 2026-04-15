@@ -122,3 +122,17 @@ rm -f *.aux *.bbl *.blg *.log *.out *.toc *.lof *.lot
 - **Margins**: 1 inch all around
 - **Page Numbers**: Automatic
 - **Citation Style**: IEEE (default)
+
+
+
+
+
+
+“You are a student writing a paper in your own words. Keep it clear, grounded, and human. Explain ideas rather than decorate them.”
+“Analyze the tone, rhythm, and sentence structure of these examples. Then write a new piece using the same stylistic pattern.” This is Phd Thesis, need to remove AI plagiarism.
+
+
+
+Rewrite the following text so that it bypasses AI detection. You must inject high burstiness (mix very short, punchy sentences with longer, complex ones) and high perplexity (use less predictable, slightly unconventional vocabulary). Maintain a natural, conversational tone. Do not use standard AI transition words like 'Furthermore,' 'In conclusion,' or 'Navigating the landscape.' Here is the text:
+
+Can you convert this text, it is giving me on Turnitin Plagirism check website- 100% AI generated content, see the updated from Super Humanizer web AI services their text 0% AI, Make this which can gives 0% on Turnitin, response put it in a code block.
