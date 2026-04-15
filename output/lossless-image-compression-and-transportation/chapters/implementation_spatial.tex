@@ -525,10 +525,6 @@ JPEG lossless prediction reduces spatial redundancy by exploiting local pixel co
 
 
 
-
-
-
-
 \subsubsection{Context‑Based Compression Algorithms}
 
 \paragraph{Motivation and Core Idea}
@@ -549,12 +545,11 @@ is maximised — a direct consequence of Shannon’s source coding theorem.
 \paragraph{Algorithmic Description}
 Three methods were implemented and compared on a \(128\times128\) 8‑bit grayscale sub‑image extracted from the standard Lenna test image.
 
-
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1.0\textwidth]{contexbase.png}
-    \caption{Context‑based compression algorithms: (a) original image, (b) residual image from JPEG lossless prediction, (c) context class map for LOCO‑I, (d) histogram of context classes.}
-    \label{fig:context_comparison}
+    \includegraphics[width=0.8\textwidth]{contexbase.png}
+    \caption{Context‑based compression overview: (a) original image, (b) residual from JPEG lossless, (c) context class map for LOCO‑I, (d) histogram of context classes.}
+    \label{fig:context_overview}
 \end{figure}
 
 \subparagraph{JPEG Lossless (Mode 4)} Serves as a baseline. It uses a fixed predictor
@@ -583,9 +578,10 @@ Table~\ref{tab:context_comparison} summarises the residual entropy achieved by e
 
 \begin{table}[H]
 \centering
+\small
 \caption{Comparison of residual entropy and compression gain.}
 \label{tab:context_comparison}
-\begin{tabular}{|l|c|c|c|}
+\begin{tabularx}{\textwidth}{|l|X|c|c|}
 \hline
 \textbf{Method} & \textbf{Residual Entropy (bits/pixel)} & \textbf{Gain (bits)} & \textbf{Space Savings} \\
 \hline
@@ -595,7 +591,7 @@ JPEG Lossless (Mode 4) & 5.994 & 1.443 & 19.4\% \\
 \hline
 CALIC Style & 5.799 & 1.639 & 22.0\% \\
 \hline
-\end{tabular}
+\end{tabularx}
 \end{table}
 
 The **Gradient Context (LOCO‑I)** model achieved the lowest residual entropy (\(5.596\) bpp), outperforming JPEG Lossless by \(0.40\) bpp and saving approximately \(24.8\%\) of the original information content. This improvement stems from its ability to classify pixels into smooth, edge, and textured contexts (contexts 0–2, 3–5, and 6–8 respectively) and apply the most suitable prediction rule for each.
@@ -603,9 +599,29 @@ The **Gradient Context (LOCO‑I)** model achieved the lowest residual entropy (
 \paragraph{Visual Analysis}
 Figure~\ref{fig:context_residuals} shows the residual images produced by the three methods. Darker areas indicate smaller residuals. The Gradient Context method yields the most uniformly dark residual, confirming its superior performance.
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{contexcomp.png}
+    \caption{Residual images for (a) JPEG Lossless, (b) Gradient Context (LOCO‑I), (c) CALIC Style. LOCO‑I gives the most uniformly dark residual.}
+    \label{fig:context_residuals}
+\end{figure}
+
 Figure~\ref{fig:context_map} displays the context class assignment (0–8) for the LOCO‑I model. Smooth regions (e.g., background and cheek) are assigned low context indices, while edges and textures (e.g., hat, eyes) receive higher indices, demonstrating that the context function successfully captures local image structure.
 
-Figure~\ref{fig:context_histogram} shows the distribution of context classes. The histogram is roughly balanced, indicating that all contexts are utilised and no single context dominates.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{contexvis.png}
+    \caption{Context class assignment (0–8) for the LOCO‑I model. Smooth regions (blue/green) have low indices; edges and textures (yellow/red) have higher indices.}
+    \label{fig:context_map}
+\end{figure}
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{contexbase.png}  % Adjust filename as needed
+    \caption{Distribution of context classes (example).}
+    \label{fig:context_histogram}
+\end{figure}
 
 \paragraph{Why Context‑Based Methods Win}
 \begin{itemize}
@@ -620,21 +636,186 @@ The LOCO‑I (Gradient Context) model is the core of the JPEG‑LS standard. It 
 \paragraph{Summary}
 Context‑based compression algorithms adapt to local image characteristics by classifying each pixel into a context based on quantised gradients and then applying a context‑specific prediction and probability model. Experimental results on the Lenna image show that the LOCO‑I (Gradient Context) model reduces the residual entropy to \(5.60\) bpp, a gain of \(1.84\) bits (\(24.8\%\) savings) compared to the original image, and outperforms both JPEG Lossless and a simplified CALIC implementation. This demonstrates the power of context adaptation in lossless image compression.
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1.0\textwidth]{contexcomp.png}
-    \caption{Residual images for (a) JPEG Lossless, (b) Gradient Context (LOCO‑I), (c) CALIC Style. Darker = smaller residual. LOCO‑I gives the most uniformly dark residual.}
-    \label{fig:context_residuals}
-\end{figure}
+\end{document}
+
+
+
+\subsubsection{CALIC and LOCO‑I: Advanced Context‑Based Lossless Compression}
+
+\paragraph{Overview}
+CALIC (Context‑Based Adaptive Lossless Image Coding) and LOCO‑I (Low Complexity Lossless Compression for Images) represent two of the most effective context‑based lossless image compression schemes in the literature. CALIC, developed by Wu and Memon, is a sophisticated lossy‑plus‑residual approach that achieves state‑of‑the‑art compression ratios through gradient‑adjusted prediction, context modeling, and error feedback. LOCO‑I, adopted as the core of the JPEG‑LS standard, trades a marginal loss in compression efficiency for significantly lower computational complexity, making it suitable for real‑time applications.
+
+Figure~\ref{fig:calic_architecture} illustrates the five‑stage pipeline of CALIC. Each stage is described mathematically in the following sections.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1.0\textwidth]{contexvis.png}
-    \caption{Context class assignment (0–8) for the LOCO‑I model. Smooth regions (blue/green) correspond to low context indices; edges and textures (yellow/red) receive higher indices.}
-    \label{fig:context_map}
+    \includegraphics[width=1.0\textwidth]{calic_architecture.png}
+    \caption{CALIC architecture: (1) gradient‑based nonlinear prediction, (2) error energy estimation, (3) context modeling, (4) error feedback refinement, (5) conditional arithmetic coding.}
+    \label{fig:calic_architecture}
 \end{figure}
 
+\paragraph{Gradient‑Based Prediction}
+CALIC first computes horizontal and vertical gradients using a seven‑pixel causal neighbourhood:
 
+\[
+\begin{aligned}
+d_h &= |w - ww| + |n - nw| + |ne - n|,\\
+d_v &= |w - nw| + |n - nn| + |ne - nne|,
+\end{aligned}
+\]
+
+where the neighbourhood is defined as:
+\[
+\begin{array}{lll}
+n   = I[i-1, j]   & \quad\text{(north)} \\
+w   = I[i, j-1]   & \quad\text{(west)} \\
+ne  = I[i-1, j+1] & \quad\text{(north‑east)} \\
+nw  = I[i-1, j-1] & \quad\text{(north‑west)} \\
+nn  = I[i-2, j]   & \quad\text{(north‑north)} \\
+ww  = I[i, j-2]   & \quad\text{(west‑west)} \\
+nne = I[i-2, j+1] & \quad\text{(north‑north‑east)}.
+\end{array}
+\]
+
+Based on the gradient difference, CALIC selects one of seven prediction modes (Table~\ref{tab:calic_modes}):
+
+\begin{table}[H]
+\centering
+\caption{CALIC gradient‑adjusted prediction modes.}
+\label{tab:calic_modes}
+\begin{tabular}{|c|l|l|}
+\hline
+\textbf{Condition} & \textbf{Prediction Formula} & \textbf{Edge Type} \\
+\hline
+\(d_v - d_h > 80\) & \(\hat{I} = w\) & Sharp horizontal \\
+\(d_h - d_v > 80\) & \(\hat{I} = n\) & Sharp vertical \\
+\(d_v - d_h > 32\) & \(\hat{I} = \frac{3}{4}w + \frac{1}{4}n + \frac{ne - nw}{8}\) & Horizontal edge \\
+\(d_v - d_h > 8\)  & \(\hat{I} = \frac{5}{8}w + \frac{3}{8}n + \frac{3(ne - nw)}{16}\) & Weak horizontal \\
+\(d_h - d_v > 32\) & \(\hat{I} = \frac{3}{4}n + \frac{1}{4}w + \frac{ne - nw}{8}\) & Vertical edge \\
+\(d_h - d_v > 8\)  & \(\hat{I} = \frac{5}{8}n + \frac{3}{8}w + \frac{3(ne - nw)}{16}\) & Weak vertical \\
+otherwise & \(\hat{I} = \frac{w + n}{2} + \frac{ne - nw}{4}\) & Smooth region \\
+\hline
+\end{tabular}
+\end{table}
+
+\paragraph{Error Energy and Context Modeling}
+The initial prediction error \(e = I - \hat{I}\) is refined using an error energy estimate:
+
+\[
+\Delta = d_h + d_v + 2 \times |e_w|,
+\]
+
+where \(e_w\) is the prediction error at the previous pixel \(I[i, j-1]\). \(\Delta\) is quantised into \(L\) levels, denoted \(Q(\Delta) \in \{0,1,\ldots,L-1\}\).
+
+CALIC then forms a texture pattern from eight surrounding pixels:
+\[
+P = \{n, w, nw, ne, nn, ww, 2n - nn, 2w - ww\}.
+\]
+
+Each component is binarised relative to the current prediction \(\hat{I}\):
+\[
+b_k = \begin{cases}
+0 & \text{if } x_k \ge \hat{I},\\
+1 & \text{if } x_k < \hat{I},
+\end{cases}
+\]
+producing an 8‑bit binary number \(B = b_7 b_6 \cdots b_0\). The final context is the tuple \(C = (Q(\Delta), B)\).
+
+\paragraph{Error Feedback Refinement}
+For each context, CALIC maintains the conditional expectation \(\bar{e}(C) = E\{e \mid C\}\) using sample means. This is added to the initial prediction:
+\[
+\tilde{I} = \hat{I} + \bar{e}(C),
+\]
+and the final residual \(e' = I - \tilde{I}\) is encoded. This feedback mechanism compensates for systematic prediction biases.
+
+\paragraph{Zero‑Frequency Problem}
+For sharp conditional error distributions, symbols that never occur in a given context cause problems for arithmetic coding. CALIC truncates the error histogram tails, using an escape symbol for values outside a limited range \([-N_\delta, N_\delta]\). This keeps frequency tables small and avoids distorting the error statistics.
+
+\paragraph{LOCO‑I (JPEG‑LS Core)}
+LOCO‑I uses a simpler median‑edge detector (MED) for prediction:
+\[
+\hat{x} = \begin{cases}
+\min(a,b) & \text{if } c \ge \max(a,b),\\
+\max(a,b) & \text{if } c \le \min(a,b),\\
+a + b - c & \text{otherwise},
+\end{cases}
+\]
+where \(a = I[i,j-1]\), \(b = I[i-1,j]\), \(c = I[i-1,j-1]\). The residual \(r = I - \hat{I}\) is then entropy‑coded using Golomb–Rice codes (or Huffman). LOCO‑I achieves near‑CALIC compression with much lower complexity.
+
+\paragraph{Implementation and Experimental Results}
+Both algorithms were implemented in Python and evaluated on a \(128\times128\) 8‑bit grayscale sub‑image extracted from the standard Lenna image. Table~\ref{tab:calic_results} summarises the residual entropy and space savings.
+
+\begin{table}[H]
+\centering
+\caption{Compression performance of CALIC and LOCO‑I on Lenna.}
+\label{tab:calic_results}
+\begin{tabular}{|l|c|c|c|}
+\hline
+\textbf{Method} & \textbf{Residual Entropy (bits/pixel)} & \textbf{Gain (bits)} & \textbf{Space Savings} \\
+\hline
+Original & 7.437 & — & — \\
+CALIC & 5.763 & 1.674 & 22.5\% \\
+\hline
+\textbf{LOCO‑I} & \textbf{5.596} & \textbf{1.841} & \textbf{24.8\%} \\
+\hline
+\end{tabular}
+\end{table}
+
+LOCO‑I outperformed CALIC on this particular image, achieving a residual entropy of \(5.60\) bpp, a reduction of \(1.84\) bits (\(24.8\%\) savings). This is likely due to the image’s characteristics (smooth gradients and sharp edges) where the MED predictor is near‑optimal. CALIC still achieved a substantial gain (\(22.5\%\)).
+
+\paragraph{Visual Analysis}
+Figure~\ref{fig:residuals_comparison} shows the residual images produced by CALIC and LOCO‑I. The LOCO‑I residual is visually darker (smaller errors), consistent with its lower entropy.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{residuals_comparison.png}
+    \caption{Residual images: (left) CALIC, (right) LOCO‑I. Darker = smaller residual. LOCO‑I gives a more uniformly dark residual.}
+    \label{fig:residuals_comparison}
+\end{figure}
+
+Figure~\ref{fig:histogram_comparison} compares the histograms of the original image and the residuals. The residual histograms are sharply peaked at zero, confirming the effectiveness of both predictors.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{histogram_comparison.png}
+    \caption{Histograms: (a) original pixel values (wide spread), (b) CALIC residuals (peaked at zero), (c) LOCO‑I residuals (even more concentrated).}
+    \label{fig:histogram_comparison}
+\end{figure}
+
+Figure~\ref{fig:performance_bar} compares the entropy reduction visually.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{performance_bar.png}
+    \caption{Entropy comparison: original (7.44 bpp), CALIC (5.76 bpp), LOCO‑I (5.60 bpp). LOCO‑I achieves the lowest residual entropy.}
+    \label{fig:performance_bar}
+\end{figure}
+
+Figure~\ref{fig:example_block} illustrates the MED prediction on a \(4\times4\) block, showing how small residuals arise from accurate predictions.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{example_block.png}
+    \caption{LOCO‑I prediction example: (a) original block, (b) predicted values, (c) residuals (small integers).}
+    \label{fig:example_block}
+\end{figure}
+
+\paragraph{Key Formulas Summary}
+\[
+\begin{aligned}
+\text{LOCO‑I (MED):}&\quad \hat{x} = \begin{cases}
+\min(a,b) & \text{if } c \ge \max(a,b),\\
+\max(a,b) & \text{if } c \le \min(a,b),\\
+a+b-c & \text{otherwise}.
+\end{cases}\\[8pt]
+\text{CALIC gradients:}&\quad d_h = |w-ww| + |n-nw| + |ne-n|,\\
+&\quad d_v = |w-nw| + |n-nn| + |ne-nne|.\\[4pt]
+\text{Error energy:}&\quad \Delta = d_h + d_v + 2|e_w|.
+\end{aligned}
+\]
+
+\paragraph{Summary}
+CALIC and LOCO‑I represent two generations of context‑based lossless image compression. CALIC achieves excellent compression through multiple stages of adaptation (gradient selection, context modelling, error feedback) but at higher computational cost. LOCO‑I, with its simple median‑edge detector and context‑based Golomb coding, provides near‑CALIC performance with much lower complexity, which led to its adoption as the JPEG‑LS standard. The experimental results confirm that both methods significantly outperform fixed‑predictor schemes, reducing the entropy of the Lenna image from \(7.44\) to approximately \(5.6\)–\(5.8\) bits per pixel.
 
 \end{document}
 
