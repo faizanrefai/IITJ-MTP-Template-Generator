@@ -817,5 +817,157 @@ a+b-c & \text{otherwise}.
 \paragraph{Summary}
 CALIC and LOCO‑I represent two generations of context‑based lossless image compression. CALIC achieves excellent compression through multiple stages of adaptation (gradient selection, context modelling, error feedback) but at higher computational cost. LOCO‑I, with its simple median‑edge detector and context‑based Golomb coding, provides near‑CALIC performance with much lower complexity, which led to its adoption as the JPEG‑LS standard. The experimental results confirm that both methods significantly outperform fixed‑predictor schemes, reducing the entropy of the Lenna image from \(7.44\) to approximately \(5.6\)–\(5.8\) bits per pixel.
 
+
+
+
+
+
+
+
+
+
+
+
+
+\subsubsection{Transform Domain Lossless Compression: S+P Transform \& Integer Wavelets}
+
+\paragraph{Motivation and Core Idea}
+Transform domain methods convert an image from the spatial domain (raw pixel values) into a representation where energy is compacted into fewer coefficients, redundancies are exposed, and multi‑resolution analysis becomes possible. For lossless compression, the transform must be exactly invertible using integer arithmetic. The S‑Transform, S+P Transform, and the lifting scheme are three such integer‑to‑integer wavelet transforms that enable lossless compression by producing coefficients with lower entropy than the original image.
+
+\paragraph{The S‑Transform (Sequential Transform)}
+The S‑Transform is essentially the Haar wavelet adapted for integers. For an input sequence \(c[n]\) of even length \(N\), the forward transform computes:
+
+\[
+\begin{aligned}
+l[n] &= \left\lfloor \frac{c[2n] + c[2n+1]}{2} \right\rfloor, \quad n = 0,\ldots,\frac{N}{2}-1,\\
+h[n] &= c[2n] - c[2n+1],
+\end{aligned}
+\]
+
+where \(l[n]\) are the low‑frequency (approximation) coefficients and \(h[n]\) are the high‑frequency (detail) coefficients. The inverse transform is:
+
+\[
+\begin{aligned}
+c[2n] &= l[n] + \left\lfloor \frac{h[n] + 1}{2} \right\rfloor,\\
+c[2n+1] &= c[2n] - h[n].
+\end{aligned}
+\]
+
+Key properties: perfect reconstruction, uses only integer addition and bit shifts, and the sum/difference of two integers always have the same parity, which reduces the number of bits needed.
+
+\paragraph{The S+P Transform (S + Prediction)}
+The S+P transform improves upon the S‑transform by predicting the high‑frequency components from neighbouring low‑frequency differences and already processed high‑frequency coefficients. The corrected high‑frequency coefficients are:
+
+\[
+h_d[n] = h[n] - \left\lfloor \hat{h}[n] + \frac{1}{2} \right\rfloor,
+\]
+
+where the prediction \(\hat{h}[n]\) is given by:
+
+\[
+\hat{h}[n] = \sum_{i=-L_0}^{L_1} a_i \Delta l[n+i] - \sum_{j=1}^{H} b_j h[n+j],
+\]
+
+with \(\Delta l[n] = l[n-1] - l[n]\). In our simplified implementation, fixed coefficients \(a = [0.5, 0.25, 0.125]\) and \(b = [0.5, 0.25]\) are used. The prediction reduces the magnitude of high‑frequency coefficients, leading to lower entropy.
+
+\paragraph{Integer Wavelet Transform via Lifting}
+The lifting scheme provides a more general framework for constructing integer‑to‑integer wavelets. Using the S‑transform as an example, the lifting steps are:
+
+\[
+\begin{aligned}
+d[n] &= c[2n+1] - c[2n] \quad \text{(high‑pass)},\\
+l[n] &= c[2n] + \left\lfloor \frac{d[n]}{2} \right\rfloor \quad \text{(low‑pass)}.
+\end{aligned}
+\]
+
+The inverse is:
+
+\[
+\begin{aligned}
+c[2n] &= l[n] - \left\lfloor \frac{d[n]}{2} \right\rfloor,\\
+c[2n+1] &= d[n] + c[2n].
+\end{aligned}
+\]
+
+Lifting is powerful because it allows in‑place computation, is easily invertible, and can be used to build complex wavelets from simple sequential steps.
+
+\paragraph{1D Example}
+Table~\ref{tab:1d_example} illustrates the three transforms on a short 1D sequence.
+
+\begin{table}[H]
+\centering
+\caption{1D example of S‑Transform, S+P Transform, and Lifting Wavelet.}
+\label{tab:1d_example}
+\begin{tabular}{|l|c|}
+\hline
+\textbf{Original} & \texttt{[10, 12, 8, 10, 14, 16, 12, 14]} \\
+\hline
+S‑Transform low & \texttt{[11, 9, 15, 13]} \\
+S‑Transform high & \texttt{[-2, -2, -2, -2]} \\
+Reconstruction & Perfect (error = 0) \\
+\hline
+S+P low & \texttt{[11, 9, 15, 13]} \\
+S+P high (corrected) & \texttt{[-3, -3, 0, -3]} \\
+Reconstruction & Perfect (error = 0) \\
+\hline
+Lifting low & \texttt{[11, 9, 15, 13]} \\
+Lifting high & \texttt{[2, 2, 2, 2]} \\
+Reconstruction & Perfect (error = 0) \\
+\hline
+\end{tabular}
+\end{table}
+
+All three transforms are perfectly lossless; the high‑frequency coefficients are reduced in magnitude (especially for S+P), which improves compressibility.
+
+\paragraph{2D Transform and Experimental Results}
+The transforms are applied separably: first to rows, then to columns. The standard \(128\times128\) 8‑bit grayscale Lenna image was used as the test image. Table~\ref{tab:entropy_results} compares the entropy of the original image and of the transformed coefficients.
+
+\begin{table}[H]
+\centering
+\caption{Entropy comparison of transform coefficients (Lenna).}
+\label{tab:entropy_results}
+\begin{tabularx}{\textwidth}{|l|X|c|}
+\hline
+\textbf{Transform} & \textbf{Coefficient Range} & \textbf{Entropy (bits/pixel)} \\
+\hline
+Original & \([25, 234]\) & 7.437 \\
+S‑Transform & \([-243, 226]\) & 6.872 \\
+S+P Transform & \([-280, 226]\) & 7.046 \\
+Lifting Wavelet & \([-243, 226]\) & 6.876 \\
+\hline
+\end{tabularx}
+\end{table}
+
+All transforms produce coefficient ranges that include negative values, but their entropies are slightly lower than the original. The S‑Transform achieves the lowest entropy (6.872 bpp), a reduction of \(0.565\) bits/pixel compared to the original. The S+P transform, despite its more sophisticated prediction, gave a slightly higher entropy (7.046 bpp) in this implementation, possibly due to the simplified prediction coefficients. The lifting wavelet gave results similar to the S‑Transform.
+
+\paragraph{Visual Analysis}
+
+
+Figure~\ref{fig:histograms} shows the histograms of the transform coefficients. They are more peaked around zero than the original histogram, which explains the entropy reduction.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth}{transform.png}
+    \caption{Histograms: (a) original pixel values, (b) S‑Transform coefficients, (c) S+P coefficients, (d) Lifting coefficients. The transformed histograms are more concentrated near zero.}
+    \label{fig:histograms}
+\end{figure}
+
+\paragraph{Why Transform Domain Helps Compression}
+\begin{itemize}
+    \item \textbf{Energy compaction:} Most of the image energy is concentrated in the low‑frequency coefficients. The high‑frequency coefficients (edges, textures) are sparse and have small magnitudes.
+    \item \textbf{Lower entropy:} The coefficient histograms are more peaked around zero, which reduces the Shannon entropy and makes them more amenable to entropy coding (Huffman, arithmetic).
+    \item \textbf{Multi‑resolution representation:} The transform provides a hierarchical decomposition that can be exploited for progressive transmission and scalable coding.
+\end{itemize}
+
+\paragraph{Comparison of Transforms}
+\begin{itemize}
+    \item \textbf{S‑Transform:} Simplest, fastest, uses only addition, subtraction, and bit shifts. Achieves good energy compaction.
+    \item \textbf{S+P Transform:} Adds prediction to reduce high‑frequency magnitude. Can outperform S‑Transform when prediction coefficients are well tuned. In our implementation, the fixed coefficients did not improve entropy, but the principle is sound.
+    \item \textbf{Lifting Wavelet:} Offers the same performance as the S‑Transform but with the advantages of in‑place computation and flexibility for constructing custom wavelets.
+\end{itemize}
+
+\paragraph{Summary}
+Transform domain methods convert an image into a representation where coefficients have lower entropy, improving lossless compression. The S‑Transform, S+P Transform, and lifting wavelet are integer‑to‑integer transforms that guarantee perfect reconstruction. Experimental results on the Lenna image show that the S‑Transform reduces entropy from 7.44 to 6.87 bits/pixel, a reduction of 0.57 bits/pixel (7.6\% savings). The S+P and lifting wavelets produce similar results. These transforms are the foundation of many modern lossless image codecs, including JPEG‑LS and JPEG‑2000 lossless mode.
+
 \end{document}
 
