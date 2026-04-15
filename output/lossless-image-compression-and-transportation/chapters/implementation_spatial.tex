@@ -143,20 +143,17 @@ Alternatively, the local variance $\sigma^2(B)$ can be used as a complexity meas
 
 The algorithm initially divides the image into a coarse grid of $32 \times 32$ macro‑blocks. For each macro‑block, the edge density $\rho$ is evaluated. Based on empirically determined thresholds $\theta_1$ and $\theta_2$, the block size is adapted as follows:
 
-\[
-\text{Block size} = 
-\begin{cases} 
-  32\times32 & \begin{aligned}[t]
-                 &\text{if } \rho(B) < \theta_1 \\
-                 &\text{(smooth region)}\end{aligned}\\[12pt]
-  16\times16 & \begin{aligned}[t]
-                 &\text{if } \theta_1 \le \rho(B) < \theta_2 \\
-                 &\text{(moderate detail)}\end{aligned}\\[12pt]
-  8\times8   & \begin{aligned}[t]
-                 &\text{if } \rho(B) \ge \theta_2 \\
-                 &\text{(high detail)}\end{aligned}
-\end{cases}
-\]
+
+The dynamically assigned block size, $B_{\text{size}}$, is mathematically defined as:
+\begin{equation}
+    B_{\text{size}} = 
+    \begin{cases}
+        32 \times 32, & \text{if } \rho(B) < \theta_1 \\
+        16 \times 16, & \text{if } \theta_1 \le \rho(B) < \theta_2 \\
+        8 \times 8,   & \text{if } \rho(B) \ge \theta_2
+    \end{cases}
+\end{equation}
+where $\rho(B)$ represents the calculated local variance (edge density) of the block, and $\theta_1$ and $\theta_2$ are predefined thresholds. Specifically, these three conditions correspond to smooth regions, areas of moderate detail, and highly textured areas, respectively.
 
 
 For the Lenna image, the thresholds are set to $\theta_1 = 0.1$ and $\theta_2 = 0.2$ (normalised gradient magnitude). This yields approximately 35\% large blocks, 30\% medium blocks, and 35\% small blocks, as illustrated in Figure~\ref{fig:AdaptiveBlockSizes}.
