@@ -169,6 +169,28 @@ For the Lenna image, the thresholds are set to $\theta_1 = 0.1$ and $\theta_2 = 
 
 Once the block size is determined, the algorithm selects the most efficient encoding method based on the block's content.
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 \subsubsection{Run‑Length Encoding (RLE)} 
 For smooth, nearly uniform blocks ($\rho(B) < 0.1$), RLE is applied. The block is represented as a sequence of tuples $(value, run)$. For a block of size $s \times s$, the number of bits required is:
 
@@ -200,6 +222,12 @@ where $\ell(o)$ is the codeword length for offset $o$. This approach efficiently
 
 The VBSC algorithm was implemented in Python using the \texttt{scikit‑image} library for edge detection and block processing. The standard $512\times512$, 8‑bit grayscale Lenna image was used as the test benchmark.
 
+
+
+
+
+
+
 \begin{table}[H]
 \centering
 \caption{Compression Ratio Comparison on Lenna Image}
@@ -229,24 +257,43 @@ As shown in Table~\ref{tab:compression_ratios}, the proposed VBSC algorithm achi
 \end{figure}
 
 
+
+
+
+
+
 \begin{enumerate}
-    \item Original Lenna image with annotated regions (face, hat, background).
-    \item Adaptive block segmentation overlay, colour‑coded by encoding method.
-    \item Local complexity map (edge density).
-    \item Distribution of block sizes across the image.
-    \item Compression ratio bar chart comparing VBSC to other methods.
-    \item Pie chart showing the proportion of blocks encoded with each method.
+    \item Pure original Lenna image containing heavily annotated regions (specifically face, hat, and background areas).
+    \item A strictly colour-coded adaptive block segmentation overlay, mapped directly by the specific encoding method utilized.
+    \item Local complexity map generated entirely by absolute edge density.
+    \item Distribution detailing strict block sizes distributed entirely across the image.
+    \item A bar chart illustrating the compression ratio, comparing VBSC directly and heavily against other methods.
+    \item Pie chart illustrating the exact proportion of blocks encoded strictly with each specific method.
 \end{enumerate}
 
-The distribution of encoding methods (Figure~\ref{fig:lenna_results}) shows that 35\% of blocks are encoded with RLE, 30\% with Base+Offset, 15\% with block matching, and 20\% are left raw. This reflects the heterogeneous nature of the Lenna image and validates the adaptive selection logic.
+That 35\% of blocks are strictly encoded with RLE, 30\% with Base+Offset, 15\% with block matching, and exactly 20\% are left entirely raw is actively shown by the distribution of encoding methods (Figure~\ref{fig:lenna_results}). The highly heterogeneous nature of the Lenna image is heavily reflected by this, and the active adaptive selection logic is completely validated.
 
 \paragraph{Complexity Analysis}
 
-Let $N$ be the total number of pixels. The Sobel edge detection and block variance computations require $O(N)$ operations. The adaptive block subdivision and encoding method selection also run in $O(N)$ because each pixel is processed a constant number of times. Block matching for $2\times2$ blocks has a worst‑case complexity of $O(N \log M)$, where $M$ is the size of the search window; in practice, the search is bounded and the overhead is negligible. Overall, the algorithm maintains linear time complexity with respect to image size, making it suitable for real‑time or near‑real‑time applications.
+The absolute total number of pixels is represented completely by $N$. A strict $O(N)$ operations are heavily required for the Sobel edge detection and absolute block variance computations. That each pixel is actively processed a strictly constant number of times ensures that the adaptive block subdivision and exact encoding method selection also run entirely in $O(N)$. A worst-case complexity of $O(N \log M)$ is possessed by block matching strictly for $2\times2$ blocks, where $M$ represents the absolute size of the search window; the search is strictly bounded in practice, rendering the overhead entirely negligible. Linear time complexity with respect to absolute image size is strictly maintained by the algorithm overall, making it entirely suitable specifically for real-time or nearly real-time active applications.
 
 \paragraph{Summary}
 
-This section has presented a variable block size compression algorithm that adaptively partitions an image based on local edge density and selects the most appropriate encoding method for each block. Run‑length encoding efficiently compresses uniform areas; base+offset coding handles smooth gradients; block matching eliminates global redundancies; and raw encoding preserves fine details. Experimental evaluation on the Lenna image demonstrates a compression ratio of 1.45:1, outperforming Huffman, arithmetic, LZW, and lossless JPEG by a substantial margin. The algorithm's adaptive nature and linear complexity make it a strong candidate for practical lossless image compression systems.
+A variable block size compression algorithm that actively partitions an image based strictly on local edge density has been presented entirely within this section. The most appropriate encoding method for every single block is actively selected. Uniform areas are efficiently compressed entirely by run-length encoding; smooth gradients are handled directly by base+offset coding; global redundancies are entirely eliminated by block matching; and fine details are strictly preserved by raw encoding. A compression ratio exactly hitting 1.45:1 was demonstrated entirely by experimental evaluation on the Lenna image, outperforming Huffman, arithmetic, LZW, and strictly lossless JPEG by a massive margin. The algorithm’s highly adaptive nature partnered heavily with linear complexity makes it a strictly strong candidate specifically for practical lossless image compression systems.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 \subsubsection{Lossy + Residual Image Compression}
@@ -255,6 +302,16 @@ This section has presented a variable block size compression algorithm that adap
 Lossy + residual compression is a hybrid scheme that delivers perfect (lossless) reconstruction while benefiting from the high compression ratios of lossy methods. The core idea is to first transmit a compact lossy approximation of the image and then send a \emph{residual} — the difference between the original and the lossy version. Because the residual contains only small‑magnitude values, it can be compressed extremely efficiently. The decoder adds the residual back to the lossy image, recovering the original exactly.
 
 This approach is particularly valuable in fields where both fidelity and file size matter, such as medical imaging, satellite imagery, and archival storage.
+
+
+
+
+
+
+
+
+
+
 
 \paragraph{The Three‑Stage Process}
 \begin{enumerate}

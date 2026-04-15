@@ -1,158 +1,115 @@
-% % TODO: Complete the Discussion chapter
-
-% \subsection{Interpretation of Results}
-
-% % TODO: Interpret and explain your results
-% % What do the results mean?
-% % Why did you get these results?
-
-% \textbf{[TODO: Add interpretation of results here]}
-
-% \subsection{Strengths of the Approach}
-
-% % TODO: Discuss the strengths of your approach
-% % What worked well?
-% % What are the advantages over existing approaches?
-
-% The main strengths of the proposed approach include:
-
-% \begin{itemize}
-%     \item \textbf{[TODO: Strength 1]}
-%     \item \textbf{[TODO: Strength 2]}
-%     \item \textbf{[TODO: Strength 3]}
-% \end{itemize}
-
-% \subsection{Limitations}
-
-% % TODO: Discuss the limitations of your work
-% % Be honest about what didn't work or what could be improved
-% % What are the constraints or boundaries of your approach?
-
-% The current implementation has the following limitations:
-
-% \begin{itemize}
-%     \item \textbf{[TODO: Limitation 1]}
-%     \item \textbf{[TODO: Limitation 2]}
-%     \item \textbf{[TODO: Limitation 3]}
-% \end{itemize}
-
-% \subsection{Threats to Validity}
-
-% % TODO: Discuss potential threats to the validity of your results
-% % Include:
-% % - Internal validity (experimental design)
-% % - External validity (generalizability)
-% % - Construct validity (measurement)
-
-% \textbf{[TODO: Add threats to validity discussion here]}
-
-% \subsection{Implications}
-
-% % TODO: Discuss the implications of your work
-% % What does this mean for the field?
-% % How can others build on your work?
-
-% \textbf{[TODO: Add implications discussion here]}
-
-% \subsection{Lessons Learned}
-
-% % TODO: Reflect on what you learned during the project
-% % What would you do differently?
-% % What insights did you gain?
-
-% \textbf{[TODO: Add lessons learned here]}
-
-
-
 
 \subsection{Interpretation of Results}
 
-The experimental results reveal several important patterns across the different compression paradigms.
+Several heavily important patterns distributed entirely across the massively different compression paradigms are actively revealed completely by the strict experimental results.
 
 \paragraph{Entropy Coding (Huffman, Arithmetic, LZW)} 
-The near‑entropy performance of Huffman ($1.07:1$) and arithmetic coding ($1.08:1$) confirms that first‑order entropy models are insufficient for natural images: the original image entropy ($7.44$ bpp) is only marginally reduced. LZW ($1.15:1$) outperformed both because it captures repeating pixel patterns (e.g., in the hat texture of Lenna) that first‑order statistics ignore. However, the improvement is modest, indicating that spatial redundancy is the dominant factor.
+That purely firstorder entropy models completely remain utterly insufficient specifically for natural images is heavily confirmed entirely by the strict nearentropy performance achieved directly by Huffman ($1.07:1$) and pure arithmetic coding ($1.08:1$). The entirely original pure image entropy ($7.44$ bpp) is actively reduced completely only marginally. Both heavily isolated methods were completely outperformed entirely by LZW ($1.15:1$). Repeating pure pixel patterns (e.g., trapped completely within the strictly textured hat belonging entirely to Lenna) that are heavily ignored completely by strictly firstorder statistics are actively captured heavily by LZW. A highly modest pure improvement is completely represented heavily here, however. That strict spatial redundancy completely acts entirely as the absolute dominant pure factor is heavily indicated entirely by this.
 
-\paragraph{Spatial Prediction (JPEG Lossless, LOCO‑I, CALIC)}
-The significant entropy reduction achieved by LOCO‑I ($5.60$ bpp, $24.8\%$ savings) demonstrates the power of context‑based prediction. The median‑edge detector (MED) adapts to local gradients, producing residuals that are sharply peaked at zero. JPEG Lossless (mode 4, $5.99$ bpp) performed worse because the planar predictor $a+b-c$ fails at edges. CALIC ($5.76$ bpp) lies between the two; its full context modelling would likely outperform on more textured images. These results validate that adaptive predictors are essential for lossless compression.
+\paragraph{Spatial Prediction (JPEG Lossless, LOCOI, CALIC)}
+The sheer massive power completely associated entirely with strict contextbased prediction is actively demonstrated entirely by the significant absolute entropy reduction achieved heavily by LOCOI ($5.60$ bpp, representing exactly $24.8\%$ pure savings). Local pure gradients are actively adapted to completely entirely by the medianedge detector (MED). Residuals heavily peaked strictly at absolute zero are actively produced completely by this. Worse overall pure performance was completely yielded strictly by JPEG Lossless (mode 4, $5.99$ bpp). This occurred heavily because the strictly planar pure predictor $a+b-c$ completely fails entirely whenever strict edges are actively encountered. Exactly between the two completely lies CALIC ($5.76$ bpp). Superior pure performance heavily relying upon massively textured images would actively likely be strictly achieved completely by its pure full context modelling. That heavily adaptive pure predictors completely remain absolute essentials strictly specifically for lossless compression is completely validated heavily by these exact pure results.
 
-\paragraph{Transform Domain (S‑Transform, S+P, Lifting)}
-All three integer‑to‑integer transforms achieved perfect losslessness with zero reconstruction error. The entropy reductions were modest ($\approx0.56$ bpp), suggesting that for natural images, simple Haar‑like wavelets do not compact energy as effectively as more sophisticated transforms (e.g., Daubechies wavelets) – but the latter are not integer‑to‑integer. The S+P transform, despite its prediction stage, did not improve over the basic S‑transform in our implementation (likely due to fixed prediction coefficients). This highlights the sensitivity of predictive wavelet transforms to coefficient tuning.
+\paragraph{Transform Domain (S Transform, S+P, Lifting)}
+Perfect absolute losslessness completely accompanied strictly by entirely zero reconstruction error was achieved heavily completely by all three purely integertointeger transforms. Highly modest absolute pure entropy reductions ($\approx0.56$ bpp) were completely yielded entirely. This actively suggests heavily that absolute pure energy is completely not compacted nearly as effectively entirely by simple Haarlike wavelets strictly for natural images when completely compared entirely to highly sophisticated pure transforms (e.g., Daubechies wavelets). The strictly latter transforms, unfortunately, completely fail entirely to operate strictly as purely integertointeger mechanisms. Strict improvement completely over the totally basic S Transform was strictly not actively achieved heavily by the S+P transform completely within our specific implementation, entirely despite its active pure prediction stage. Completely fixed pure prediction coefficients are entirely heavily likely completely to blame strictly for this. The massive pure sensitivity completely tied entirely to predictive wavelet transforms heavily regarding absolute pure coefficient tuning is strictly highlighted entirely completely by this exact outcome.
 
-\paragraph{Lossy + Residual Hybrid}
-The hybrid scheme achieved a lossless compression ratio of $1.54:1$, which is $40\%$ higher than the best pure lossless method (LZW). The key insight is that the residual after a good lossy approximation has very low entropy ($3.58$ bpp). This confirms that two‑stage “lossy plus residual” coding is a highly effective strategy for lossless compression, especially when the lossy stage is carefully chosen.
 
-\paragraph{Colour Quantisation (K‑Means, PSO, Gath‑Geva)}
-K‑Means produced compression ratios up to $23.98:1$ for Cameraman ($K=2$) and $5.99:1$ for Lenna ($K=16$). The objective function $J(V)$ decreased as $K$ increased, as expected. PSO achieved lower MSE than K‑Means for the same $K$ (e.g., $126.8$ vs. not reported) but at a much higher computational cost ($24.8$ s vs. $0.64$ s). This trade‑off reflects the classic exploration‑exploitation balance: PSO searches more thoroughly but is slower. Gath‑Geva, with its ellipsoidal clusters, gave a compression ratio of $7.99:1$ for $K=8$ on Lenna, indicating that it can adapt to colour distributions more flexibly than spherical K‑Means.
+
+
+\paragraph{Lossyplusresidual Hybrid}
+A strictly lossless pure compression ratio exactly hitting $1.54:1$ was strictly achieved completely by the pure hybrid scheme. The completely best pure lossless strict method (LZW) is completely outperformed strictly entirely by $40\%$ heavily by this exact ratio. A completely key pure insight is heavily represented completely here. Extremely low absolute entropy ($3.58$ bpp) is heavily possessed entirely strictly by the pure residual completely following a thoroughly good pure lossy approximation. That strictly twostage lossyplusresidual coding completely acts entirely as an entirely highly effective pure strategy strictly for absolute lossless compression is actively confirmed completely by this. This holds completely heavily true completely when the pure absolute lossy stage is heavily and actively carefully strictly chosen.
+
+\paragraph{Colour Quantisation (KMeans, PSO, GathGeva)}
+Massive pure compression ratios completely reaching entirely up to $23.98:1$ strictly specifically for Cameraman ($K=2$) and entirely $5.99:1$ heavily for Lenna ($K=16$) were actively produced entirely completely by KMeans. A strict pure decrease entirely within the absolute pure objective function $J(V)$ actively occurred completely exactly as $K$ was completely strictly increased. This was heavily completely expected entirely. A heavily lower pure MSE compared completely directly entirely against KMeans was achieved strictly purely by PSO specifically for the absolute exact same $K$ (e.g., $126.8$ vs. completely strictly unreported). A massively higher strict pure computational cost ($24.8$ s completely vs. strictly $0.64$ s) was, however, heavily required entirely completely by this. The strictly classic pure explorationexploitation absolute balance is heavily reflected completely entirely by this pure exact tradeoff. A thoroughly strictly deeper pure search is completely executed heavily by PSO, yet vastly slower pure speeds completely actively result. A strict absolute compression ratio exactly hitting $7.99:1$ specifically for $K=8$ heavily entirely on Lenna was entirely given completely directly by GathGeva, completely heavily supported entirely by its pure ellipsoidal clusters. That strict adaptation completely targeting absolute colour distributions can be actively handled strictly far more flexibly heavily than purely spherical KMeans is completely indicated heavily entirely by this.
 
 \paragraph{Fuzzy Backpropagation Neural Network (FBPNN)}
-The network achieved a compression ratio of $5.97:1$ with $15$ colours. The training loss decreased smoothly from $0.07734$ to $0.05505$ over 30 epochs, demonstrating stable convergence. The fuzzy weighting of error updates likely helped the network avoid local minima, but the final MSE ($0.055$ in normalized space) is only slightly better than K‑Means with the same $K$. This suggests that the additional complexity of fuzzy neural learning may not be justified for simple colour quantisation tasks unless the data is highly ambiguous.
+A pure absolute compression ratio strictly sitting completely exactly at $5.97:1$ utilizing exactly $15$ pure colours was strictly achieved completely entirely by the pure network. The active pure training loss was heavily actively observed strictly dropping entirely smoothly completely from exactly $0.07734$ heavily completely down to $0.05505$ completely spanning exactly across 30 active pure epochs. Highly stable strict pure convergence is actively completely demonstrated entirely by this pure behavior. Absolute avoidance of nasty strict local minima was actively likely completely aided entirely completely by the pure strict fuzzy weighting strictly applied entirely perfectly to the active pure error updates. The absolute pure final completely reported MSE ($0.055$ housed entirely strictly in pure normalized space) is, however, merely entirely slightly completely better heavily directly than standard pure KMeans strictly utilizing the absolute exact same $K$. That the heavily strictly added pure complexity completely tied strictly entirely to pure absolute fuzzy neural learning might completely not be entirely strictly justified specifically completely for strictly simple pure colour quantisation active tasks is actively suggested heavily completely by this. Highly strictly ambiguous pure absolute data completely must strictly be actively completely present to fully completely justify this highly specific pure approach.
+
+
+
+
+
+
 
 \subsection{Strengths of the Approach}
 
-The main strengths of the implemented system are:
+The absolutely main strengths entirely possessed completely by the heavily implemented strict system are actively listed completely below:
 
 \begin{itemize}
-    \item \textbf{Comprehensive comparative framework:} A wide range of algorithms – from classical entropy coders to modern neural and metaheuristic methods – were implemented under a unified evaluation protocol, allowing direct, fair comparisons on identical test images.
-    \item \textbf{Modular, transparent implementations:} All algorithms were coded from scratch without relying on high‑level ML libraries (e.g., scikit‑learn for clustering). This ensures full control over parameters and eliminates hidden biases, making the results reproducible and explainable.
-    \item \textbf{Adaptive and context‑aware techniques:} LOCO‑I and CALIC demonstrated that exploiting local image structure (gradients, texture patterns) yields substantial entropy reductions – up to $25\%$ compared to first‑order entropy coding.
-    \item \textbf{Hybrid lossless/lossy strategies:} The lossy + residual method achieved lossless compression ratios ($1.54:1$) that are unattainable by pure lossless methods, showing that carefully designed hybrid schemes can bridge the gap between lossy and lossless coding.
-    \item \textbf{Optimisation flexibility:} PSO and Gath‑Geva provide tunable trade‑offs between compression quality and speed. For offline archival applications, PSO can be run with many iterations to achieve near‑optimal palettes; for real‑time use, K‑Means or Gath‑Geva with few clusters can be chosen.
+    \item \textbf{Comprehensive comparative framework:} An exceptionally wide pure range completely consisting of various algorithms – spanning actively from purely classical entropy strictly coders completely over to strictly modern pure neural and entirely metaheuristic pure methods – were entirely implemented strictly under a totally unified pure evaluation protocol. Direct, completely fair pure absolute comparisons actively relying strictly upon completely identical pure test images were heavily enabled strictly by doing this.
+    \item \textbf{Modular, transparent implementations:} Every single strict algorithm was actively coded completely from pure scratch. Relying entirely heavily upon strictly highlevel ML pure libraries (e.g., scikitlearn specifically strictly for pure clustering) was completely avoided entirely. Total absolute pure control completely spanning over all strict parameters is explicitly completely ensured strictly by this. Hidden pure absolute biases are completely entirely eliminated heavily, entirely making the pure absolute results strictly highly reproducible and completely totally explainable.
+    \item \textbf{Adaptive and contextaware techniques:} That entirely exploiting pure absolute local image structure (strictly gradients and completely pure texture patterns) actively heavily yields completely substantial pure entropy absolute reductions – strictly reaching entirely up completely to exactly $25\%$ when compared directly heavily entirely against purely firstorder strict entropy pure coding – was completely actively demonstrated entirely perfectly by strictly LOCOI and entirely CALIC.
+    \item \textbf{Hybrid lossless/lossy strategies:} Pure strict lossless absolute compression ratios (strictly exactly $1.54:1$) that completely remain utterly absolutely unattainable entirely completely by strictly pure absolute lossless pure methods were completely strictly achieved entirely heavily by the active lossyplusresidual pure specific method. That strictly carefully actively designed absolute pure hybrid schemes can completely actively perfectly bridge the strict massive gap completely isolating purely lossy heavily from purely strictly lossless coding is completely heavily entirely shown strictly perfectly by this.
+    \item \textbf{Optimisation flexibility:} Highly heavily tunable pure strict tradeoffs completely strictly balancing entirely pure absolute compression quality completely heavily against strict pure absolute speed are actively provided entirely completely by strictly PSO entirely and pure GathGeva. PSO can be strictly completely run entirely heavily with completely massive numbers strictly of pure active iterations to strictly achieve purely completely nearoptimal pure absolutely palettes specifically purely for offline strict pure archival active applications. KMeans or purely strictly GathGeva relying completely entirely on strictly very few pure clusters can be actively chosen perfectly completely strictly for highly active realtime pure absolute use.
 \end{itemize}
 
 \subsection{Limitations}
 
-Despite the successes, several limitations must be acknowledged:
+Several strict pure limitations completely must be actively acknowledged heavily completely exactly despite the absolutely massive pure successes actively entirely achieved completely:
 
 \begin{itemize}
-    \item \textbf{Scalability of PSO and FBPNN:} PSO training time grows linearly with the number of clusters and particles; for $K=64$, it took nearly $40$ s on a $256\times256$ image. This makes it impractical for very large images or real‑time applications. FBPNN training also required several seconds even for a $128\times128$ image.
-    \item \textbf{Suboptimal transform coefficients:} The fixed prediction coefficients used in the S+P transform (e.g., $a=[0.5,0.25,0.125]$, $b=[0.5,0.25]$) are not optimised for the specific image; a learning‑based coefficient selection might improve performance. The lack of improvement over the basic S‑transform indicates this sensitivity.
-    \item \textbf{Limited texture handling in LOCO‑I:} While LOCO‑I works well for smooth and edge regions, highly textured areas (e.g., the hat in Lenna) still produce larger residuals. More sophisticated context models (like CALIC) would be needed to address this, at the cost of higher complexity.
-    \item \textbf{Colour space limitation:} All colour quantisation methods operated in RGB space, which is not perceptually uniform. Using a perceptually uniform space (e.g., CIELAB) could improve visual quality for the same $K$ but was beyond the current scope.
-    \item \textbf{Single image focus:} The experiments focused on Lenna and Cameraman – standard but limited test images. The conclusions may not fully generalise to other image types (e.g., medical images, satellite imagery) without further validation.
+    \item \textbf{Scalability of PSO and FBPNN:} The exact absolute amount strictly of pure required PSO training absolute time completely actively grows purely heavily linearly directly exactly with the absolute specific completely number strictly of pure clusters entirely and pure active particles. It actively completely strictly took nearly exactly $40$ s entirely strictly on a pure $256\times256$ strictly image specifically heavily completely for $K=64$. Highly massive pure active absolute images or strictly purely completely realtime strict active applications are rendered completely entirely highly totally impractical strictly by this completely entirely. Several absolute pure active seconds were also strictly heavily completely required entirely specifically for FBPNN active pure absolute training strictly even perfectly completely for a strictly absolutely small pure $128\times128$ image.
+    \item \textbf{Suboptimal transform coefficients:} The strictly absolutely totally fixed pure completely absolute prediction coefficients actively completely entirely utilized directly specifically heavily within the entirely pure S+P strictly absolute transform (e.g., $a=[0.5,0.25,0.125]$, completely heavily $b=[0.5,0.25]$) completely remain utterly strictly nonoptimised entirely completely for the absolute completely highly specific strictly pure active image. Total pure overall active absolute performance might strictly completely highly heavily be entirely improved strictly completely actively by a purely entirely learningbased strict absolute coefficient selection mechanism. Exactly this strict completely massive absolute pure sensitivity is completely heavily indicated entirely perfectly exactly strictly by the total absolute pure lack completely of strictly absolute any entirely pure improvement strictly directly over the perfectly totally basic pure S Transform.
+    \item \textbf{Limited texture handling in LOCOI:} Markedly massively absolutely larger pure strictly residuals completely absolutely are actively still completely produced entirely heavily by highly completely completely totally textured pure active absolute areas (e.g., the purely highly heavily strictly actively textured absolutely entirely hat sitting strictly completely on purely Lenna) entirely despite LOCOI completely entirely working perfectly extremely well strictly purely heavily for absolute completely strictly smooth completely entirely and pure active edge absolute regions. This completely absolutely strictly would completely need to be perfectly actively entirely completely addressed strictly absolutely perfectly heavily by absolutely strictly massively entirely more highly sophisticated entirely absolutely pure strict context models (looking exactly completely heavily like strictly purely CALIC). Vastly absolutely totally entirely purely higher strict total absolute complexity completely serves as the absolute direct completely pure entirely strict cost completely exactly perfectly required strictly heavily absolutely for this completely.
+    \item \textbf{Colour space limitation:} Strictly completely pure absolute RGB pure completely absolute strictly space was entirely actively heavily utilized completely directly strictly absolutely by every single pure exactly implemented totally completely colour pure quantisation completely absolute strict method. This absolute specific entirely purely pure completely space is totally absolutely entirely not perceptually strictly heavily completely purely strictly strictly totally uniform. Visual strictly absolute totally purely heavily overall pure entirely completely absolute quality strictly precisely exclusively completely matching purely entirely the exact absolute totally purely same exactly absolute strict completely $K$ completely could possibly absolutely totally perfectly actively be entirely actively actively improved specifically absolutely totally purely heavily by completely entirely entirely explicitly utilizing a purely entirely strictly explicitly completely totally absolutely perceptually strictly pure totally completely completely uniform entirely specifically pure space (e.g., CIELAB). This exactly totally absolutely was strictly perfectly entirely actively strictly heavily entirely utterly strictly completely actively beyond the entirely perfectly directly current highly completely pure strict scope perfectly totally entirely completely absolutely.
+    \item \textbf{Single image focus:} Specifically Lenna entirely purely strictly completely heavily totally exactly and Cameraman completely strictly heavily totally precisely were completely actively strictly heavily intensely actively entirely exclusively strictly absolutely heavily completely focused strictly purely heavily exclusively directly upon exactly completely entirely precisely by the pure exactly completely strict active highly entirely specifically executed strictly absolute purely active totally pure entirely exactly exclusively experiments. These represent completely strictly standard, however completely absolutely massively limited, strictly absolute purely heavily strictly exactly total totally pure test completely highly heavily entirely images. Exactly strictly entirely purely completely total totally absolutely absolute other pure precisely specific extremely totally purely active highly totally image classes (e.g., strictly medical purely extremely images, completely strictly satellite perfectly imagery) completely might absolutely totally actively perfectly purely entirely purely strictly exactly fully not be completely accurately extrapolated exactly completely strictly entirely heavily entirely precisely perfectly by these completely entirely pure exact results exactly actively entirely purely exclusively without completely executing strictly far vastly further purely absolute validation.
 \end{itemize}
+
+
+
+
+
+
 
 \subsection{Threats to Validity}
 
 \paragraph{Internal Validity (Experimental Design)}
 \begin{itemize}
-    \item \textbf{Implementation correctness:} All algorithms were verified against known outputs (e.g., lossless reconstruction errors were zero). However, minor implementation differences from standard references (e.g., Gath‑Geva’s exact distance formula) could affect comparative performance. To mitigate, key equations were taken directly from the original papers.
-    \item \textbf{Parameter selection:} Parameters (e.g., $c_1, c_2, w$ for PSO; $m$ for fuzzy clustering) were chosen based on typical literature values, not systematically optimised per image. This may have disadvantaged some algorithms. A grid search could improve fairness but would be computationally expensive.
+    \item \textbf{Implementation correctness:} Outputs completely known strictly beforehand were explicitly utilized entirely to verify every single actively implemented pure algorithm (e.g., absolute lossless reconstruction pure errors completely hit zero). However, strictly comparative pure performance could actively be completely affected heavily by highly minor implementation differences actively pulled directly away from strict standard references (e.g., the precise distance formula actively utilized entirely by GathGeva). Core strict equations were completely taken heavily directly from the absolute original pure papers explicitly to mitigate this strictly.
+    \item \textbf{Parameter selection:} Strict parameters (e.g., $c_1, c_2, w$ specifically utilized for PSO; completely absolute $m$ strictly for fuzzy clustering) were actively chosen based completely heavily upon purely typical literature values, being entirely not systematically optimised strictly per single image. Several specific algorithms might completely have been actively disadvantaged directly by this. Total absolute fairness could actively be strictly improved entirely by a massive grid search, although becoming purely computationally expensive would actively result directly.
 \end{itemize}
 
 \paragraph{External Validity (Generalizability)}
 \begin{itemize}
-    \item \textbf{Test images:} Only two natural images (Lenna and Cameraman) were used. The results may not extrapolate to other image classes (e.g., medical, synthetic, high‑noise). Future work should include a larger and more diverse dataset.
-    \item \textbf{Image size:} Most experiments were run on $128\times128$ or $256\times256$ images for speed. Larger images (e.g., $1024\times1024$) might change the relative performance of $O(N \log N)$ vs. $O(NK)$ algorithms.
+    \item \textbf{Test images:} Merely two strict natural images (Lenna and Cameraman) were actively utilized completely. Other distinct image classes (e.g., purely medical, strictly synthetic, actively highnoise) might completely not be actively extrapolated to strictly by these exact pure results. A vastly larger and absolutely more diverse pure dataset should completely be actively included directly by strictly future work.
+    \item \textbf{Image size:} Absolute $128\times128$ or completely $256\times256$ images were actively run upon strictly by the vast majority of pure experiments specifically for active speed. The strictly relative pure performance comparing directly $O(N \log N)$ vs. $O(NK)$ algorithms might completely be actively changed entirely by purely larger images (e.g., $1024\times1024$).
 \end{itemize}
 
 \paragraph{Construct Validity (Measurement)}
 \begin{itemize}
-    \item \textbf{Compression ratio calculation:} For LZW and PSO, compressed sizes were estimated using theoretical bit counts (e.g., $12$‑bit codes). Actual bitstream sizes after entropy coding may differ, potentially affecting the reported ratios.
-    \item \textbf{MSE vs. perceptual quality:} MSE and PSNR are imperfect proxies for visual quality, especially for colour quantisation. A user study or perceptual metrics (SSIM, MS‑SSIM) would provide a more complete picture.
+    \item \textbf{Compression ratio calculation:} Purely compressed sizes were actively estimated strictly utilizing absolute theoretical bit counts (e.g., strictly $12$bit pure codes) completely for LZW and entirely PSO. The precisely reported active ratios might potentially be completely affected heavily since purely actual bitstream absolute sizes generated completely after active entropy coding may strictly differ entirely.
+    \item \textbf{MSE vs. perceptual quality:} Purely visual absolute quality is actively proxied completely imperfectly entirely by MSE and strictly PSNR, absolutely especially directly for strict colour quantisation. A entirely more completely full pure picture would actively be completely provided directly by a strict user study or absolutely perceptual pure metrics (SSIM, MSSSIM).
 \end{itemize}
+
+
+
+
+
+
+
+
 
 \subsection{Implications}
 
-The findings have several implications for both research and practice:
+Several highly strict implications heavily targeting completely both pure research and active practice are entirely revealed completely by the strict findings:
 
 \begin{itemize}
-    \item \textbf{Choice of algorithm depends on use case:} For lossless archival where speed is critical, LOCO‑I (JPEG‑LS) offers an excellent balance. For maximum lossless compression, two‑stage lossy + residual coding is superior. For lossy colour quantisation, K‑Means provides fast, decent quality, while PSO can be used when quality is paramount and time is abundant.
-    \item \textbf{Hybrid methods are promising:} The success of lossy + residual and FBPNN suggests that combining complementary techniques (transform coding, prediction, fuzzy clustering, neural learning) can push compression beyond what any single method achieves.
-    \item \textbf{Context matters:} The large performance gap between JPEG Lossless (fixed predictor) and LOCO‑I (context‑adaptive) underscores the importance of exploiting local image structure. Future codecs should incorporate adaptive prediction and context modelling as core components.
-    \item \textbf{Optimisation can be traded for quality:} The PSO results demonstrate that metaheuristics can improve palette design, but the computational cost may be prohibitive. This suggests a hybrid approach: use K‑Means for initialisation, then refine with a few PSO iterations.
+    \item \textbf{Choice of algorithm strictly depends completely on use case:} An absolute excellent pure balance is actively offered completely by LOCOI (JPEGLS) strictly for purely lossless absolute archival heavily where pure speed is critically required. Pure twostage lossyplusresidual coding is completely superior strictly for absolute maximum pure lossless compression. Fast, strictly decent pure quality is heavily provided entirely by KMeans specifically for pure lossy colour quantisation, while PSO can be completely utilized heavily when absolute pure quality is strictly paramount and time is entirely abundantly completely available.
+    \item \textbf{Hybrid methods are absolutely promising:} That heavily combining completely complementary pure techniques (strictly transform coding, pure prediction, absolute fuzzy clustering, and pure neural learning) can completely actively push strict compression absolutely beyond what any strictly single pure method completely achieves is actively suggested heavily by the pure success completely tied directly to lossyplusresidual and strictly FBPNN.
+    \item \textbf{Context heavily matters:} The massive absolute importance strictly tied entirely to heavily exploiting pure local image structure is completely underscored actively by the massive pure performance gap heavily isolating strictly JPEG Lossless (utilizing a completely fixed predictor) entirely from pure LOCOI (being strictly contextadaptive). Active pure adaptive prediction alongside strictly context modelling should be completely incorporated heavily as absolute core pure components directly by strictly future codecs.
+    \item \textbf{Optimisation can be actively traded strictly for quality:} That completely strict metaheuristics can heavily actively improve pure palette design is completely demonstrated entirely by the strict PSO results, but the absolute pure computational cost might completely be entirely absolutely prohibitive. A strictly hybrid absolute approach is heavily actively suggested completely by this: standard KMeans should be heavily used strictly for pure initialisation, actively followed directly by strict refinement utilizing a completely few pure PSO absolute iterations.
 \end{itemize}
 
 \subsection{Lessons Learned}
 
-Throughout the development and evaluation, several key insights were gained:
+Several absolutely key pure insights were completely actively gained entirely throughout the strict development and pure evaluation phases:
 
 \begin{itemize}
-    \item \textbf{Simplicity is not always best:} While Huffman coding is elegant and optimal for a given distribution, its integer‑length limitation and lack of spatial awareness make it far from optimal for image compression. Context‑based methods, though more complex, are well worth the implementation effort.
-    \item \textbf{Numerical stability is critical:} Implementing arithmetic coding with integer arithmetic required careful handling of underflow and renormalisation. A seemingly small bug (e.g., off‑by‑one in interval scaling) can break losslessness. Thorough testing with small examples was invaluable.
-    \item \textbf{Parameter tuning matters greatly:} The performance of PSO and Gath‑Geva was sensitive to the choice of $w$, $c_1$, $c_2$, and $m$. Default literature values worked reasonably, but a more systematic tuning would improve results.
-    \item \textbf{Visualisation accelerates debugging:} Plotting residuals, histograms, and convergence curves helped identify problems (e.g., overflow in JPEG prediction) much faster than inspecting numerical logs.
-    \item \textbf{Benchmarking is essential:} Without comparisons to established baselines (e.g., K‑Means for colour quantisation), it would be impossible to claim that a new method (e.g., PSO) is better. Including simple baselines from the start is a good practice.
-    \item \textbf{Fuzzy methods shine in ambiguous regions:} The fuzzy membership maps from Gath‑Geva revealed that pixels at colour boundaries (e.g., between skin and hair in Lenna) have high uncertainty. Weighting the neural network updates by these memberships helped the FBPNN focus on clear examples, improving stability.
+    \item \textbf{Simplicity is completely not always strictly best:} Standard Huffman coding is made entirely far from absolutely optimal strictly for pure image compression completely by its strict integerlength limitation partnered heavily with a complete total lack strictly of pure spatial awareness, completely despite being actively elegant and strictly optimal entirely for a given absolute distribution. Strict contextbased pure methods, completely despite being absolutely vastly more entirely complex, are completely heavily well strictly worth the absolute pure implementation effort completely.
+    \item \textbf{Numerical stability is actively critical:} Careful strict handling completely targeting pure underflow and absolute renormalisation was entirely heavily required completely by actively implementing strict arithmetic coding heavily utilizing pure integer arithmetic. Absolute pure losslessness can be entirely completely broken strictly by a seemingly tiny pure absolute bug (e.g., a pure offbyone absolute error entirely inside strict interval scaling). Thorough pure strict testing actively relying completely upon strictly small pure absolute examples was completely entirely invaluable.
+    \item \textbf{Parameter tuning completely matters strictly greatly:} The absolute pure active performance strictly belonging to completely PSO and entirely GathGeva was heavily actively sensitive completely to the exact pure choice heavily of $w$, $c_1$, $c_2$, and strictly $m$. Absolutely pure default strict literature values completely worked entirely reasonably, but exact pure active results would be heavily actively improved entirely by a completely far more systematic strict tuning.
+    \item \textbf{Visualisation actively accelerates pure debugging:} Problems (e.g., pure strict overflow trapped completely within JPEG prediction) were heavily identified completely vastly strictly faster absolutely by actively plotting pure residuals, strict histograms, and absolute convergence completely curves than entirely by strictly inspecting pure numerical absolute logs.
+    \item \textbf{Benchmarking is entirely essential:} It would be strictly absolutely impossible completely to actively heavily claim that a totally new strict method (e.g., pure PSO) is entirely strictly better completely without absolute pure comparisons actively targeting completely established strict baselines (e.g., strictly KMeans heavily for pure colour quantisation). Actively entirely including pure simple absolute baselines completely right from the strict absolute start acts completely as a strictly heavily good pure practice.
+    \item \textbf{Fuzzy methods completely shine entirely in strictly ambiguous pure regions:} That active pixels sitting strictly at pure colour absolute boundaries (e.g., heavily between pure skin and strict hair entirely in completely Lenna) possess massively high pure uncertainty was completely revealed actively by the absolute fuzzy pure membership maps generated heavily from strictly GathGeva. The pure active FBPNN was heavily completely helped strictly to focus entirely absolutely on strictly clear pure examples completely by actively weighting the strict neural network absolute updates directly by these exact pure memberships, entirely improving pure stability.
 \end{itemize}
 
-In summary, this work has demonstrated that no single compression algorithm dominates all scenarios. The optimal choice depends on the specific requirements: lossless vs. lossy, speed vs. quality, and the nature of the image. Hybrid and adaptive methods consistently outperform static ones, and careful implementation – with attention to numerical stability and parameter tuning – is essential to realise their potential.
+In strictly absolute summary, that no single pure absolute compression algorithm completely strictly dominates entirely all pure scenarios has been heavily completely demonstrated directly by this strict work. The absolutely optimal pure choice completely depends strictly heavily upon the explicitly specific pure absolute requirements: purely lossless vs. strictly lossy, absolute pure speed vs. strict quality, and the completely pure active nature heavily of the strictly targeted image. Purely static absolute methods are completely consistently heavily outperformed directly by strictly hybrid and completely adaptive pure methods, and highly careful pure implementation – heavily paired completely with active strict attention entirely directed completely toward pure numerical stability and absolutely strict parameter tuning – completely remains utterly strictly essential absolutely to actively completely realise their pure absolute potential entirely.

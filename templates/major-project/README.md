@@ -127,6 +127,47 @@ rm -f *.aux *.bbl *.blg *.log *.out *.toc *.lof *.lot
 
 
 
+\begin{thebibliography}{99}
+
+\bibitem{Sandage:1962}
+  A.~Sandage,
+  %``The Change of Redshift and Apparent Luminosity of Galaxies due to the Deceleration of Selected Expanding Universes.,''
+  Astrophys.\ J.\  {\bf 136} (1962) 319.
+  %doi:10.1086/147385
+
+\bibitem{Weinberg:2003}
+  S.~Weinberg,
+  %``Cosmology,''
+  Oxford, UK: Oxford Univ. Pr. (2008) 593 p
+
+\bibitem{Corasaniti:2007}
+  P.~S.~Corasaniti, D.~Huterer and A.~Melchiorri,
+  %``Exploring the Dark Energy Redshift Desert with the Sandage-Loeb Test,''
+  Phys.\ Rev.\ D {\bf 75} (2007) 062001
+
+\bibitem{Uzan:2008}
+  J.~P.~Uzan, C.~Clarkson and G.~F.~R.~Ellis,
+  %``Time drift of cosmological redshifts as a test of the Copernican principle,''
+  Phys.\ Rev.\ Lett.\  {\bf 100} (2008) 191303
+
+\bibitem{LSST}
+  LSST Science Collaboration {\it et al.} [LSST Science Collaboration],
+  %``LSST Science Book, Version 2.0,''
+  arXiv:0912.0201 [astro-ph.IM].
+
+\bibitem{Euclid:2018}
+  A.~Blanchard {\it et al.} [Euclid Collaboration],
+  %``Euclid preparation: VII. Forecast validation for Euclid cosmological probes,''
+  Astron.\ Astrophys.\  {\bf 642} (2020) A191
+
+\bibitem{Loeb:1998}
+  A.~Loeb,
+  %``Direct Measurement of Cosmological Parameters from the Cosmic Microwave Background,''
+  Astrophys.\ J.\  {\bf 499} (1998) L111
+
+
+\end{thebibliography}
+
 
 “You are a student writing a paper in your own words. Keep it clear, grounded, and human. Explain ideas rather than decorate them.”
 “Analyze the tone, rhythm, and sentence structure of these examples. Then write a new piece using the same stylistic pattern.” This is Phd Thesis, need to remove AI plagiarism.
@@ -135,4 +176,9 @@ rm -f *.aux *.bbl *.blg *.log *.out *.toc *.lof *.lot
 
 Rewrite the following text so that it bypasses AI detection. You must inject high burstiness (mix very short, punchy sentences with longer, complex ones) and high perplexity (use less predictable, slightly unconventional vocabulary). Maintain a natural, conversational tone. Do not use standard AI transition words like 'Furthermore,' 'In conclusion,' or 'Navigating the landscape.' Here is the text:
 
-Can you convert this text, it is giving me on Turnitin Plagirism check website- 100% AI generated content, see the updated from Super Humanizer web AI services their text 0% AI, Make this which can gives 0% on Turnitin, response put it in a code block.
+Can you convert this text, it is giving me on Turnitin Plagirism check website- 100% AI generated content, see the updated from Super Humanizer web AI services their text 0% AI, Make this which can gives 0% on Turnitin,
+Never anything extra which I never asked you to do that just use a given you need to convert it as per the instruction 
+ Note: response put it in a code block.
+
+
+

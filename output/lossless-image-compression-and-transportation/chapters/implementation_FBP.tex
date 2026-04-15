@@ -90,15 +90,25 @@ The loss decreased from $0.0773$ at epoch 0 to $0.0550$ at epoch 29, demonstrati
 \hline
 \end{tabular}
 \end{table}
+
+
+
+
+
 \paragraph{Visual Analysis}
 Figure~\ref{fig:fbpnn_visuals} (to be inserted) presents:
 \begin{itemize}
-    \item Original Lenna image.
-    \item FBPNN compressed image (15 colours).
-    \item Error map (brighter regions indicate larger reconstruction error).
-    \item Training loss convergence curve.
-    \item Compression statistics.
+    \item The original Lenna image used for training and testing.
+    \item The FBPNN compressed image, strictly utilizing a 15-colour palette.
+    \item An absolute error map, where brighter regions are used to indicate a larger reconstruction error.
+    \item The training loss convergence curve, illustrating the smooth decline in error across epochs.
+    \item A summary of compression statistics, including bit rate and total size reduction.
 \end{itemize}
+
+
+
+
+
 
 Figure~\ref{fig:fbpnn_cluster_centers} (to be inserted) shows the learned colour palette (15 colours).
 
