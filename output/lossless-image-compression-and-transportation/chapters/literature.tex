@@ -8,21 +8,21 @@ For decades, lossless image compression has been treated as a highly fundamental
 
 \subsubsection{Entropy Coding Methods}
 
-The absolute backbone of the vast majority of lossless compression systems is formed entirely by entropy coding. Variable length codes are assigned directly to symbols by \textbf{Huffman coding} \cite{huffman1952}. This is done based entirely on their specific frequencies. Optimal coding for a given probability distribution is achieved when integer length codes are utilized. This concept is extended heavily by \textbf{Arithmetic coding} \cite{witten1987arithmetic}. Fractional bit allocations are allowed by this method. Better overall compression than Huffman coding is often yielded by this approach, though this comes at the direct cost of much higher computational complexity. A dictionary based method is utilized by \textbf{LempelZivWelch (LZW)} \cite{welch1984technique}. Repeated strings are swapped out and replaced completely with references pointing to a dictionary. This dictionary is built adaptively while the compression is actively taking place. It is utilized widely across standard visual formats like GIF and TIFF.
+The absolute backbone of the vast majority of lossless compression systems is formed entirely by entropy coding. Variable length codes are assigned directly to symbols by \textbf{Huffman coding} \cite{Huffman1952}. This is done based entirely on their specific frequencies. Optimal coding for a given probability distribution is achieved when integer length codes are utilized. This concept is extended heavily by \textbf{Arithmetic coding} \cite{Witten1987}. Fractional bit allocations are allowed by this method. Better overall compression than Huffman coding is often yielded by this approach, though this comes at the direct cost of much higher computational complexity. A dictionary based method is utilized by \textbf{LempelZivWelch (LZW)} \cite{Welch1984}. Repeated strings are swapped out and replaced completely with references pointing to a dictionary. This dictionary is built adaptively while the compression is actively taking place. It is utilized widely across standard visual formats like GIF and TIFF.
 
 
 
 \subsubsection{Predictive and Transform Coding}
 
-\textbf{JPEG-LS} (ISO/IEC 14495-1) is an international standard for lossless and near-lossless compression of continuous-tone images. It employs a median edge detector (MED) predictor and Golomb-Rice coding, offering low complexity and excellent compression performance \cite{weinberger2000loco}. \textbf{CALIC} (Context-based Adaptive Lossless Image Coding) \cite{wu1996context} uses gradient-based prediction and context modeling of prediction errors, achieving state-of-the-art compression ratios at higher computational cost. \textbf{JPEG 2000} (ISO/IEC 15444-1) supports lossless compression through the use of integer wavelet transforms (e.g., the 5/3 LeGall-Tabatabai filter) and embedded block coding with optimized truncation (EBCOT) \cite{taubman2002jpeg}.
+\textbf{JPEG-LS} (ISO/IEC 14495-1) is an international standard for lossless and near-lossless compression of continuous-tone images. It employs a median edge detector (MED) predictor and Golomb-Rice coding, offering low complexity and excellent compression performance \cite{Weinberger1996}. \textbf{CALIC} (Context-based Adaptive Lossless Image Coding) \cite{Wu1996} uses gradient-based prediction and context modeling of prediction errors, achieving state-of-the-art compression ratios at higher computational cost. \textbf{JPEG 2000} (ISO/IEC 15444-1) supports lossless compression through the use of integer wavelet transforms (e.g., the 5/3 LeGall-Tabatabai filter) and embedded block coding with optimized truncation (EBCOT) \cite{Bhaskaran1995}.
 
 \subsubsection{Transform Domain Methods}
 
-The \textbf{S-Transform} (sequential transform) and its extension \textbf{S+P Transform} \cite{said1996new} provide reversible integer-to-integer transforms that are well-suited for lossless compression. The S+P transform combines a Haar-like decomposition with a prediction step to reduce the entropy of high-pass subbands. More general \textbf{integer wavelet transforms} (IWTs) using the lifting scheme \cite{calderbank1998wavelet} enable perfect reconstruction with integer arithmetic, forming the basis of lossless JPEG 2000.
+The \textbf{S-Transform} (sequential transform) and its extension \textbf{S+P Transform} \cite{Said1996} provide reversible integer-to-integer transforms that are well-suited for lossless compression. The S+P transform combines a Haar-like decomposition with a prediction step to reduce the entropy of high-pass subbands. More general \textbf{integer wavelet transforms} (IWTs) using the lifting scheme \cite{calderbank1998} enable perfect reconstruction with integer arithmetic, forming the basis of lossless JPEG 2000.
 
 \subsubsection{Clustering and Neural Network Approaches}
 
-\textbf{K-Means clustering} \cite{lloyd1982} and \textbf{Gath-Geva fuzzy clustering} \cite{gath1989} have been applied to color quantization for lossy compression, but can also be adapted to lossless scenarios by encoding the palette and indices. Recent works have explored \textbf{Fuzzy Backpropagation Neural Networks (FBPNN)} that integrate fuzzy membership values from Gath-Geva into the weight update rules of backpropagation, aiming to improve compression performance for images with ambiguous boundaries \cite{pedrycz1996fuzzy}.
+\textbf{K-Means clustering} \cite{somasundarad2012} and \textbf{Gath-Geva fuzzy clustering} \cite{hasanzadeh2005} have been applied to color quantization for lossy compression, but can also be adapted to lossless scenarios by encoding the palette and indices. Recent works have explored \textbf{Fuzzy Backpropagation Neural Networks (FBPNN)} that integrate fuzzy membership values from Gath-Geva into the weight update rules of backpropagation, aiming to improve compression performance for images with ambiguous boundaries \cite{sarkar1995}.
 
 \subsection{Related Standards and Guidelines}
 
@@ -55,7 +55,7 @@ Several open-source libraries and software packages implement lossless image com
     \item \textbf{OpenJPEG} – Implementation of JPEG 2000, including lossless mode.
     \item \textbf{libpng} – Reference implementation of PNG with DEFLATE compression.
     \item \textbf{zlib / gzip} – General-purpose lossless compression using DEFLATE; used in PNG, PDF, and many other formats.
-    \item \textbf{FLIF} (Free Lossless Image Format) – Modern lossless image format that outperforms PNG and JPEG 2000 on many datasets \cite{sneyers2016flif}.
+    \item \textbf{FLIF} (Free Lossless Image Format) – Modern lossless image format that outperforms PNG and JPEG 2000 on many datasets \cite{Salomon1997}.
 \end{itemize}
 
 Academic implementations of CALIC, LOCO-I, and S+P transform are available as research code, but are not standardized or widely adopted in production systems.

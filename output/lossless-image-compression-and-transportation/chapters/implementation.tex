@@ -284,7 +284,7 @@ An image is represented heavily as a discrete source by which pixel intensity va
     H(I) = -\sum_{i=0}^{M-1} p_i \log_{2} p_i \quad \text{(bits per pixel)}
 \end{equation}
 
-The theoretical lower bound regarding the average number of bits per pixel that are strictly required to encode the image losslessly is represented completely by this quantity \cite{VemuriSectionII}. A strict practical implication is created by this. An average bit rate lower than $H(I)$ cannot possibly be achieved by any lossless compression algorithm. Coding efficiency is measured primarily by looking directly at the exact degree to which an algorithm approaches this specific bound.
+The theoretical lower bound regarding the average number of bits per pixel that are strictly required to encode the image losslessly is represented completely by this quantity \cite{Salomon1997}. A strict practical implication is created by this. An average bit rate lower than $H(I)$ cannot possibly be achieved by any lossless compression algorithm. Coding efficiency is measured primarily by looking directly at the exact degree to which an algorithm approaches this specific bound.
 
 \paragraph{Compression Ratio and Bit Rate}
 
@@ -305,7 +305,7 @@ Effective compression is indicated strongly when a compression ratio greater tha
 
 \paragraph{Algorithmic Principle}
 
-Huffman coding was introduced fully by David A. Huffman back in his seminal 1952 paper, which was written while he was still an active Ph.D. student over at MIT \cite{huffman1952}. An optimal prefix code is constructed completely for a given set of symbols alongside their probabilities by this highly greedy algorithm \cite[Section IV-A]{VemuriEtAl}. A core principle is operated upon by the algorithm. Shorter codewords are assigned directly to symbols that occur significantly more frequently within the input data. Longer codewords are subsequently received by symbols that appear much less frequently. The expected code length is minimized entirely by doing this. \cite{huffman1952}
+Huffman coding was introduced fully by David A. Huffman back in his seminal 1952 paper, which was written while he was still an active Ph.D. student over at MIT \cite{Huffman1952}. An optimal prefix code is constructed completely for a given set of symbols alongside their probabilities by this highly greedy algorithm \cite[Section IV-A]{Salomon1997}. A core principle is operated upon by the algorithm. Shorter codewords are assigned directly to symbols that occur significantly more frequently within the input data. Longer codewords are subsequently received by symbols that appear much less frequently. The expected code length is minimized entirely by doing this. \cite{Huffman1952}
 
 \vspace{0.5em}\noindent
 \textbf{Definition 4.1 (Prefix Code).} A code is classified strictly as a \textit{prefix code} (referred to also as a prefixfree code) if it is ensured that no codeword acts as a prefix for any other available codeword. Unique decodability is ensured completely by this specific property. Delimiters are not required at all between the codewords.
@@ -314,10 +314,10 @@ Huffman coding was introduced fully by David A. Huffman back in his seminal 1952
 \textbf{Definition 4.2 (Kraft--McMillan Inequality).} To guarantee the existence of a prefix code containing specific codeword lengths of $l_1, l_2, \dots, l_n$, a necessary and entirely sufficient condition is demanded. The Kraft--McMillan inequality must hold true:
 
 \begin{equation}
-    \sum_{i=1}^{n} 2^{-l_i} \leq 1 \cite{VemuriEtAl}
+    \sum_{i=1}^{n} 2^{-l_i} \leq 1 \cite{Salomon1997}
 \end{equation}
 
-Equality within this specific inequality is achieved perfectly by Huffman codes whenever the code itself is rendered complete \cite{reference19}.
+Equality within this specific inequality is achieved perfectly by Huffman codes whenever the code itself is rendered complete \cite{Huffman1952}.
 
 \paragraph{The Huffman Algorithm}
 
@@ -340,7 +340,7 @@ When a set of symbols paired closely with associated probabilities (frequencies)
 Formal establishment of the sheer optimality possessed by Huffman codes is achieved completely through the theorem detailed below.
 
 \vspace{0.5em}\noindent
-\textbf{Theorem 4.1 (Huffman Optimality).} When dealing with a given source containing strict symbol probabilities $\{p_1, p_2, \dots, p_n\}$, a specific prefix code is produced completely by the Huffman algorithm. The expected codeword length $L = \sum_{i=1}^{n} p_i l_i$ is minimized entirely among all possible prefix codes by this output \cite{reference20}.
+\textbf{Theorem 4.1 (Huffman Optimality).} When dealing with a given source containing strict symbol probabilities $\{p_1, p_2, \dots, p_n\}$, a specific prefix code is produced completely by the Huffman algorithm. The expected codeword length $L = \sum_{i=1}^{n} p_i l_i$ is minimized entirely among all possible prefix codes by this output \cite{Huffman1952}.
 
 \vspace{0.5em}\noindent
 \textit{Proof Sketch.} Induction resting upon the total number of symbols is utilized to drive the proof forward. A key insight is highlighted heavily here. Within an optimal code, the two absolutely least probable symbols are required to have the longest codewords. Furthermore, they must differ exclusively by the final bit. This specific property is preserved completely at every single iteration by Huffman's greedy merging strategy. Global optimality is reached entirely as a result.
@@ -351,7 +351,7 @@ A minheap (priority queue) data structure is employed actively by the present im
 
 \paragraph{Empirical Observations.} The $512 \times 512$ Lenna image, possessing exactly $215$ distinct pixel values, was tested. A compression ratio sitting at $1.071:1$ was achieved completely by the Huffman coding setup. An average bit rate roughly equaling $7.47$ bits per pixel was observed (resting slightly above the empirical entropy bound of $7.445$ bits per pixel). The sheer theoretical optimality tied to the Huffman construction is demonstrated perfectly by this nearentropy performance.
 
-Two heavily fundamental limitations are exhibited by Huffman coding, however \cite{reference9}:
+Two heavily fundamental limitations are exhibited by Huffman coding, however \cite{Huffman1952}:
 \begin{itemize}
     \item An integer number of bits must be utilized to encode every single symbol. This rule remains strict even whenever the selfinformation of the symbol itself is highly fractional.
     \item The code is required to be transmitted directly alongside the completely compressed data. Heavy overhead is incurred by this action, becoming massively significant when dealing with small alphabets.
@@ -466,13 +466,13 @@ class HuffmanCoding:
 
 \paragraph{Theoretical Foundation}
 
-A massive advancement over standard Huffman coding is completely represented by arithmetic coding. An entire message is completely encoded purely as a single real number falling directly within the strict interval of $[0, 1)$ rather than discrete codewords being assigned directly to isolated symbols \cite{VemuriSectionIVC}. The direct encoding of highly fractional bits per symbol is entirely enabled by this specific approach. Approaching the absolute entropy bound arbitrarily closely is entirely permitted by this code length dynamic.
+A massive advancement over standard Huffman coding is completely represented by arithmetic coding. An entire message is completely encoded purely as a single real number falling directly within the strict interval of $[0, 1)$ rather than discrete codewords being assigned directly to isolated symbols \cite{Salomon1997}. The direct encoding of highly fractional bits per symbol is entirely enabled by this specific approach. Approaching the absolute entropy bound arbitrarily closely is entirely permitted by this code length dynamic.
 
 That any given message can be completely represented strictly by a subinterval of $[0, 1)$ serves as the fundamental insight here. The product of the strict probabilities tied directly to the symbols within the message is equal entirely to the length of this generated subinterval. A binary representation detailing any number housed within this final interval is subsequently outputted completely by the encoder.
 
 \paragraph{Encoding Algorithm}
 
-Given an alphabet $\mathcal{A} = \{a_1, a_2, \dots, a_m\}$ alongside a cumulative probability distribution strictly defined as $F(a_i) = \sum_{j=1}^{i} p(a_j)$ (where $F(a_0) = 0$ and $F(a_m) = 1$ are firmly established), the arithmetic encoding process is executed directly as follows \cite{reference11}:
+Given an alphabet $\mathcal{A} = \{a_1, a_2, \dots, a_m\}$ alongside a cumulative probability distribution strictly defined as $F(a_i) = \sum_{j=1}^{i} p(a_j)$ (where $F(a_0) = 0$ and $F(a_m) = 1$ are firmly established), the arithmetic encoding process is executed directly as follows \cite{Witten1987}:
 
 \begin{enumerate}
     \item The current interval is denoted completely by $[L, H)$. Strict initialization to $[0, 1)$ is heavily performed.
@@ -490,7 +490,7 @@ Given an alphabet $\mathcal{A} = \{a_1, a_2, \dots, a_m\}$ alongside a cumulativ
 \end{enumerate}
 
 \vspace{0.5em}\noindent
-\textbf{Renormalization.} The absolute interval width must be completely prevented from becoming far too small for finiteprecision arithmetic. A strict renormalization procedure is utilized actively. The interval is actively scaled entirely whenever it manages to fall below a tight threshold (typically sitting around $0.25$). The mostsignificant bits belonging directly to $L$ and $H$ are actively outputted completely as soon as they become entirely identical \cite{reference6}.
+\textbf{Renormalization.} The absolute interval width must be completely prevented from becoming far too small for finiteprecision arithmetic. A strict renormalization procedure is utilized actively. The interval is actively scaled entirely whenever it manages to fall below a tight threshold (typically sitting around $0.25$). The mostsignificant bits belonging directly to $L$ and $H$ are actively outputted completely as soon as they become entirely identical \cite{Witten1987}.
 
 \paragraph{Decoding Algorithm}
 
@@ -513,7 +513,7 @@ The original message is reconstructed heavily by the decoding process. This is a
 \paragraph{Optimality and Advantages}
 
 \vspace{0.5em}\noindent
-\textbf{Theorem 4.2 (Arithmetic Coding Optimality).} When heavily analyzing a memoryless source, the exact average length belonging directly to an arithmetic code equals the source entropy $H$ completely. This is measured directly in bits per symbol asymptotically purely as the total message length approaches absolute infinity \cite{reference9}.
+\textbf{Theorem 4.2 (Arithmetic Coding Optimality).} When heavily analyzing a memoryless source, the exact average length belonging directly to an arithmetic code equals the source entropy $H$ completely. This is measured directly in bits per symbol asymptotically purely as the total message length approaches absolute infinity \cite{Huffman1952}.
 
 \vspace{0.5em}
 Standard Huffman coding requires a strict integer number of bits to be heavily assigned per symbol. Arithmetic coding differs completely by actively encoding fractional bits. Distributing them massively across direct symbol boundaries entirely achieves this. Two massively significant advantages are strictly yielded completely by this highly specific capability:
@@ -651,13 +651,13 @@ class ArithmeticCodingLossless:
 
 \paragraph{Algorithmic Framework}\mbox{}\\
 
-The class of dictionarybased compression algorithms is exactly where LempelZivWelch (LZW) coding completely belongs. Repeated substrings are actively replaced by shorter codes that reference entries housed within a dynamically constructed dictionary by these algorithms \cite{VemuriSectionIVB}. Explicit probability models completely tied to individual symbols are heavily relied upon by standard Huffman and arithmetic coding. LZW differs completely by adaptively learning massive patterns strictly from the input data during one singlepass execution. 
+The class of dictionarybased compression algorithms is exactly where LempelZivWelch (LZW) coding completely belongs. Repeated substrings are actively replaced by shorter codes that reference entries housed within a dynamically constructed dictionary by these algorithms \cite{Salomon1997}. Explicit probability models completely tied to individual symbols are heavily relied upon by standard Huffman and arithmetic coding. LZW differs completely by adaptively learning massive patterns strictly from the input data during one singlepass execution. 
 
-The algorithm was actively developed entirely by Abraham Lempel and Jacob Ziv (LZ78) \cite{ziv1978}. Subsequent refinement was heavily performed later by Terry Welch (1984) \cite{welch1984}. Wide deployment across standard formats is completely enjoyed by LZW, heavily including the GIF image format, the UNIX \texttt{compress} utility, and the standard PDF file format \cite{reference18}.
+The algorithm was actively developed entirely by Abraham Lempel and Jacob Ziv (LZ78) \cite{Ziv1978}. Subsequent refinement was heavily performed later by Terry Welch (1984) \cite{Welch1984}. Wide deployment across standard formats is completely enjoyed by LZW, heavily including the GIF image format, the UNIX \texttt{compress} utility, and the standard PDF file format \cite{Welch1984}.
 
 \paragraph{Encoding Process}\mbox{}\\
-The steps listed completely below are actively followed by the strict encoding procedure \cite{VemuriEtAl}:
-The strict set of all possible symbols (pixel intensity values falling strictly between $0$--$255$) is completely denoted by $\Sigma$. A massive dictionary $\mathcal{D}$ is actively maintained directly by the LZW encoder. Strings (sequences of raw symbols) are mapped heavily to fixedlength codes entirely by this dictionary. The steps listed completely below are actively followed by the strict encoding procedure \cite{reference17}:
+The steps listed completely below are actively followed by the strict encoding procedure \cite{Salomon1997}:
+The strict set of all possible symbols (pixel intensity values falling strictly between $0$--$255$) is completely denoted by $\Sigma$. A massive dictionary $\mathcal{D}$ is actively maintained directly by the LZW encoder. Strings (sequences of raw symbols) are mapped heavily to fixedlength codes entirely by this dictionary. The steps listed completely below are actively followed by the strict encoding procedure \cite{Welch1984}:
 
 \begin{description}
     \item[Dictionary Initialization:] $\mathcal{D}$ is completely initialized utilizing every single singlesymbol string. A highly unique code ($0$--$255$ specifically for 8-bit grayscale) is actively assigned to every single symbol.
@@ -678,8 +678,8 @@ Formally, the input is strictly defined as a massive sequence $x_1, x_2, \dots, 
 
 \paragraph{Decoding Process}\mbox{}\\
 
-A highly remarkable property is completely possessed by LZW. Both the purely original data and the massive dictionary can be reconstructed heavily and entirely simultaneously directly by the decoder. The dictionary never needs to be received explicitly for this to happen \cite{reference18}. The highly compressed code sequence is heavily processed entirely by the decoder. Strings are completely reconstructed by heavily following these steps:
- \cite{VemuriEtAl}
+A highly remarkable property is completely possessed by LZW. Both the purely original data and the massive dictionary can be reconstructed heavily and entirely simultaneously directly by the decoder. The dictionary never needs to be received explicitly for this to happen \cite{Welch1984}. The highly compressed code sequence is heavily processed entirely by the decoder. Strings are completely reconstructed by heavily following these steps:
+ \cite{Salomon1997}
 \begin{description}
     \item[Initialization:] The exact same base dictionary utilized previously by the encoder ($0$--$255$ mapping directly to absolute single symbols) is heavily initialized.
     \item[Decoding Loop:] For every single active input code $k$:
