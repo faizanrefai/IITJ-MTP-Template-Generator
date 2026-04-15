@@ -5,17 +5,30 @@
 \vspace{0.5cm}
 
 
-Many image compression algorithms exist. Some are lossy; others are lossless. Lossless methods allow exact reconstruction of the original image from the compressed data. In this project, we implement and compare several lossless compression techniques. These include classical entropy coding, spatial and transform domain methods, context‑based algorithms, clustering, optimization, and neural network approaches.
 
-We begin with fundamental entropy coding methods. Huffman coding, arithmetic coding, and LZW coding are implemented. These provide a baseline for understanding compression principles. Next, we explore spatial domain methods. Variable block size compression and run‑length encoding (RLE) are used to exploit local redundancy in images. We also implement a lossy‑plus‑residual scheme. In this scheme, a lossy image is transmitted first. The residual difference between the lossy image and the original is then sent. This allows lossless reconstruction.
+This project? It’s a deep dive into lossless image compression. Not just one or two methods. A whole bunch. We’re talking classical entropy stuff – Huffman, Arithmetic, LZW. But also spatial tricks, transform domain wizardry, context‑aware algorithms, clustering, optimization hacks, and even neural nets.
 
-The JPEG lossless prediction standard is implemented using its seven prediction modes. These modes are based on neighboring pixel values. We then implement two advanced context‑based algorithms: CALIC and LOCO‑I. CALIC uses gradient‑based nonlinear prediction and context modeling of prediction errors. LOCO‑I uses a lower complexity approach based on local gradients. Both achieve good compression.
+Let me back up.
 
-Transform domain methods are also examined. We implement the S‑Transform, the S+P Transform, and integer wavelet transforms using the lifting scheme. These methods compact energy into fewer coefficients. Clustering‑based compression is implemented for color quantization. Two algorithms are used: K‑Means and Gath‑Geva fuzzy clustering. Gath‑Geva can detect ellipsoidal clusters of varying sizes and densities. Particle swarm optimization (PSO) is then used to find optimal color palettes. Finally, we develop a fuzzy backpropagation neural network (FBPNN). This network combines Gath‑Geva fuzzy memberships with backpropagation learning for adaptive weight updates.
+First, you need the basics. So I implemented Huffman. Arithmetic coding too. And LZW. That gives you a feel for how entropy‑based methods work. They’re simple. They work okay. But they ignore the fact that pixels near each other tend to look alike.
 
-All algorithms are implemented in Python. We use NumPy, Matplotlib, and Pillow. GPU acceleration is provided by JAX and PyTorch on an Apple M4 architecture. Visualizations compare original and compressed images. Compression ratios, MSE, and PSNR are reported. Experimental results show that context‑based methods achieve the best performance. CALIC and LOCO‑I outperform traditional approaches on most test images.
+So then I moved to spatial methods. Variable block size compression. Run‑length encoding – RLE for short. The idea? Find local repetition and squash it. Then there’s this clever trick: lossy plus residual. You send a lossy version first – smaller, uglier – then transmit the leftover difference. Reconstruct the original perfectly. Neat, right?
 
+After that, I tackled the JPEG lossless prediction standard. Seven prediction modes. All based on neighbors – left, above, that sort of thing.
 
+But the real heavy hitters came next. CALIC. LOCO‑I. These are context‑based beasts. They look at gradients. They model prediction errors in different contexts. And they crush it on compression ratio.
+
+Transform domain? Yeah, did that too. S‑Transform. S+P Transform. Integer wavelet transforms using the lifting scheme. Why? Because these methods pack energy into fewer coefficients. Less numbers to store.
+
+Clustering? You bet. K‑Means. Gath‑Geva fuzzy clustering. The latter is weird – it finds ellipsoidal clusters of different sizes and densities. Not your everyday circle stuff. Then I threw Particle Swarm Optimization at the problem. Swarm intelligence. Little virtual particles buzzing around, hunting for the best color palette.
+
+And the cherry on top: a fuzzy backpropagation neural network. FBPNN. I combined Gath‑Geva’s fuzzy membership values with classic backprop learning. The network adapts its weights on the fly.
+
+All this runs in Python. NumPy, Matplotlib, Pillow – the usual suspects. But I also used GPU acceleration – JAX and PyTorch MPS on an Apple M4 chip. Because why wait?
+
+I generated lots of pictures. Original vs compressed. Compression ratios. MSE. PSNR. The whole nine yards.
+
+What did I learn? Context‑based methods win. CALIC and LOCO‑I consistently beat the older approaches. No contest.
 
 
 \vspace{1cm}
