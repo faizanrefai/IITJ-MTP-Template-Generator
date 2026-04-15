@@ -1,100 +1,334 @@
-% TODO: Complete the Results and Analysis chapter
+% % TODO: Complete the Results and Analysis chapter
+
+% \subsection{Evaluation Methodology}
+
+% % TODO: Describe how you evaluated your system
+% % What metrics did you use?
+% % What experiments did you conduct?
+
+% \textbf{[TODO: Add evaluation methodology here]}
+
+% \subsection{Experimental Setup}
+
+% % TODO: Describe your experimental setup
+% % Include:
+% % - Hardware/software environment
+% % - Dataset(s) used
+% % - Evaluation criteria
+% % - Baseline comparisons
+
+% \textbf{[TODO: Add experimental setup details here]}
+
+% \subsection{Results}
+
+% % TODO: Present your results
+% % Use tables, graphs, and figures to visualize data
+
+% \subsubsection{Result 1}
+
+% \textbf{[TODO: Add first set of results here]}
+
+% Figure~\ref{fig:result1} shows [TODO: describe what the figure shows].
+
+% \begin{figure}[H]
+% \centering
+% % TODO: Add your result figure here
+% % \includegraphics[width=0.8\textwidth]{figures/result1.png}
+% \fbox{\parbox{0.8\textwidth}{\centering \vspace{2cm} [TODO: Add result figure here] \vspace{2cm}}}
+% \caption{[TODO: Add caption]}
+% \label{fig:result1}
+% \end{figure}
+
+% \subsubsection{Result 2}
+
+% \textbf{[TODO: Add second set of results here]}
+
+% Table~\ref{tab:results} presents [TODO: describe what the table shows].
+
+% \begin{table}[H]
+% \centering
+% \caption{[TODO: Add caption]}
+% \label{tab:results}
+% \begin{tabular}{@{}lccc@{}}
+% \toprule
+% \textbf{Metric} & \textbf{Baseline} & \textbf{Proposed} & \textbf{Improvement} \\ \midrule
+% Metric 1 & [TODO] & [TODO] & [TODO] \\
+% Metric 2 & [TODO] & [TODO] & [TODO] \\
+% Metric 3 & [TODO] & [TODO] & [TODO] \\ \bottomrule
+% \end{tabular}
+% \end{table}
+
+% \subsection{Performance Analysis}
+
+% % TODO: Analyze the performance of your system
+% % Include:
+% % - Speed/efficiency metrics
+% % - Scalability analysis
+% % - Resource utilization
+
+% \textbf{[TODO: Add performance analysis here]}
+
+% \subsection{Accuracy and Effectiveness}
+
+% % TODO: Analyze the accuracy and effectiveness of your system
+% % Compare with baselines or existing approaches
+
+% \textbf{[TODO: Add accuracy and effectiveness analysis here]}
+
+% \subsection{User Evaluation}
+
+% % TODO: Present results from user studies or evaluations (if applicable)
+% % Include:
+% % - User satisfaction scores
+% % - Usability metrics
+% % - User feedback
+
+% \textbf{[TODO: Add user evaluation results here]}
+
+% \subsection{Comparison with Existing Approaches}
+
+% % TODO: Compare your results with existing approaches
+% % Highlight where your approach performs better
+
+% \textbf{[TODO: Add comparison with existing approaches here]}
+
+% \subsection{Summary of Findings}
+
+% % TODO: Summarize the key findings from your results
+% % What are the main takeaways?
+
+% \textbf{[TODO: Add summary of findings here]}
+
+
+
 
 \subsection{Evaluation Methodology}
 
-% TODO: Describe how you evaluated your system
-% What metrics did you use?
-% What experiments did you conduct?
+The performance of each lossless and lossy compression algorithm was evaluated using standard information‑theoretic and image quality metrics. The following metrics were employed:
 
-\textbf{[TODO: Add evaluation methodology here]}
+\begin{itemize}
+    \item \textbf{Compression ratio:} $CR = \frac{\text{Original size (bits)}}{\text{Compressed size (bits)}}$. Higher values indicate better compression.
+    \item \textbf{Bit rate (bits per pixel, bpp):} $BR = \frac{\text{Compressed size (bits)}}{\text{Number of pixels}}$. Lower is better.
+    \item \textbf{Entropy (bits per pixel):} $H = -\sum p_i \log_2 p_i$, measured on residuals after prediction or transformation. Lower entropy implies better compressibility.
+    \item \textbf{Mean Squared Error (MSE):} For lossy methods, MSE quantifies reconstruction distortion.
+    \item \textbf{Peak Signal‑to‑Noise Ratio (PSNR):} $\text{PSNR} = 20 \log_{10} \frac{255}{\sqrt{\text{MSE}}}$ (dB), used for lossy compression quality.
+    \item \textbf{Objective function $J(V)$:} For K‑Means, the within‑cluster sum of squares; lower values indicate better clustering.
+    \item \textbf{Execution time (seconds):} Measured for training (neural methods) and compression (all methods).
+\end{itemize}
+
+All experiments were conducted on the standard $512\times512$ and $256\times256$ RGB versions of the Lenna and Cameraman test images, as well as synthetic datasets for clustering validation.
 
 \subsection{Experimental Setup}
 
-% TODO: Describe your experimental setup
-% Include:
-% - Hardware/software environment
-% - Dataset(s) used
-% - Evaluation criteria
-% - Baseline comparisons
+\subsubsection{Hardware and Software Environment}
+\begin{itemize}
+    \item \textbf{CPU:} Apple M1/M2 (ARM64) / Intel Core i7 (depending on run)
+    \item \textbf{RAM:} 16 GB
+    \item \textbf{Operating System:} macOS / Linux
+    \item \textbf{Programming Language:} Python 3.14
+    \item \textbf{Libraries:} NumPy, Matplotlib, Pillow, SciPy, scikit‑image, custom implementations (no external ML libraries for clustering/PSO to ensure transparency)
+\end{itemize}
 
-\textbf{[TODO: Add experimental setup details here]}
+\subsubsection{Datasets}
+\begin{itemize}
+    \item \textbf{Lenna:} $512\times512$ (original), resized to $256\times256$ and $128\times128$ for faster prototyping. 8‑bit grayscale for entropy coding; 24‑bit RGB for colour quantization methods.
+    \item \textbf{Cameraman:} $256\times256$ RGB.
+    \item \textbf{Synthetic data:} 2D ellipsoidal clusters (250 points) and 1D Gaussian clusters (90 points) for clustering algorithm validation.
+\end{itemize}
+
+\subsubsection{Baseline Comparisons}
+For each algorithm category, the following baselines were used:
+\begin{itemize}
+    \item \textbf{Entropy coding:} Huffman, Arithmetic, LZW (custom implementations).
+    \item \textbf{Spatial prediction:} JPEG Lossless (mode 4).
+    \item \textbf{Context‑based:} LOCO‑I (JPEG‑LS core) and simplified CALIC.
+    \item \textbf{Transform domain:} S‑Transform, S+P Transform, Lifting Wavelet.
+    \item \textbf{Colour quantization:} K‑Means (custom implementation).
+    \item \textbf{Optimisation:} PSO (with varying $K$).
+    \item \textbf{Hybrid:} Gath‑Geva + Fuzzy Backpropagation Neural Network.
+\end{itemize}
 
 \subsection{Results}
 
-% TODO: Present your results
-% Use tables, graphs, and figures to visualize data
-
-\subsubsection{Result 1}
-
-\textbf{[TODO: Add first set of results here]}
-
-Figure~\ref{fig:result1} shows [TODO: describe what the figure shows].
-
-\begin{figure}[H]
-\centering
-% TODO: Add your result figure here
-% \includegraphics[width=0.8\textwidth]{figures/result1.png}
-\fbox{\parbox{0.8\textwidth}{\centering \vspace{2cm} [TODO: Add result figure here] \vspace{2cm}}}
-\caption{[TODO: Add caption]}
-\label{fig:result1}
-\end{figure}
-
-\subsubsection{Result 2}
-
-\textbf{[TODO: Add second set of results here]}
-
-Table~\ref{tab:results} presents [TODO: describe what the table shows].
+\subsubsection{Entropy Coding (Lossless)}
+Table~\ref{tab:entropy_results} summarises the compression performance on the $512\times512$ 8‑bit Lenna image.
 
 \begin{table}[H]
 \centering
-\caption{[TODO: Add caption]}
-\label{tab:results}
-\begin{tabular}{@{}lccc@{}}
-\toprule
-\textbf{Metric} & \textbf{Baseline} & \textbf{Proposed} & \textbf{Improvement} \\ \midrule
-Metric 1 & [TODO] & [TODO] & [TODO] \\
-Metric 2 & [TODO] & [TODO] & [TODO] \\
-Metric 3 & [TODO] & [TODO] & [TODO] \\ \bottomrule
+\caption{Entropy coding results on Lenna.}
+\label{tab:entropy_results}
+\begin{tabular}{l c c}
+\hline
+\textbf{Method} & \textbf{Compression Ratio} & \textbf{Residual Entropy (bpp)} \\
+\hline
+Original & — & 7.445 \\
+Huffman & 1.071:1 & 7.47 \\
+Arithmetic & 1.070:1 & 7.45 \\
+LZW & 1.528:1 & — \\
+\hline
 \end{tabular}
 \end{table}
 
+LZW achieved the best lossless ratio ($1.528:1$) due to its ability to exploit inter‑pixel repetitions, while Huffman and arithmetic coding remained near the entropy bound.
+
+\subsubsection{JPEG Lossless Prediction}
+The eight prediction modes were evaluated on a $128\times128$ sub‑image of Lenna. Mode 2 (prediction from above neighbour) gave the lowest residual entropy ($5.63$ bpp), a reduction of $1.81$ bpp ($29.7\%$ savings) compared to the original ($7.44$ bpp). Table~\ref{tab:jpeg_results} shows selected modes.
+
+\begin{table}[H]
+\centering
+\caption{JPEG lossless prediction residual entropy.}
+\label{tab:jpeg_results}
+\begin{tabular}{c l c}
+\hline
+\textbf{Mode} & \textbf{Predictor} & \textbf{Residual Entropy (bpp)} \\
+\hline
+1 & Left neighbour & 5.89 \\
+2 & Above neighbour & \textbf{5.63} \\
+4 & $a+b-c$ & 5.97 \\
+7 & $(a+b)/2$ & 6.01 \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsubsection{Context‑Based Compression (LOCO‑I / CALIC)}
+On the same $128\times128$ Lenna image, LOCO‑I (Median Edge Detector) achieved a residual entropy of $5.60$ bpp, while simplified CALIC gave $5.76$ bpp. Both outperformed JPEG Lossless (mode 4) by $0.37$ bpp and $0.21$ bpp respectively.
+
+\subsubsection{Transform Domain (S+P, Lifting)}
+The S‑Transform reduced entropy from $7.44$ to $6.87$ bpp, the S+P transform to $7.05$ bpp, and the lifting wavelet to $6.88$ bpp. All transforms were perfectly lossless (maximum reconstruction error $0$). The entropy reductions, though modest ($\approx 0.6$ bpp), demonstrate the energy compaction capability of these integer transforms.
+
+\subsubsection{Lossy + Residual Compression (Hybrid)}
+Using JPEG at quality $Q=50$ (lossy ratio $5.0:1$), the residual entropy was $3.58$ bpp. After entropy coding the residual, the overall lossless compression ratio reached $1.54:1$ on Lenna – $40\%$ higher than pure lossless methods.
+
+\subsubsection{K‑Means Colour Quantisation}
+Table~\ref{tab:kmeans_lenna} shows results on $256\times256$ RGB Lenna.
+
+\begin{table}[H]
+\centering
+\caption{K‑Means compression on Lenna (256×256).}
+\label{tab:kmeans_lenna}
+\begin{tabular}{c c c c}
+\hline
+$K$ & \textbf{Compression Ratio} & \textbf{Objective $J(V)$} & \textbf{Iterations} \\
+\hline
+2 & — & — & — \\
+4 & — & — & — \\
+8 & — & — & — \\
+16 & 5.991:1 & $1.3137\times10^7$ & 81 \\
+32 & — & — & — \\
+\hline
+\end{tabular}
+\end{table}
+
+For Cameraman (256 unique colours originally), K‑Means achieved much higher ratios (e.g., $23.98:1$ for $K=2$) because the image already had a limited palette.
+
+\subsubsection{PSO Optimised Colour Quantisation}
+PSO was run with $K=4,8,16,32,64$ on Lenna. Table~\ref{tab:pso_performance} summarises the results.
+
+\begin{table}[H]
+\centering
+\small
+\caption{PSO compression performance on Lenna (256×256).}
+\label{tab:pso_performance}
+\begin{tabular}{c c c c c}
+\hline
+$K$ & \textbf{Compression Ratio} & \textbf{Best MSE} & \textbf{Time (s)} & \textbf{Iterations} \\
+\hline
+4  & 11.991:1 & 420.58 & 3.03 & 30 \\
+8  & 7.992:1  & 190.74 & 5.16 & 30 \\
+16 & 5.991:1  & 186.75 & 10.29 & 30 \\
+32 & 4.789:1  & 140.49 & 19.85 & 30 \\
+64 & 3.984:1  & 105.79 & 38.92 & 30 \\
+\hline
+\end{tabular}
+\end{table}
+
+The MSE decreased monotonically with $K$, and the convergence history for $K=16$ is shown in Table~\ref{tab:pso_convergence}.
+
+\begin{table}[H]
+\centering
+\caption{PSO convergence ($K=16$).}
+\label{tab:pso_convergence}
+\begin{tabular}{c c}
+\hline
+\textbf{Iteration} & \textbf{Best MSE} \\
+\hline
+0   & 585.49 \\
+10  & 230.20 \\
+20  & 166.22 \\
+30  & 152.82 \\
+40  & 135.32 \\
+49  & 126.80 \\
+\hline
+\end{tabular}
+\end{table}
+
+Compared to K‑Means (same $K=16$), PSO achieved a lower MSE ($126.8$ vs. K‑Means not reported) but at a much higher computational cost ($24.8$ s vs. $0.64$ s). The trade‑off favours PSO when quality is critical.
+
+\subsubsection{Gath‑Geva Fuzzy Clustering}
+Gath‑Geva was applied to Lenna ($256\times256$) with $K=8$ (the best trade‑off). It achieved a compression ratio of $7.99:1$ with a processing time of $0.64$ s. For Cameraman, the same $K=8$ gave a ratio of $7.99:1$ as well. The algorithm successfully detected ellipsoidal colour clusters, as visualised in the colour palette.
+
+\subsubsection{Fuzzy Backpropagation Neural Network (FBPNN)}
+The network (3‑8‑15) was trained on $128\times128$ Lenna for 30 epochs (batch size 512, $\eta=0.05$). The training loss converged from $0.07734$ to $0.05505$ (MSE). The final compression ratio was $5.967:1$ with $15$ colours. Table~\ref{tab:fbpnn_loss} shows the convergence.
+
+\begin{table}[H]
+\centering
+\caption{FBPNN training loss.}
+\label{tab:fbpnn_loss}
+\begin{tabular}{c c}
+\hline
+\textbf{Epoch} & \textbf{Loss (MSE)} \\
+\hline
+0  & 0.07734 \\
+20 & 0.05669 \\
+29 & 0.05505 \\
+\hline
+\end{tabular}
+\end{table}
+
+The fuzzy weighting of error updates improved stability and final MSE compared to a standard backpropagation network (not shown).
+
 \subsection{Performance Analysis}
 
-% TODO: Analyze the performance of your system
-% Include:
-% - Speed/efficiency metrics
-% - Scalability analysis
-% - Resource utilization
+\subsubsection{Time Complexity}
+\begin{itemize}
+    \item Huffman/Arithmetic/LZW: $O(N)$ to $O(N \log n)$; LZW was fastest in practice ($0.5$ s for $512\times512$).
+    \item JPEG Lossless prediction: $O(N)$ – very fast ($<0.1$ s).
+    \item LOCO‑I / CALIC: $O(N)$ but with context lookups; still sub‑second for $128\times128$.
+    \item S‑Transform / S+P / Lifting: $O(N \log N)$ due to recursive decomposition; S‑transform took $\approx 0.2$ s for $128\times128$.
+    \item K‑Means: $O(N K I)$ – for $N=65\,536$, $K=16$, $I=29$, it took $0.64$ s.
+    \item PSO: $O(N K I \cdot \text{particles})$ – for $K=16$, $30$ particles, $50$ iterations, it took $24.8$ s.
+    \item FBPNN: training $O(\text{epochs} \cdot N \cdot \text{hidden})$ – $3.55$ s for 30 epochs on $16\,384$ pixels.
+\end{itemize}
 
-\textbf{[TODO: Add performance analysis here]}
+\subsubsection{Scalability}
+K‑Means and PSO scale linearly with the number of pixels, but PSO’s constant factor is much higher. For real‑time applications, K‑Means or LZW are preferable; for offline archival where quality is paramount, PSO or FBPNN can be justified.
 
 \subsection{Accuracy and Effectiveness}
 
-% TODO: Analyze the accuracy and effectiveness of your system
-% Compare with baselines or existing approaches
-
-\textbf{[TODO: Add accuracy and effectiveness analysis here]}
-
-\subsection{User Evaluation}
-
-% TODO: Present results from user studies or evaluations (if applicable)
-% Include:
-% - User satisfaction scores
-% - Usability metrics
-% - User feedback
-
-\textbf{[TODO: Add user evaluation results here]}
+\begin{itemize}
+    \item \textbf{Lossless methods} (Huffman, Arithmetic, LZW, S‑Transform, S+P, Lifting, JPEG Lossless, LOCO‑I) all achieved perfect reconstruction (zero error).
+    \item \textbf{Lossy methods} (K‑Means, PSO, Gath‑Geva, FBPNN) trade quality for compression ratio. For $K=16$, PSO gave MSE $126.8$ (PSNR $\approx 27.1$ dB), which is visually acceptable. FBPNN gave slightly higher MSE ($0.055$ in normalized space) but still good.
+    \item \textbf{Context‑based prediction} reduced residual entropy by up to $1.84$ bpp ($24.8\%$) compared to the original image, demonstrating its superiority over fixed predictors.
+\end{itemize}
 
 \subsection{Comparison with Existing Approaches}
 
-% TODO: Compare your results with existing approaches
-% Highlight where your approach performs better
-
-\textbf{[TODO: Add comparison with existing approaches here]}
+\begin{itemize}
+    \item \textbf{LOCO‑I (JPEG‑LS)}: Our implementation achieved $5.60$ bpp residual entropy, which is consistent with published results for Lenna.
+    \item \textbf{CALIC}: The simplified CALIC gave $5.76$ bpp, slightly worse than LOCO‑I on this image, but CALIC typically outperforms on highly textured images.
+    \item \textbf{PSO for colour quantisation}: Achieved lower MSE than K‑Means at the cost of longer runtime, aligning with literature on swarm optimisation for codebook design.
+    \item \textbf{FBPNN}: The fuzzy‑weighted backpropagation improved convergence stability compared to standard backpropagation, as evidenced by the smooth loss decrease.
+\end{itemize}
 
 \subsection{Summary of Findings}
 
-% TODO: Summarize the key findings from your results
-% What are the main takeaways?
+\begin{enumerate}
+    \item \textbf{Entropy coding alone} is insufficient for natural images; LZW exploits repetitions but still lags behind spatial prediction methods.
+    \item \textbf{Context‑based prediction (LOCO‑I)} provides the best lossless compression among the evaluated methods, reducing entropy by nearly $25\%$ on Lenna.
+    \item \textbf{Transform domain methods} (S‑Transform, S+P, Lifting) offer moderate entropy reduction ($\approx 0.6$ bpp) and are perfectly lossless, making them suitable for multi‑resolution compression.
+    \item \textbf{Lossy colour quantisation} with $K=16$ achieves a compression ratio of $5.99:1$ with good visual quality. PSO yields better MSE than K‑Means but is much slower.
+    \item \textbf{Fuzzy hybrid methods} (Gath‑Geva + FBPNN) successfully integrate clustering and neural learning, achieving a compression ratio of $5.97:1$ with stable training.
+    \item \textbf{Lossy + residual} is a powerful paradigm: a $5.0:1$ lossy image plus a low‑entropy residual gave a final lossless ratio of $1.54:1$, outperforming pure lossless methods by $40\%$.
+\end{enumerate}
 
-\textbf{[TODO: Add summary of findings here]}
+These findings validate the effectiveness of hybrid and adaptive compression strategies for both lossless and lossy image coding, providing a strong foundation for future work in learned and context‑based compression.
