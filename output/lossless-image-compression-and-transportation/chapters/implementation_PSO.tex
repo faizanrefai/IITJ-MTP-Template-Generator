@@ -108,11 +108,14 @@ Table~\ref{tab:pso_performance} summarises the performance for different $K$. Th
 \end{table}
 
 For a more detailed analysis, PSO was run again with $K=16$, $30$ particles, and $50$ iterations. The convergence behaviour is shown in Table~\ref{tab:pso_convergence} and Figure~\ref{fig:pso_convergence}.
+
+
+
 \begin{table}[H]
 \centering
 \caption{PSO convergence history for $K=16$.}
 \label{tab:pso_convergence}
-\begin{tabularx}{0.6\textwidth}{|c|c|}
+\begin{tabular}{|c|c|}
 \hline
 \textbf{Iteration} & \textbf{Best MSE} \\
 \hline
@@ -123,7 +126,7 @@ For a more detailed analysis, PSO was run again with $K=16$, $30$ particles, and
 40  & 135.32 \\
 49  & 126.80 \\
 \hline
-\end{tabularx}
+\end{tabular}
 \end{table}
 
 The final compressed image achieved an MSE of $126.80$ and a compression ratio of $5.991:1$. The actual storage breakdown is:
@@ -150,12 +153,11 @@ Total compressed & 32,816 bytes (32.05 KB) \\
 \paragraph{Comparison with K‑Means}
 The same image was compressed using a custom K‑Means implementation ($K=16$). Table~\ref{tab:pso_vs_kmeans} compares the two methods.
 
-
 \begin{table}[H]
 \centering
 \caption{Comparison of PSO and K‑Means for colour quantisation ($K=16$).}
 \label{tab:pso_vs_kmeans}
-\begin{tabularx}{\textwidth}{|l|c|c|}
+\begin{tabular}{l c c}
 \hline
 \textbf{Metric} & \textbf{PSO} & \textbf{K‑Means} \\
 \hline
@@ -164,7 +166,7 @@ MSE & 126.80 & — \\
 PSNR (dB) & 27.1 & — \\
 Time (s) & 24.84 & 0.64 \\
 \hline
-\end{tabularx}
+\end{tabular}
 \end{table}
 
 PSO achieves a lower MSE (better quality) than K‑Means when both use the same number of colours, but at a significantly higher computational cost. This trade‑off is typical: PSO explores the search space more thoroughly, while K‑Means converges quickly to a local optimum.

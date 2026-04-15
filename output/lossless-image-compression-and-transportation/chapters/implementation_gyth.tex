@@ -137,13 +137,12 @@ Gath‑Geva clustering was applied to two standard grayscale images (Lenna and C
 Table~\ref{tab:gg_performance} summarises the performance for different cluster counts. For Lenna with $K = 8$ clusters, a compression ratio of $7.99:1$ was achieved, meaning the compressed image occupies approximately $12.5\%$ of the original storage. The processing time increased approximately linearly with the number of clusters, from $0.09$ s for $K=2$ to $4.03$ s for $K=64$. The Cameraman image showed similar speed behaviour.
 
 
-
-
 \begin{table}[H]
 \centering
+\small
 \caption{Performance of Gath‑Geva clustering for image compression.}
 \label{tab:gg_performance}
-\begin{tabularx}{\textwidth}{|c|c|c|c|c|}
+\begin{tabularx}{\textwidth}{|c|c|X|X|X|}
 \hline
 \textbf{Image} & \textbf{Clusters $K$} & \textbf{Time (s)} & \textbf{Speed (pts/s)} & \textbf{Compression Ratio} \\
 \hline
@@ -163,8 +162,6 @@ Cameraman & 64 & 3.97 &  16,509 & — \\
 \hline
 \end{tabularx}
 \end{table}
-
-
 
 
 \paragraph{Visual Analysis of Image Compression}
