@@ -126,51 +126,57 @@ Gath‑Geva clustering was applied to two standard grayscale images (Lenna and C
 
 Table~\ref{tab:gg_performance} summarises the performance for different cluster counts. For Lenna with $K = 8$ clusters, a compression ratio of $7.99:1$ was achieved, meaning the compressed image occupies approximately $12.5\%$ of the original storage. The processing time increased approximately linearly with the number of clusters, from $0.09$ s for $K=2$ to $4.03$ s for $K=64$. The Cameraman image showed similar speed behaviour.
 
+
+
+
 \begin{table}[H]
 \centering
 \caption{Performance of Gath‑Geva clustering for image compression.}
 \label{tab:gg_performance}
-\begin{tabularx}{\textwidth}{|c|c|c|c|}
+\begin{tabularx}{\textwidth}{|c|c|c|c|c|}
 \hline
-\textbf{Image} & \textbf{Clusters $K$} & \textbf{Time (s)} & \textbf{Speed (pts/s)} \\
+\textbf{Image} & \textbf{Clusters $K$} & \textbf{Time (s)} & \textbf{Speed (pts/s)} & \textbf{Compression Ratio} \\
 \hline
-Lenna & 2  & 0.09 & 711,017 \\
-Lenna & 4  & 0.17 & 379,886 \\
-Lenna & 8  & 0.64 & 102,187 \\
-Lenna & 16 & 0.71 &  92,930 \\
-Lenna & 32 & 1.60 &  40,896 \\
-Lenna & 64 & 4.03 &  16,260 \\
+Lenna & 2  & 0.09 & 711,017 & — \\
+Lenna & 4  & 0.17 & 379,886 & — \\
+Lenna & 8  & 0.64 & 102,187 & 7.99:1 \\
+Lenna & 16 & 0.71 &  92,930 & — \\
+Lenna & 32 & 1.60 &  40,896 & — \\
+Lenna & 64 & 4.03 &  16,260 & — \\
 \hline
-Cameraman & 2  & 0.11 & 596,481 \\
-Cameraman & 4  & 0.19 & 343,642 \\
-Cameraman & 8  & 0.40 & 164,244 \\
-Cameraman & 16 & 0.80 &  82,193 \\
-Cameraman & 32 & 1.80 &  36,407 \\
-Cameraman & 64 & 3.97 &  16,509 \\
+Cameraman & 2  & 0.11 & 596,481 & — \\
+Cameraman & 4  & 0.19 & 343,642 & — \\
+Cameraman & 8  & 0.40 & 164,244 & — \\
+Cameraman & 16 & 0.80 &  82,193 & — \\
+Cameraman & 32 & 1.80 &  36,407 & — \\
+Cameraman & 64 & 3.97 &  16,509 & — \\
 \hline
 \end{tabularx}
 \end{table}
+
+
+
 
 \paragraph{Visual Analysis of Image Compression}
 Figure~\ref{fig:gg_lenna_original} shows the original Lenna image. Figure~\ref{fig:gg_lenna_clustered} displays the vector‑quantised version using $K=8$ clusters. The reconstructed image retains most of the perceptual quality while achieving a compression ratio of nearly $8:1$. Figure~\ref{fig:gg_lenna_residual} shows the residual (error) image, which is mostly dark, confirming that the clustering captures the essential colour information.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\textwidth]{gath_effect_leena.png}
+    \includegraphics[width=1.0\textwidth]{gath_effect_leena.png}
     \caption{Original Lenna image ($256\times256$).}
     \label{fig:gg_lenna_original}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\textwidth]{gath_chart_leena.png}
+    \includegraphics[width=1.0\textwidth]{gath_chart_leena.png}
     \caption{Lenna image after Gath‑Geva clustering with $K=8$ clusters (vector quantisation).}
     \label{fig:gg_lenna_clustered}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\textwidth]{gath_clust_leena.png}
+    \includegraphics[width=1.0\textwidth]{gath_clust_leena.png}
     \caption{Residual image (original minus clustered). Dark areas indicate small errors.}
     \label{fig:gg_lenna_residual}
 \end{figure}
@@ -180,14 +186,14 @@ Figure~\ref{fig:gg_lenna_original} shows the original Lenna image. Figure~\ref{f
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\textwidth]{gath_camera_effect.png}
+    \includegraphics[width=1.0\textwidth]{gath_camera_effect.png}
     \caption{Original Cameraman image ($256\times256$).}
     \label{fig:gg_camera_original}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\textwidth]{gath_camera_chart.png}
+    \includegraphics[width=1.0\textwidth]{gath_camera_chart.png}
     \caption{Cameraman image after Gath‑Geva clustering with $K=8$ clusters (vector quantisation).}
     \label{fig:gg_camera_clustered}
 \end{figure}
