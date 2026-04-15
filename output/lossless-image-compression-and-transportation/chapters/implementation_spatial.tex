@@ -396,7 +396,7 @@ Lossy + residual compression provides a practical way to achieve lossless re
 
 
 
-\subsubsection{JPEG Lossless Prediction}
+\subsubsection{JPEG Lossless Prediction - Mathematical Details}
 
 \paragraph{Motivation and Principle}
 JPEG lossless prediction (also known as JPEG‑LS’s predictive coding stage) reduces spatial redundancy by predicting each pixel from its already‑encoded neighbours. Instead of compressing the original pixel values directly, the predictor computes a \emph{residual} — the difference between the actual pixel and its prediction. Because neighbouring pixels are highly correlated, residuals are typically small in magnitude and exhibit much lower entropy than the original image. These residuals are then entropy‑coded (e.g., with Huffman or arithmetic coding) to achieve lossless compression.
@@ -414,16 +414,19 @@ a = I(i,j-1)   & \quad\text{(left)} & \\
 
 The current pixel to be predicted is \(x = I(i,j)\). For the first row and column, missing neighbours are treated as zero.
 
-\paragraph{The Eight Prediction Formulas}
-The JPEG lossless standard defines eight prediction modes (selection values 0–7), listed in Table~\ref{tab:jpeg_predictors}.
 
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\textwidth]{jpegbasic.png}
+    \includegraphics[width=1.0\textwidth]{jpegbasic.png}
     \caption{Illustrative \(4\times4\) block: original values (left) and residuals after Mode 2 prediction (right). The small residuals (mostly \(-1,0,1\)) demonstrate the effectiveness of the predictor.}
     \label{fig:example_block}
 \end{figure}
+
+
+\paragraph{The Eight Prediction Formulas}
+The JPEG lossless standard defines eight prediction modes (selection values 0–7), listed in Table~\ref{tab:jpeg_predictors}.
+
 
 \begin{table}[H]
 \centering
@@ -505,16 +508,133 @@ JPEG lossless prediction reduces spatial redundancy by exploiting local pixel co
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\textwidth]{jpegbestpridict.png}
+    \includegraphics[width=1.0\textwidth]{jpegbestpridict.png}
     \caption{Residual images for all eight JPEG prediction modes (Lenna). Darker colours indicate smaller residuals. Mode 2 (above neighbour) gives the most uniformly dark residual.}
     \label{fig:all_predictors}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\textwidth]{jpegmodes.png}
+    \includegraphics[width=1.0\textwidth]{jpegmodes.png}
     \caption{Detailed analysis of the best predictor (Mode 2): (a) original image, (b) residual image, (c) residual histogram (peaked at zero), (d) entropy reduction.}
     \label{fig:best_predictor}
 \end{figure}
 
+
+
+
+
+
+
+
+
+
+\subsubsection{Context‑Based Compression Algorithms}
+
+\paragraph{Motivation and Core Idea}
+Traditional prediction methods (e.g., JPEG lossless) apply the same fixed predictor to every pixel, regardless of local image characteristics. This ignores the fact that smooth areas, edges, and textures have different statistical properties. Context‑based compression algorithms overcome this limitation by adapting the prediction and entropy coding to the local “context” — the pattern of previously encoded neighbouring pixels.
+
+The core principle is:
+
+\[
+P(x_{i+1} \mid g(y^i))
+\]
+
+where \(y^i = x_1 x_2 \ldots x_i\) is the past sequence, and \(g\) is a \emph{structure function} that maps the past to a finite set of context classes. The probability of the next symbol depends on its context, and the total code length is minimised when the joint probability
+\[
+P(y^n) = \prod_{i=0}^{n-1} p(x_{i+1} \mid y^i)
+\]
+is maximised — a direct consequence of Shannon’s source coding theorem.
+
+\paragraph{Algorithmic Description}
+Three methods were implemented and compared on a \(128\times128\) 8‑bit grayscale sub‑image extracted from the standard Lenna test image.
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{contexbase.png}
+    \caption{Context‑based compression algorithms: (a) original image, (b) residual image from JPEG lossless prediction, (c) context class map for LOCO‑I, (d) histogram of context classes.}
+    \label{fig:context_comparison}
+\end{figure}
+
+\subparagraph{JPEG Lossless (Mode 4)} Serves as a baseline. It uses a fixed predictor
+\[
+P_x = a + b - c,
+\]
+where \(a, b, c\) are the left, above, and above‑left neighbours respectively. The residual \(R = I - P_x\) is then entropy‑coded.
+
+\subparagraph{Gradient Context Model (LOCO‑I / JPEG‑LS)} This method quantises local gradients into a small number of contexts and uses a median‑edge detector (MED) for prediction. Gradients are computed as
+\[
+d_1 = b - c,\quad d_2 = c - a,\quad d_3 = a - b,
+\]
+quantised to \(-1,0,1\) based on thresholds (\(\pm5\)). The three quantised values are combined into a context index (0–8). The prediction is given by the MED rule:
+\[
+P_x = \begin{cases}
+\min(a,b) & \text{if } c \ge \max(a,b),\\
+\max(a,b) & \text{if } c \le \min(a,b),\\
+a+b-c & \text{otherwise}.
+\end{cases}
+\]
+
+\subparagraph{CALIC Style Model} An extended context model that also considers texture energy (horizontal and vertical gradients) and includes error feedback. The prediction is first computed with the MED rule, then refined by adding a scaled version of the accumulated prediction error for that context (error feedback). This allows the predictor to adapt to systematic biases.
+
+\paragraph{Experimental Results}
+Table~\ref{tab:context_comparison} summarises the residual entropy achieved by each method. The original image entropy was \(7.44\) bits per pixel.
+
+\begin{table}[H]
+\centering
+\caption{Comparison of residual entropy and compression gain.}
+\label{tab:context_comparison}
+\begin{tabular}{|l|c|c|c|}
+\hline
+\textbf{Method} & \textbf{Residual Entropy (bits/pixel)} & \textbf{Gain (bits)} & \textbf{Space Savings} \\
+\hline
+JPEG Lossless (Mode 4) & 5.994 & 1.443 & 19.4\% \\
+\hline
+\textbf{Gradient Context (LOCO‑I)} & \textbf{5.596} & \textbf{1.841} & \textbf{24.8\%} \\
+\hline
+CALIC Style & 5.799 & 1.639 & 22.0\% \\
+\hline
+\end{tabular}
+\end{table}
+
+The **Gradient Context (LOCO‑I)** model achieved the lowest residual entropy (\(5.596\) bpp), outperforming JPEG Lossless by \(0.40\) bpp and saving approximately \(24.8\%\) of the original information content. This improvement stems from its ability to classify pixels into smooth, edge, and textured contexts (contexts 0–2, 3–5, and 6–8 respectively) and apply the most suitable prediction rule for each.
+
+\paragraph{Visual Analysis}
+Figure~\ref{fig:context_residuals} shows the residual images produced by the three methods. Darker areas indicate smaller residuals. The Gradient Context method yields the most uniformly dark residual, confirming its superior performance.
+
+Figure~\ref{fig:context_map} displays the context class assignment (0–8) for the LOCO‑I model. Smooth regions (e.g., background and cheek) are assigned low context indices, while edges and textures (e.g., hat, eyes) receive higher indices, demonstrating that the context function successfully captures local image structure.
+
+Figure~\ref{fig:context_histogram} shows the distribution of context classes. The histogram is roughly balanced, indicating that all contexts are utilised and no single context dominates.
+
+\paragraph{Why Context‑Based Methods Win}
+\begin{itemize}
+    \item \textbf{Adaptive prediction:} The same pixel can be predicted differently depending on whether it lies in a smooth area, near an edge, or in a texture. The MED predictor is optimal for edges, while simple averaging works better for smooth areas.
+    \item \textbf{Context‑dependent entropy coding:} The probability model for residuals is conditioned on the context, allowing the entropy coder to adapt its symbol probabilities to the local statistics. This reduces the overall code length compared to using a global model.
+    \item \textbf{Error feedback (CALIC):} Accumulating and feeding back prediction errors further refines the predictor, reducing systematic bias.
+\end{itemize}
+
+\paragraph{Comparison with Other Methods}
+The LOCO‑I (Gradient Context) model is the core of the JPEG‑LS standard. It offers a favourable trade‑off between compression efficiency and computational complexity, making it suitable for real‑time applications. CALIC achieves slightly better compression (typically \(0.2\)–\(0.5\) bpp lower than JPEG‑LS) but at higher computational cost. Both significantly outperform pure entropy coders (Huffman, arithmetic) and fixed‑predictor methods.
+
+\paragraph{Summary}
+Context‑based compression algorithms adapt to local image characteristics by classifying each pixel into a context based on quantised gradients and then applying a context‑specific prediction and probability model. Experimental results on the Lenna image show that the LOCO‑I (Gradient Context) model reduces the residual entropy to \(5.60\) bpp, a gain of \(1.84\) bits (\(24.8\%\) savings) compared to the original image, and outperforms both JPEG Lossless and a simplified CALIC implementation. This demonstrates the power of context adaptation in lossless image compression.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{contexcomp.png}
+    \caption{Residual images for (a) JPEG Lossless, (b) Gradient Context (LOCO‑I), (c) CALIC Style. Darker = smaller residual. LOCO‑I gives the most uniformly dark residual.}
+    \label{fig:context_residuals}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{contexvis.png}
+    \caption{Context class assignment (0–8) for the LOCO‑I model. Smooth regions (blue/green) correspond to low context indices; edges and textures (yellow/red) receive higher indices.}
+    \label{fig:context_map}
+\end{figure}
+
+
+
 \end{document}
+
