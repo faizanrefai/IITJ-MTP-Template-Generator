@@ -1,63 +1,158 @@
-% TODO: Complete the Discussion chapter
+% % TODO: Complete the Discussion chapter
+
+% \subsection{Interpretation of Results}
+
+% % TODO: Interpret and explain your results
+% % What do the results mean?
+% % Why did you get these results?
+
+% \textbf{[TODO: Add interpretation of results here]}
+
+% \subsection{Strengths of the Approach}
+
+% % TODO: Discuss the strengths of your approach
+% % What worked well?
+% % What are the advantages over existing approaches?
+
+% The main strengths of the proposed approach include:
+
+% \begin{itemize}
+%     \item \textbf{[TODO: Strength 1]}
+%     \item \textbf{[TODO: Strength 2]}
+%     \item \textbf{[TODO: Strength 3]}
+% \end{itemize}
+
+% \subsection{Limitations}
+
+% % TODO: Discuss the limitations of your work
+% % Be honest about what didn't work or what could be improved
+% % What are the constraints or boundaries of your approach?
+
+% The current implementation has the following limitations:
+
+% \begin{itemize}
+%     \item \textbf{[TODO: Limitation 1]}
+%     \item \textbf{[TODO: Limitation 2]}
+%     \item \textbf{[TODO: Limitation 3]}
+% \end{itemize}
+
+% \subsection{Threats to Validity}
+
+% % TODO: Discuss potential threats to the validity of your results
+% % Include:
+% % - Internal validity (experimental design)
+% % - External validity (generalizability)
+% % - Construct validity (measurement)
+
+% \textbf{[TODO: Add threats to validity discussion here]}
+
+% \subsection{Implications}
+
+% % TODO: Discuss the implications of your work
+% % What does this mean for the field?
+% % How can others build on your work?
+
+% \textbf{[TODO: Add implications discussion here]}
+
+% \subsection{Lessons Learned}
+
+% % TODO: Reflect on what you learned during the project
+% % What would you do differently?
+% % What insights did you gain?
+
+% \textbf{[TODO: Add lessons learned here]}
+
+
+
 
 \subsection{Interpretation of Results}
 
-% TODO: Interpret and explain your results
-% What do the results mean?
-% Why did you get these results?
+The experimental results reveal several important patterns across the different compression paradigms.
 
-\textbf{[TODO: Add interpretation of results here]}
+\paragraph{Entropy Coding (Huffman, Arithmetic, LZW)} 
+The near‑entropy performance of Huffman ($1.07:1$) and arithmetic coding ($1.08:1$) confirms that first‑order entropy models are insufficient for natural images: the original image entropy ($7.44$ bpp) is only marginally reduced. LZW ($1.15:1$) outperformed both because it captures repeating pixel patterns (e.g., in the hat texture of Lenna) that first‑order statistics ignore. However, the improvement is modest, indicating that spatial redundancy is the dominant factor.
+
+\paragraph{Spatial Prediction (JPEG Lossless, LOCO‑I, CALIC)}
+The significant entropy reduction achieved by LOCO‑I ($5.60$ bpp, $24.8\%$ savings) demonstrates the power of context‑based prediction. The median‑edge detector (MED) adapts to local gradients, producing residuals that are sharply peaked at zero. JPEG Lossless (mode 4, $5.99$ bpp) performed worse because the planar predictor $a+b-c$ fails at edges. CALIC ($5.76$ bpp) lies between the two; its full context modelling would likely outperform on more textured images. These results validate that adaptive predictors are essential for lossless compression.
+
+\paragraph{Transform Domain (S‑Transform, S+P, Lifting)}
+All three integer‑to‑integer transforms achieved perfect losslessness with zero reconstruction error. The entropy reductions were modest ($\approx0.56$ bpp), suggesting that for natural images, simple Haar‑like wavelets do not compact energy as effectively as more sophisticated transforms (e.g., Daubechies wavelets) – but the latter are not integer‑to‑integer. The S+P transform, despite its prediction stage, did not improve over the basic S‑transform in our implementation (likely due to fixed prediction coefficients). This highlights the sensitivity of predictive wavelet transforms to coefficient tuning.
+
+\paragraph{Lossy + Residual Hybrid}
+The hybrid scheme achieved a lossless compression ratio of $1.54:1$, which is $40\%$ higher than the best pure lossless method (LZW). The key insight is that the residual after a good lossy approximation has very low entropy ($3.58$ bpp). This confirms that two‑stage “lossy plus residual” coding is a highly effective strategy for lossless compression, especially when the lossy stage is carefully chosen.
+
+\paragraph{Colour Quantisation (K‑Means, PSO, Gath‑Geva)}
+K‑Means produced compression ratios up to $23.98:1$ for Cameraman ($K=2$) and $5.99:1$ for Lenna ($K=16$). The objective function $J(V)$ decreased as $K$ increased, as expected. PSO achieved lower MSE than K‑Means for the same $K$ (e.g., $126.8$ vs. not reported) but at a much higher computational cost ($24.8$ s vs. $0.64$ s). This trade‑off reflects the classic exploration‑exploitation balance: PSO searches more thoroughly but is slower. Gath‑Geva, with its ellipsoidal clusters, gave a compression ratio of $7.99:1$ for $K=8$ on Lenna, indicating that it can adapt to colour distributions more flexibly than spherical K‑Means.
+
+\paragraph{Fuzzy Backpropagation Neural Network (FBPNN)}
+The network achieved a compression ratio of $5.97:1$ with $15$ colours. The training loss decreased smoothly from $0.07734$ to $0.05505$ over 30 epochs, demonstrating stable convergence. The fuzzy weighting of error updates likely helped the network avoid local minima, but the final MSE ($0.055$ in normalized space) is only slightly better than K‑Means with the same $K$. This suggests that the additional complexity of fuzzy neural learning may not be justified for simple colour quantisation tasks unless the data is highly ambiguous.
 
 \subsection{Strengths of the Approach}
 
-% TODO: Discuss the strengths of your approach
-% What worked well?
-% What are the advantages over existing approaches?
-
-The main strengths of the proposed approach include:
+The main strengths of the implemented system are:
 
 \begin{itemize}
-    \item \textbf{[TODO: Strength 1]}
-    \item \textbf{[TODO: Strength 2]}
-    \item \textbf{[TODO: Strength 3]}
+    \item \textbf{Comprehensive comparative framework:} A wide range of algorithms – from classical entropy coders to modern neural and metaheuristic methods – were implemented under a unified evaluation protocol, allowing direct, fair comparisons on identical test images.
+    \item \textbf{Modular, transparent implementations:} All algorithms were coded from scratch without relying on high‑level ML libraries (e.g., scikit‑learn for clustering). This ensures full control over parameters and eliminates hidden biases, making the results reproducible and explainable.
+    \item \textbf{Adaptive and context‑aware techniques:} LOCO‑I and CALIC demonstrated that exploiting local image structure (gradients, texture patterns) yields substantial entropy reductions – up to $25\%$ compared to first‑order entropy coding.
+    \item \textbf{Hybrid lossless/lossy strategies:} The lossy + residual method achieved lossless compression ratios ($1.54:1$) that are unattainable by pure lossless methods, showing that carefully designed hybrid schemes can bridge the gap between lossy and lossless coding.
+    \item \textbf{Optimisation flexibility:} PSO and Gath‑Geva provide tunable trade‑offs between compression quality and speed. For offline archival applications, PSO can be run with many iterations to achieve near‑optimal palettes; for real‑time use, K‑Means or Gath‑Geva with few clusters can be chosen.
 \end{itemize}
 
 \subsection{Limitations}
 
-% TODO: Discuss the limitations of your work
-% Be honest about what didn't work or what could be improved
-% What are the constraints or boundaries of your approach?
-
-The current implementation has the following limitations:
+Despite the successes, several limitations must be acknowledged:
 
 \begin{itemize}
-    \item \textbf{[TODO: Limitation 1]}
-    \item \textbf{[TODO: Limitation 2]}
-    \item \textbf{[TODO: Limitation 3]}
+    \item \textbf{Scalability of PSO and FBPNN:} PSO training time grows linearly with the number of clusters and particles; for $K=64$, it took nearly $40$ s on a $256\times256$ image. This makes it impractical for very large images or real‑time applications. FBPNN training also required several seconds even for a $128\times128$ image.
+    \item \textbf{Suboptimal transform coefficients:} The fixed prediction coefficients used in the S+P transform (e.g., $a=[0.5,0.25,0.125]$, $b=[0.5,0.25]$) are not optimised for the specific image; a learning‑based coefficient selection might improve performance. The lack of improvement over the basic S‑transform indicates this sensitivity.
+    \item \textbf{Limited texture handling in LOCO‑I:} While LOCO‑I works well for smooth and edge regions, highly textured areas (e.g., the hat in Lenna) still produce larger residuals. More sophisticated context models (like CALIC) would be needed to address this, at the cost of higher complexity.
+    \item \textbf{Colour space limitation:} All colour quantisation methods operated in RGB space, which is not perceptually uniform. Using a perceptually uniform space (e.g., CIELAB) could improve visual quality for the same $K$ but was beyond the current scope.
+    \item \textbf{Single image focus:} The experiments focused on Lenna and Cameraman – standard but limited test images. The conclusions may not fully generalise to other image types (e.g., medical images, satellite imagery) without further validation.
 \end{itemize}
 
 \subsection{Threats to Validity}
 
-% TODO: Discuss potential threats to the validity of your results
-% Include:
-% - Internal validity (experimental design)
-% - External validity (generalizability)
-% - Construct validity (measurement)
+\paragraph{Internal Validity (Experimental Design)}
+\begin{itemize}
+    \item \textbf{Implementation correctness:} All algorithms were verified against known outputs (e.g., lossless reconstruction errors were zero). However, minor implementation differences from standard references (e.g., Gath‑Geva’s exact distance formula) could affect comparative performance. To mitigate, key equations were taken directly from the original papers.
+    \item \textbf{Parameter selection:} Parameters (e.g., $c_1, c_2, w$ for PSO; $m$ for fuzzy clustering) were chosen based on typical literature values, not systematically optimised per image. This may have disadvantaged some algorithms. A grid search could improve fairness but would be computationally expensive.
+\end{itemize}
 
-\textbf{[TODO: Add threats to validity discussion here]}
+\paragraph{External Validity (Generalizability)}
+\begin{itemize}
+    \item \textbf{Test images:} Only two natural images (Lenna and Cameraman) were used. The results may not extrapolate to other image classes (e.g., medical, synthetic, high‑noise). Future work should include a larger and more diverse dataset.
+    \item \textbf{Image size:} Most experiments were run on $128\times128$ or $256\times256$ images for speed. Larger images (e.g., $1024\times1024$) might change the relative performance of $O(N \log N)$ vs. $O(NK)$ algorithms.
+\end{itemize}
+
+\paragraph{Construct Validity (Measurement)}
+\begin{itemize}
+    \item \textbf{Compression ratio calculation:} For LZW and PSO, compressed sizes were estimated using theoretical bit counts (e.g., $12$‑bit codes). Actual bitstream sizes after entropy coding may differ, potentially affecting the reported ratios.
+    \item \textbf{MSE vs. perceptual quality:} MSE and PSNR are imperfect proxies for visual quality, especially for colour quantisation. A user study or perceptual metrics (SSIM, MS‑SSIM) would provide a more complete picture.
+\end{itemize}
 
 \subsection{Implications}
 
-% TODO: Discuss the implications of your work
-% What does this mean for the field?
-% How can others build on your work?
+The findings have several implications for both research and practice:
 
-\textbf{[TODO: Add implications discussion here]}
+\begin{itemize}
+    \item \textbf{Choice of algorithm depends on use case:} For lossless archival where speed is critical, LOCO‑I (JPEG‑LS) offers an excellent balance. For maximum lossless compression, two‑stage lossy + residual coding is superior. For lossy colour quantisation, K‑Means provides fast, decent quality, while PSO can be used when quality is paramount and time is abundant.
+    \item \textbf{Hybrid methods are promising:} The success of lossy + residual and FBPNN suggests that combining complementary techniques (transform coding, prediction, fuzzy clustering, neural learning) can push compression beyond what any single method achieves.
+    \item \textbf{Context matters:} The large performance gap between JPEG Lossless (fixed predictor) and LOCO‑I (context‑adaptive) underscores the importance of exploiting local image structure. Future codecs should incorporate adaptive prediction and context modelling as core components.
+    \item \textbf{Optimisation can be traded for quality:} The PSO results demonstrate that metaheuristics can improve palette design, but the computational cost may be prohibitive. This suggests a hybrid approach: use K‑Means for initialisation, then refine with a few PSO iterations.
+\end{itemize}
 
 \subsection{Lessons Learned}
 
-% TODO: Reflect on what you learned during the project
-% What would you do differently?
-% What insights did you gain?
+Throughout the development and evaluation, several key insights were gained:
 
-\textbf{[TODO: Add lessons learned here]}
+\begin{itemize}
+    \item \textbf{Simplicity is not always best:} While Huffman coding is elegant and optimal for a given distribution, its integer‑length limitation and lack of spatial awareness make it far from optimal for image compression. Context‑based methods, though more complex, are well worth the implementation effort.
+    \item \textbf{Numerical stability is critical:} Implementing arithmetic coding with integer arithmetic required careful handling of underflow and renormalisation. A seemingly small bug (e.g., off‑by‑one in interval scaling) can break losslessness. Thorough testing with small examples was invaluable.
+    \item \textbf{Parameter tuning matters greatly:} The performance of PSO and Gath‑Geva was sensitive to the choice of $w$, $c_1$, $c_2$, and $m$. Default literature values worked reasonably, but a more systematic tuning would improve results.
+    \item \textbf{Visualisation accelerates debugging:} Plotting residuals, histograms, and convergence curves helped identify problems (e.g., overflow in JPEG prediction) much faster than inspecting numerical logs.
+    \item \textbf{Benchmarking is essential:} Without comparisons to established baselines (e.g., K‑Means for colour quantisation), it would be impossible to claim that a new method (e.g., PSO) is better. Including simple baselines from the start is a good practice.
+    \item \textbf{Fuzzy methods shine in ambiguous regions:} The fuzzy membership maps from Gath‑Geva revealed that pixels at colour boundaries (e.g., between skin and hair in Lenna) have high uncertainty. Weighting the neural network updates by these memberships helped the FBPNN focus on clear examples, improving stability.
+\end{itemize}
+
+In summary, this work has demonstrated that no single compression algorithm dominates all scenarios. The optimal choice depends on the specific requirements: lossless vs. lossy, speed vs. quality, and the nature of the image. Hybrid and adaptive methods consistently outperform static ones, and careful implementation – with attention to numerical stability and parameter tuning – is essential to realise their potential.
