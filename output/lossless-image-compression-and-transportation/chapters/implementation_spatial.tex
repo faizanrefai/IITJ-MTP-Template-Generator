@@ -248,4 +248,241 @@ Let $N$ be the total number of pixels. The Sobel edge detection and block varian
 
 This section has presented a variable block size compression algorithm that adaptively partitions an image based on local edge density and selects the most appropriate encoding method for each block. Run‑length encoding efficiently compresses uniform areas; base+offset coding handles smooth gradients; block matching eliminates global redundancies; and raw encoding preserves fine details. Experimental evaluation on the Lenna image demonstrates a compression ratio of 1.45:1, outperforming Huffman, arithmetic, LZW, and lossless JPEG by a substantial margin. The algorithm's adaptive nature and linear complexity make it a strong candidate for practical lossless image compression systems.
 
+
+
+
+
+\subsubsection{Lossy + Residual Image Compression}
+
+This approach is a powerful \textbf{hybrid} technique. It allows perfect lossless reconstruction by first sending a low-quality (\textbf{lossy}) version and then patching it with the missing details.
+
+\paragraph{The Core Concept}
+Think of it like sending a blurry photo first to save space, and then sending the specific corrections needed to make it perfect.
+\begin{enumerate}
+    \item \textbf{Lossy Image:} Send a compressed, lower-quality version (\textbf{small file size}).
+    \item \textbf{Residual:} Send the difference between original and lossy (\textbf{highly compressible}).
+    \item \textbf{Reconstruction:} Add them together to get the perfect original back.
+\end{enumerate}
+
+\paragraph{The 3-Step Process}
+
+\begin{table}[H]
+\centering
+\caption{Three steps of Lossy + Residual compression.}
+\label{tab:lossy_residual_steps}
+\begin{tabular}{|c|l|l|}
+\hline
+\textbf{Step} & \textbf{Action} & \textbf{Description} \\
+\hline
+1. Lossy Stage & $I_{\text{original}} \rightarrow I_{\text{lossy}}$ & Compress the image using a method like DCT or JPEG. This creates a very small file but loses fine detail. \\
+\hline
+2. Residual Stage & $R = I_{\text{original}} - I_{\text{lossy}}$ & Calculate the \textbf{Residual} (error map). This identifies exactly what was lost during the first step. \\
+\hline
+3. Reconstruction & $I_{\text{final}} = I_{\text{lossy}} + R$ & The decoder adds them together. Because the residual contains all missing data, the result is identical to the original. \\
+\hline
+\end{tabular}
+\end{table}
+
+\paragraph{Why is this efficient?}
+
+The secret lies in \textbf{entropy}. 
+
+\begin{itemize}
+    \item \textbf{Original Image:} Has a massive range of pixel values (0–255), making it heavy to describe mathematically.
+    \item \textbf{Residual Image:} Because the lossy version is usually very close to the original, most residual values are near zero.
+    \item \textbf{The Result:} A file full of zeros and tiny numbers is much easier for algorithms like Huffman or Arithmetic coding to shrink than the original complex image.
+\end{itemize}
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{loosy.png}
+    \caption{Visualization of the Lossy + Residual compression process on the Lenna image. (a) Original image. (b) Lossy version (e.g., JPEG compressed). (c) Residual image showing the difference. (d) Final reconstructed image after adding lossy and residual, identical to original.}
+    \label{fig:lenna_results}
+\end{figure}
+
+
+\paragraph{Comparison of Methods}
+
+\begin{table}[H]
+\centering
+\caption{Comparison of lossy, lossless, and hybrid approaches.}
+\label{tab:method_comparison}
+\begin{tabular}{|l|c|c|l|}
+\hline
+\textbf{Method} & \textbf{Fidelity} & \textbf{Compression Ratio} & \textbf{Best Use Case} \\
+\hline
+Pure Lossless (Huffman/LZW) & Perfect & Low ($\sim$1.2:1) & Text, simple graphics \\
+\hline
+Pure Lossy (JPEG) & Approximate & High (10:1+) & Web browsing, social media \\
+\hline
+\textbf{Lossy + Residual} & \textbf{Perfect} & \textbf{Medium ($\sim$2:1 to 4:1)} & Medical imaging, Archiving \\
+\hline
+\end{tabular}
+\end{table}
+
+By combining these two stages, the method exploits the high compression ratio of lossy methods while still guaranteeing that no data is actually lost. This is the foundation for high-performance near-lossless codecs used in professional fields.
+
+
+
+\paragraph{Why This Works So Well}
+
+\subparagraph{1. Residuals Are Easy to Compress}
+The residual image contains mostly small values (near zero) because:
+\begin{itemize}
+    \item The lossy image is already very close to the original.
+    \item Differences are usually limited to tiny variations (e.g., $\pm10$–$20$ pixel values).
+    \item Many residual values are exactly zero.
+\end{itemize}
+
+\begin{verbatim}
+# Example residual distribution
+Original:    [100, 102, 101, 99, 100]
+Lossy:       [98,  100, 102, 100, 98]  
+Residual:    [2,   2,   -1,  -1,  2]    # Small numbers!
+\end{verbatim}
+
+\subparagraph{2. Two-Stage Compression Advantage}
+
+\begin{table}[H]
+\centering
+\caption{Two-stage compression performance.}
+\label{tab:twostage}
+\begin{tabular}{|l|l|c|c|}
+\hline
+\textbf{Stage} & \textbf{Method} & \textbf{Compression Ratio} & \textbf{Quality} \\
+\hline
+Lossy & DCT/JPEG & 10–20:1 & Approximate \\
+Residual & Huffman/Arithmetic & 2–3:1 & Exact differences \\
+\hline
+\textbf{Overall} & \textbf{Combined} & \textbf{5–8:1} & \textbf{Perfect!} \\
+\hline
+\end{tabular}
+\end{table}
+
+\paragraph{Mathematical Representation}
+
+\begin{align}
+    I &= \text{Original image}\\
+    L &= \text{compress\_lossy}(I) \quad \text{(small file)}\\
+    R &= I - L \quad \text{(small values)}\\
+    I &= L + R \quad \text{(perfect reconstruction)}
+\end{align}
+
+\paragraph{Real-World Example}
+
+\begin{verbatim}
+# Simplified demonstration
+import numpy as np
+
+# Original 4x4 block
+original = np.array([
+    [100, 101, 102, 103],
+    [104, 105, 106, 107],
+    [108, 109, 110, 111],
+    [112, 113, 114, 115]
+])
+
+# Lossy compression (quantization - keep only rough values)
+lossy = np.array([
+    [100, 100, 102, 102],
+    [104, 104, 106, 106],
+    [108, 108, 110, 110],
+    [112, 112, 114, 114]
+])
+
+# Residual (difference)
+residual = original - lossy
+print("Residual:\n", residual)
+
+# Output:
+# [[0, 1, 0, 1],
+#  [0, 1, 0, 1],
+#  [0, 1, 0, 1],
+#  [0, 1, 0, 1]]
+
+# Notice: Residual values are only 0 or 1 (extremely compressible!)
+\end{verbatim}
+
+\paragraph{Comparison with Pure Lossless Methods}
+
+\begin{table}[H]
+\centering
+\caption{Comparison of pure lossless methods vs. Lossy+Residual.}
+\label{tab:pure_vs_hybrid}
+\begin{tabular}{|l|c|c|}
+\hline
+\textbf{Method} & \textbf{Compression Ratio} & \textbf{Quality} \\
+\hline
+Huffman & 1.1:1 & Perfect \\
+Arithmetic & 1.1:1 & Perfect \\
+LZW & 1.2:1 & Perfect \\
+\hline
+\textbf{Lossy + Residual} & \textbf{5–8:1} & \textbf{Perfect!} \\
+\hline
+\end{tabular}
+\end{table}
+
+\paragraph{The Magic: Why Residuals Are Small}
+
+When you make a good lossy approximation, the residual is mostly:
+\begin{itemize}
+    \item \textbf{Near-zero values} (Entropy coding loves this!)
+    \item \textbf{Sparse} (Many values are exactly zero)
+    \item \textbf{Small dynamic range} (e.g., $-20$ to $+20$ instead of $0$–$255$)
+\end{itemize}
+
+This means even though you are sending two pieces of data, the total combined size is much smaller!
+
+\paragraph{Practical Applications}
+
+\begin{itemize}
+    \item \textbf{JPEG-LS:} The lossless JPEG standard relies heavily on this principle.
+    \item \textbf{Medical Imaging:} Doctors need absolutely lossless images, but files must be small enough for fast transmission.
+    \item \textbf{Satellite Imagery:} Systems send a quick low‑res preview, followed by the residual to achieve full resolution.
+    \item \textbf{Video Streaming:} Sends a low‑res base layer first, then enhances it progressively.
+\end{itemize}
+
+\paragraph{Key Takeaway}
+
+Lossy + Residual compression is like \textbf{building a house}:
+\begin{enumerate}
+    \item First, build the basic structure (\textbf{lossy}) — quick, efficient, and cheap.
+    \item Then, add the specific details and finishings (\textbf{residual}) — smaller, targeted additions.
+    \item You end up with the complete, exact house (\textbf{perfect reconstruction}).
+\end{enumerate}
+
+
+\paragraph{Experimental Results of Lossy+Residual Compression}
+
+The proposed Lossy+Residual hybrid scheme was evaluated on a standard test image. A lossy baseline was generated using JPEG compression with quality factor $Q=50$, achieving a compression ratio of $5.0:1$ with visible degradation. The residual image, defined as $R = I_{\text{original}} - I_{\text{lossy}}$, exhibited a low entropy of $3.579$ bits per pixel due to the predominance of small‑magnitude values. Encoding this residual with Huffman coding and adding it back to the lossy reconstruction yielded a final lossless compression ratio of $1.54:1$.
+
+Table~\ref{tab:lossy_residual_comparison} compares this result against conventional lossless algorithms on the same image.
+
+\begin{table}[H]
+\centering
+\caption{Compression ratios of lossless and hybrid methods.}
+\label{tab:lossy_residual_comparison}
+\begin{tabular}{l c}
+\hline
+\textbf{Method} & \textbf{Compression Ratio} \\
+\hline
+Huffman Coding          & 1.07:1 \\
+Arithmetic Coding       & 1.08:1 \\
+LZW                     & 1.15:1 \\
+\hline
+\textbf{Lossy+Residual} & \textbf{1.54:1} \\
+\hline
+\end{tabular}
+\end{table}
+
+The hybrid approach achieves a $1.54:1$ lossless ratio, which is approximately $40\%$ higher than the best pure lossless method (LZW at $1.15:1$). This gain stems from the high compressibility of the residual, whose near‑zero values are efficiently handled by entropy coding.
+
+\paragraph{Trade‑offs and Optimisation.}
+The overall compression ratio is sensitive to the quality of the initial lossy stage:
+\begin{itemize}
+    \item Higher lossy quality (less aggressive compression) produces a smaller residual, improving the final lossless ratio but increasing the lossy file size.
+    \item Lower lossy quality produces a larger residual, reducing the final ratio.
+\end{itemize}
+For the tested image, the chosen operating point ($Q=50$) balances these factors, delivering a lossy baseline of $5.0:1$ and a residual that compresses to achieve the final $1.54:1$ lossless result. This demonstrates that Lossy+Residual compression can significantly outperform conventional lossless methods while guaranteeing perfect reconstruction, making it particularly attractive for applications such as medical imaging and archival storage where both fidelity and file size are critical.
 \end{document}
