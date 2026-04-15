@@ -108,12 +108,11 @@ Table~\ref{tab:pso_performance} summarises the performance for different $K$. Th
 \end{table}
 
 For a more detailed analysis, PSO was run again with $K=16$, $30$ particles, and $50$ iterations. The convergence behaviour is shown in Table~\ref{tab:pso_convergence} and Figure~\ref{fig:pso_convergence}.
-
 \begin{table}[H]
 \centering
 \caption{PSO convergence history for $K=16$.}
 \label{tab:pso_convergence}
-\begin{tabularx}{\textwidth}{|c|c|}
+\begin{tabularx}{0.6\textwidth}{|c|c|}
 \hline
 \textbf{Iteration} & \textbf{Best MSE} \\
 \hline
@@ -151,6 +150,7 @@ Total compressed & 32,816 bytes (32.05 KB) \\
 \paragraph{Comparison with K‑Means}
 The same image was compressed using a custom K‑Means implementation ($K=16$). Table~\ref{tab:pso_vs_kmeans} compares the two methods.
 
+
 \begin{table}[H]
 \centering
 \caption{Comparison of PSO and K‑Means for colour quantisation ($K=16$).}
@@ -162,7 +162,7 @@ The same image was compressed using a custom K‑Means implementation ($K=16$). 
 Compression ratio & 5.991:1 & 5.991:1 \\
 MSE & 126.80 & — \\
 PSNR (dB) & 27.1 & — \\
-Time (s) & 24.84 & 0.64 (approx.) \\
+Time (s) & 24.84 & 0.64 \\
 \hline
 \end{tabularx}
 \end{table}
@@ -194,7 +194,7 @@ Particle Swarm Optimization is an effective metaheuristic for colour quantisatio
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1.0\textwidth]{pso_compre.png}
+    \includegraphics[width=1.0\textwidth]{pso_compare.png}
     \caption{PSO compression results: (a) original Lenna, (b)–(f) compressed with $K=4,8,16,32,64$, (g) error map for $K=16$, (h) colour palette, (i) convergence curve.}
     \label{fig:pso_compression_visuals}
 \end{figure}
