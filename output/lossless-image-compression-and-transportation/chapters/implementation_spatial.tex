@@ -793,18 +793,31 @@ Figure~\ref{fig:example_block} illustrates the MED prediction on a \(4\times4\) 
 \end{figure}
 
 \paragraph{Key Formulas Summary}
-\[
-\begin{aligned}
-\text{LOCO‑I (MED):}&\quad \hat{x} = \begin{cases}
-\min(a,b) & \text{if } c \ge \max(a,b),\\
-\max(a,b) & \text{if } c \le \min(a,b),\\
-a+b-c & \text{otherwise}.
-\end{cases}\\[8pt]
-\text{CALIC gradients:}&\quad d_h = |w-ww| + |n-nw| + |ne-n|,\\
-&\quad d_v = |w-nw| + |n-nn| + |ne-nne|.\\[4pt]
-\text{Error energy:}&\quad \Delta = d_h + d_v + 2|e_w|.
-\end{aligned}
-\]
+
+
+
+
+
+The \textbf{LOCO-I (MED) predictor} utilizes a non-linear edge-detecting mechanism, defined as:
+\begin{equation}
+    \hat{x} = 
+    \begin{cases}
+        \min(a,b), & \text{if } c \ge \max(a,b) \\
+        \max(a,b), & \text{if } c \le \min(a,b) \\
+        a+b-c,     & \text{otherwise}
+    \end{cases}
+\end{equation}
+
+In contrast, the \textbf{CALIC} algorithm computes horizontal and vertical gradients ($d_h$ and $d_v$) to estimate the local error energy ($\Delta$):
+\begin{align}
+    d_h &= |w-ww| + |n-nw| + |ne-n| \\[4pt]
+    d_v &= |w-nw| + |n-nn| + |ne-nne| \\[4pt]
+    \Delta &= d_h + d_v + 2|e_w|
+\end{align}
+
+
+
+
 
 \paragraph{Summary}
 CALIC and LOCO‑I represent two generations of context‑based lossless image compression. CALIC achieves excellent compression through multiple stages of adaptation (gradient selection, context modelling, error feedback) but at higher computational cost. LOCO‑I, with its simple median‑edge detector and context‑based Golomb coding, provides near‑CALIC performance with much lower complexity, which led to its adoption as the JPEG‑LS standard. The experimental results confirm that both methods significantly outperform fixed‑predictor schemes, reducing the entropy of the Lenna image from \(7.44\) to approximately \(5.6\)–\(5.8\) bits per pixel.
@@ -939,8 +952,8 @@ Figure~\ref{fig:histograms} shows the histograms of the transform coefficients. 
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1.0\textwidth}{transform_comp.png}
-    \caption{Histograms: (a) original pixel values, (b) S‑Transform coefficients, (c) S+P coefficients, (d) Lifting coefficients. The transformed histograms are more concentrated near zero.}
+    \includegraphics[width=1.0\textwidth]{transform_comp.png}
+    \caption{Transform domain Lossless comparison: (a) original pixel histogram, (b) S‑Transform coefficients, (c) S+P Transform coefficients, (d) Lifting wavelet coefficients. The transform histograms are more peaked around zero.}
     \label{fig:histograms}
 \end{figure}
 
@@ -961,5 +974,4 @@ Figure~\ref{fig:histograms} shows the histograms of the transform coefficients. 
 \paragraph{Summary}
 Transform domain methods convert an image into a representation where coefficients have lower entropy, improving lossless compression. The S‑Transform, S+P Transform, and lifting wavelet are integer‑to‑integer transforms that guarantee perfect reconstruction. Experimental results on the Lenna image show that the S‑Transform reduces entropy from 7.44 to 6.87 bits/pixel, a reduction of 0.57 bits/pixel (7.6\% savings). The S+P and lifting wavelets produce similar results. These transforms are the foundation of many modern lossless image codecs, including JPEG‑LS and JPEG‑2000 lossless mode.
 
-\end{document}
 
