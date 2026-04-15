@@ -17,14 +17,14 @@ Unsupervised machine learning finds a classic application in the KMeans algorith
 \paragraph{Mathematical Formulation}
 Given a set of data points $\{x_1, x_2, \dots, x_N\}$ (pixel colours in RGB space) and a desired number of clusters $K$, K‑Means minimises the within‑cluster sum of squares:
 
-\[
+\[ \cite{lloyd1982}
 J(V) = \sum_{i=1}^{K} \sum_{j=1}^{c_i} \| x_{ij} - v_i \|^2,
 \]
 
 where:
 \begin{itemize}
     \item $v_i$ is the centre (mean) of cluster $i$,
-    \item $c_i$ is the number of points in cluster $i$,
+    \item $c_i$ is the number of points in cluster $i$, \cite{lloyd1982}
     \item $\|x - v\|$ is the Euclidean distance.
 \end{itemize}
 
@@ -32,7 +32,7 @@ The cluster centres are updated as the mean of all points assigned to that clust
 
 \[
 v_i = \frac{1}{c_i} \sum_{j=1}^{c_i} x_{ij}.
-\]
+\] \cite{lloyd1982, Khaleel2014}
 
 The algorithm iteratively alternates between assignment (nearest centre) and update (recompute means) until convergence.
 
@@ -86,7 +86,7 @@ Two standard test images were used: \textit{Lenna} ($256\times256$, RGB, origina
 
 \[
 \text{Ratio} = \frac{\text{Original bits}}{\text{Palette bits} + \text{Index bits}}.
-\]
+\] \cite{VemuriEtAl, Khaleel2014}
 
 Tables~\ref{tab:lenna_results} and~\ref{tab:cameraman_results} present the performance.
 
@@ -203,14 +203,11 @@ Figure~\ref{fig:kmeans_visuals} shows the original image, compressed versions fo
 
 \paragraph{Discussion}
 \begin{itemize}
-    \item \textbf{Compression efficiency:} Highly effective results are yielded by KMeans colour quantisation, particularly for images containing limited colour palettes. A ratio of $24:1$ is achieved even with $K=2$ for Cameraman, though visible posterisation is actively produced.
+    \item \textbf{Compression efficiency:} Highly effective results are yielded by KMeans colour quantisation, particularly for images containing limited colour palettes \cite{Khaleel2014}. A ratio of $24:1$ is achieved even with $K=2$ for Cameraman, though visible posterisation is actively produced.
     \item \textbf{Convergence speed:} A moderate number of iterations (ranging from 7 to 81) is strictly required, which actively increases alongside $K$ and total image complexity.
-    \item \textbf{Objective function:} Exactly as was heavily expected, $J(V)$ is observed to decrease monotonically as the value of $K$ increases.
-    \item \textbf{Limitations:} Spherical clusters are strictly assumed by KMeans, and the algorithm remains sensitive to initialisation; however, these specific limitations are rarely found to be problematic specifically for colour quantisation.
+    \item \textbf{Objective function:} Exactly as was heavily expected, $J(V)$ is observed to decrease monotonically as the value of $K$ increases \cite{VemuriSahniChenKapoorLeonardFitzsimmons}.
+    \item \textbf{Limitations:} Spherical clusters are strictly assumed by KMeans, and the algorithm remains sensitive to initialisation; however, these specific limitations are rarely found to be problematic specifically for colour quantisation \cite{Khaleel2014}.
 \end{itemize}
 
 \paragraph{Summary}
-A simple yet massively powerful method for lossy image compression is provided by KMeans clustering via the use of colour quantisation. The withincluster sum of squares is minimized entirely by the algorithm, which iteratively refines the cluster centres. Compression ratios ranging from $4.8:1$ to $24:1$ are demonstrated entirely by experimental results on standard test images, depending strictly upon the chosen number of clusters. The exact tradeoff balancing compression ratio against absolute image quality can be controlled directly by selecting the value of $K$. This specific method is particularly suitable for applications where a limited colour palette is strictly acceptable, such as in graphics, thumbnails, and various legacy display systems.
-
-
-
+A simple yet massively powerful method for lossy image compression is provided by KMeans clustering via the use of colour quantisation \cite{Khaleel2014}. The withincluster sum of squares is minimized entirely by the algorithm, which iteratively refines the cluster centres \cite{VemuriSahniChenKapoorLeonardFitzsimmons}. Compression ratios ranging from $4.8:1$ to $24:1$ are demonstrated entirely by experimental results on standard test images, depending strictly upon the chosen number of clusters. The exact tradeoff balancing compression ratio against absolute image quality can be controlled directly by selecting the value of $K$. This specific method is particularly suitable for applications where a limited colour palette is strictly acceptable, such as in graphics, thumbnails, and various legacy display systems \cite{VemuriSahniChenKapoorLeonardFitzsimmons}.

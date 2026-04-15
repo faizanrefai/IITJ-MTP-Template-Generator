@@ -305,7 +305,7 @@ Effective compression is indicated strongly when a compression ratio greater tha
 
 \paragraph{Algorithmic Principle}
 
-Huffman coding was introduced fully by David A. Huffman back in his seminal 1952 paper, which was written while he was still an active Ph.D. student over at MIT. An optimal prefix code is constructed completely for a given set of symbols alongside their probabilities by this highly greedy algorithm \cite[Section IV-A]{VemuriEtAl}. A core principle is operated upon by the algorithm. Shorter codewords are assigned directly to symbols that occur significantly more frequently within the input data. Longer codewords are subsequently received by symbols that appear much less frequently. The expected code length is minimized entirely by doing this.
+Huffman coding was introduced fully by David A. Huffman back in his seminal 1952 paper, which was written while he was still an active Ph.D. student over at MIT \cite{huffman1952}. An optimal prefix code is constructed completely for a given set of symbols alongside their probabilities by this highly greedy algorithm \cite[Section IV-A]{VemuriEtAl}. A core principle is operated upon by the algorithm. Shorter codewords are assigned directly to symbols that occur significantly more frequently within the input data. Longer codewords are subsequently received by symbols that appear much less frequently. The expected code length is minimized entirely by doing this. \cite{huffman1952}
 
 \vspace{0.5em}\noindent
 \textbf{Definition 4.1 (Prefix Code).} A code is classified strictly as a \textit{prefix code} (referred to also as a prefixfree code) if it is ensured that no codeword acts as a prefix for any other available codeword. Unique decodability is ensured completely by this specific property. Delimiters are not required at all between the codewords.
@@ -314,7 +314,7 @@ Huffman coding was introduced fully by David A. Huffman back in his seminal 1952
 \textbf{Definition 4.2 (Kraft--McMillan Inequality).} To guarantee the existence of a prefix code containing specific codeword lengths of $l_1, l_2, \dots, l_n$, a necessary and entirely sufficient condition is demanded. The Kraft--McMillan inequality must hold true:
 
 \begin{equation}
-    \sum_{i=1}^{n} 2^{-l_i} \leq 1
+    \sum_{i=1}^{n} 2^{-l_i} \leq 1 \cite{VemuriEtAl}
 \end{equation}
 
 Equality within this specific inequality is achieved perfectly by Huffman codes whenever the code itself is rendered complete \cite{reference19}.
@@ -654,10 +654,10 @@ class ArithmeticCodingLossless:
 
 The class of dictionarybased compression algorithms is exactly where LempelZivWelch (LZW) coding completely belongs. Repeated substrings are actively replaced by shorter codes that reference entries housed within a dynamically constructed dictionary by these algorithms \cite{VemuriSectionIVB}. Explicit probability models completely tied to individual symbols are heavily relied upon by standard Huffman and arithmetic coding. LZW differs completely by adaptively learning massive patterns strictly from the input data during one singlepass execution. 
 
-The algorithm was actively developed entirely by Abraham Lempel and Jacob Ziv (LZ78, 1978). Subsequent refinement was heavily performed later by Terry Welch (1984). Wide deployment across standard formats is completely enjoyed by LZW, heavily including the GIF image format, the UNIX \texttt{compress} utility, and the standard PDF file format \cite{reference18}.
+The algorithm was actively developed entirely by Abraham Lempel and Jacob Ziv (LZ78) \cite{ziv1978}. Subsequent refinement was heavily performed later by Terry Welch (1984) \cite{welch1984}. Wide deployment across standard formats is completely enjoyed by LZW, heavily including the GIF image format, the UNIX \texttt{compress} utility, and the standard PDF file format \cite{reference18}.
 
 \paragraph{Encoding Process}\mbox{}\\
-
+The steps listed completely below are actively followed by the strict encoding procedure \cite{VemuriEtAl}:
 The strict set of all possible symbols (pixel intensity values falling strictly between $0$--$255$) is completely denoted by $\Sigma$. A massive dictionary $\mathcal{D}$ is actively maintained directly by the LZW encoder. Strings (sequences of raw symbols) are mapped heavily to fixedlength codes entirely by this dictionary. The steps listed completely below are actively followed by the strict encoding procedure \cite{reference17}:
 
 \begin{description}
@@ -680,7 +680,7 @@ Formally, the input is strictly defined as a massive sequence $x_1, x_2, \dots, 
 \paragraph{Decoding Process}\mbox{}\\
 
 A highly remarkable property is completely possessed by LZW. Both the purely original data and the massive dictionary can be reconstructed heavily and entirely simultaneously directly by the decoder. The dictionary never needs to be received explicitly for this to happen \cite{reference18}. The highly compressed code sequence is heavily processed entirely by the decoder. Strings are completely reconstructed by heavily following these steps:
-
+ \cite{VemuriEtAl}
 \begin{description}
     \item[Initialization:] The exact same base dictionary utilized previously by the encoder ($0$--$255$ mapping directly to absolute single symbols) is heavily initialized.
     \item[Decoding Loop:] For every single active input code $k$:

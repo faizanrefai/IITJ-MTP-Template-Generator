@@ -1,9 +1,9 @@
 \subsubsection{Particle Swarm Optimization for Image Compression}
 
 \paragraph{Introduction}
-Particle Swarm Optimization (PSO) is a population‑based stochastic optimization algorithm inspired by the social foraging behaviour of bird flocks and fish schools, first introduced by Kennedy and Eberhart in 1995. In PSO, a swarm of particles moves through a multi‑dimensional search space, each particle representing a candidate solution. Particles adjust their trajectories based on their own experience (cognitive component) and the experience of the swarm (social component). This makes PSO particularly suitable for problems with continuous, non‑linear, and multi‑modal objective functions.
+Particle Swarm Optimization (PSO) is a population‑based stochastic optimization algorithm inspired by the social foraging behaviour of bird flocks and fish schools, first introduced by Kennedy and Eberhart in 1995 \cite{kennedy1995}. In PSO, a swarm of particles moves through a multi‑dimensional search space, each particle representing a candidate solution. Particles adjust their trajectories based on their own experience (cognitive component) and the experience of the swarm (social component). This makes PSO particularly suitable for problems with continuous, non‑linear, and multi‑modal objective functions \cite{Khaleel2014}.
 
-In the context of image compression, PSO can be used for colour quantisation: finding an optimal palette of $K$ colours that minimises the reconstruction error when each pixel is replaced by its nearest palette colour. This is a classic optimisation problem where the search space dimension is $K \times 3$ (each colour is an RGB triple).
+In the context of image compression, PSO can be used for colour quantisation: finding an optimal palette of $K$ colours that minimises the reconstruction error when each pixel is replaced by its nearest palette colour. This is a classic optimisation problem where the search space dimension is $K \times 3$ (each colour is an RGB triple) \cite{VemuriSahniChenKapoorLeonardFitzsimmons}.
 
 \paragraph{Mathematical Formulation}
 Each particle $i$ is defined by three vectors:
@@ -12,45 +12,44 @@ Each particle $i$ is defined by three vectors:
     \item $\mathbf{v}_i$: current velocity (direction and step size),
     \item $\mathbf{p}_i$: personal best position (best palette found by this particle).
 \end{itemize}
-The swarm also maintains a global best position $\mathbf{g}_{\text{best}}$, the best palette among all particles.
+The swarm also maintains a global best position $\mathbf{g}_{\text{best}}$, the best palette among all particles \cite{mohsen2012}.
 
 \paragraph{Fitness Function}
 The quality of a palette is measured by the mean squared error (MSE) between the original image and the image reconstructed using that palette:
 \[
-f(\mathbf{x}) = \frac{1}{N \cdot 3} \sum_{p=1}^{N} \| \mathbf{I}_p - \mathbf{Q}(\mathbf{x}, \mathbf{I}_p) \|^2,
+f(\mathbf{x}) = \frac{1}{N \cdot 3} \sum_{p=1}^{N} \| \mathbf{I}_p - \mathbf{Q}(\mathbf{x}, \mathbf{I}_p) \|^2, \cite{mohsen2012}
 \]
 where $N$ is the number of pixels, $\mathbf{I}_p$ is the original RGB vector of pixel $p$, and $\mathbf{Q}(\mathbf{x}, \mathbf{I}_p)$ returns the nearest colour from the palette $\mathbf{x}$. Lower MSE indicates better compression quality.
 
 \paragraph{Personal and Global Best Update}
 For each particle, the personal best is updated as:
 \[
-\mathbf{p}_i(t+1) = \begin{cases}
+\mathbf{p}_i(t+1) = \begin{cases} \cite{mohsen2012}
 \mathbf{p}_i(t) & \text{if } f(\mathbf{x}_i(t+1)) \ge f(\mathbf{p}_i(t)),\\[4pt]
 \mathbf{x}_i(t+1) & \text{if } f(\mathbf{x}_i(t+1)) < f(\mathbf{p}_i(t)).
 \end{cases}
 \]
 The global best is then:
 \[
-\mathbf{g}_{\text{best}} = \arg\min_{\mathbf{p}_i} f(\mathbf{p}_i).
+\mathbf{g}_{\text{best}} = \arg\min_{\mathbf{p}_i} f(\mathbf{p}_i). \cite{mohsen2012}
 \]
 
 \paragraph{Velocity and Position Update}
 The velocity of each particle is updated using the canonical PSO equation:
 \[
-\mathbf{v}_i(t+1) = w \cdot \mathbf{v}_i(t) + c_1 r_1 \bigl(\mathbf{p}_i(t) - \mathbf{x}_i(t)\bigr) + c_2 r_2 \bigl(\mathbf{g}_{\text{best}} - \mathbf{x}_i(t)\bigr),
+\mathbf{v}_i(t+1) = w \cdot \mathbf{v}_i(t) + c_1 r_1 \bigl(\mathbf{p}_i(t) - \mathbf{x}_i(t)\bigr) + c_2 r_2 \bigl(\mathbf{g}_{\text{best}} - \mathbf{x}_i(t)\bigr), \cite{mohsen2012}
 \]
-where:
+where \cite{mohsen2012}:
 \begin{itemize}
-    \item $w$ is the inertia weight (controls exploration/exploitation trade‑off),
+    \item $w$ is the inertia weight (controls exploration/exploitation trade‑off), \cite{mohsen2012}
     \item $c_1$ and $c_2$ are acceleration constants (cognitive and social components),
     \item $r_1, r_2 \sim \mathcal{U}(0,1)$ are random numbers.
 \end{itemize}
 The position is then updated as:
 \[
-\mathbf{x}_i(t+1) = \mathbf{x}_i(t) + \mathbf{v}_i(t+1).
+\mathbf{x}_i(t+1) = \mathbf{x}_i(t) + \mathbf{v}_i(t+1). \cite{mohsen2012}
 \]
-
-Typical parameter values used in this study are: $w = 0.7$, $c_1 = c_2 = 1.5$, swarm size $= 30$, and maximum iterations $= 50$.
+Typical parameter values used in this study are: $w = 0.7$, $c_1 = c_2 = 1.5$, swarm size $= 30$, and maximum iterations $= 50$. \cite{Khaleel2014}
 
 \paragraph{Algorithm Pseudo‑code}
 \begin{verbatim}
@@ -85,7 +84,7 @@ The algorithm was implemented in Python using NumPy for vectorised operations. T
 \[
 \text{Ratio} = \frac{\text{Original bits}}{\text{Palette bits} + \text{Index bits}},
 \]
-where original bits $= 256\times256\times3\times8$, palette bits $= K\times3\times8$, and index bits $= 256\times256\times\lceil\log_2 K\rceil$.
+where original bits $= 256\times256\times3\times8$, palette bits $= K\times3\times8$, and index bits $= 256\times256\times\lceil\log_2 K\rceil$. \cite{VemuriEtAl}
 
 \paragraph{Results}
 Table~\ref{tab:pso_performance} summarises the performance for different $K$. The MSE decreases as $K$ increases, at the cost of a lower compression ratio and longer computation time.
@@ -189,14 +188,14 @@ Figure~\ref{fig:pso_vs_kmeans} (to be inserted) provides a side‑by‑side comp
 
 \paragraph{Discussion}
 \begin{itemize}
-    \item \textbf{Quality vs. Compression:} Increasing $K$ improves image quality (lower MSE) but reduces the compression ratio. For $K=16$, the ratio $5.99:1$ offers a good balance.
-    \item \textbf{Convergence:} The MSE drops rapidly in the first 10 iterations and then slowly improves, demonstrating that PSO effectively explores the search space.
-    \item \textbf{Comparison with K‑Means:} PSO produces higher quality (lower MSE) at the cost of longer computation. For applications where quality is paramount and offline processing is acceptable, PSO is advantageous; for real‑time applications, K‑Means remains preferable.
-    \item \textbf{Parameter sensitivity:} The chosen parameters ($w=0.7$, $c_1=c_2=1.5$) gave stable convergence. A decreasing inertia weight could further improve final accuracy.
+    \item \textbf{Quality vs. Compression:} Increasing $K$ improves image quality (lower MSE) but reduces the compression ratio. For $K=16$, the ratio $5.99:1$ offers a good balance. \cite{Khaleel2014}
+    \item \textbf{Convergence:} The MSE drops rapidly in the first 10 iterations and then slowly improves, demonstrating that PSO effectively explores the search space. \cite{mohsen2012}
+    \item \textbf{Comparison with K‑Means:} PSO produces higher quality (lower MSE) at the cost of longer computation. For applications where quality is paramount and offline processing is acceptable, PSO is advantageous; for real‑time applications, K‑Means remains preferable. \cite{VemuriSahniChenKapoorLeonardFitzsimmons}
+    \item \textbf{Parameter sensitivity:} The chosen parameters ($w=0.7$, $c_1=c_2=1.5$) gave stable convergence. A decreasing inertia weight could further improve final accuracy. \cite{Khaleel2014}
 \end{itemize}
 
 \paragraph{Summary}
-Particle Swarm Optimization is an effective metaheuristic for colour quantisation in lossy image compression. It finds near‑optimal palettes by balancing individual and collective knowledge. Experimental results on the Lenna image show that PSO achieves compression ratios from $12:1$ ($K=4$) to $4:1$ ($K=64$) while minimising reconstruction error. Compared to K‑Means, PSO yields better image quality at the expense of higher computational cost. The flexibility of PSO allows easy adaptation to other compression‑related optimisation problems, such as codebook design in vector quantisation or transform coefficient selection.
+Particle Swarm Optimization is an effective metaheuristic for colour quantisation in lossy image compression. It finds near‑optimal palettes by balancing individual and collective knowledge. Experimental results on the Lenna image show that PSO achieves compression ratios from $12:1$ ($K=4$) to $4:1$ ($K=64$) while minimising reconstruction error. Compared to K‑Means, PSO yields better image quality at the expense of higher computational cost \cite{Khaleel2014}. The flexibility of PSO allows easy adaptation to other compression‑related optimisation problems, such as codebook design in vector quantisation or transform coefficient selection \cite{VemuriSahniChenKapoorLeonardFitzsimmons}.
 
 \begin{figure}[H]
     \centering
@@ -219,4 +218,3 @@ Particle Swarm Optimization is an effective metaheuristic for colour quantisatio
     \caption{Comparison between PSO and K‑Means for $K=16$: (a) PSO compressed, (b) K‑Means compressed, (c) PSO error map, (d) K‑Means error map.}
     \label{fig:pso_vs_kmeans}
 \end{figure}
-

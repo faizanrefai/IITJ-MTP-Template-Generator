@@ -108,7 +108,6 @@ The algorithm first computes a local complexity metric for each candidate block.
 
 \paragraph{Local Complexity Estimation}
 
-
 \[
 G_x = \begin{bmatrix}
 -1 & 0 & +1 \\
@@ -120,21 +119,21 @@ G_y = \begin{bmatrix}
  0 &  0 &  0 \\
 +1 & +2 & +1
 \end{bmatrix} * I,
-\]
+\] \cite{umbaugh2006}
 
 \[
 |\nabla I| = \sqrt{G_x^2 + G_y^2}.
-\]
+\] \cite{umbaugh2006}
 
 The edge density $\rho(B)$ of block $B$ is defined as the mean gradient magnitude over the block:
 
 \[
-\rho(B) = \frac{1}{s^2} \sum_{(x,y)\in B} |\nabla I(x,y)|.
+\rho(B) = \frac{1}{s^2} \sum_{(x,y)\in B} |\nabla I(x,y)|. \cite{VemuriSahniChenKapoorLeonardFitzsimmons}
 \]
 
 Alternatively, the local variance $\sigma^2(B)$ can be used as a complexity measure:
 
-\[
+\[ \cite{ranganathan1995}
 \sigma^2(B) = \frac{1}{s^2} \sum_{(x,y)\in B} \bigl(I(x,y) - \mu_B\bigr)^2,\quad 
 \mu_B = \frac{1}{s^2} \sum_{(x,y)\in B} I(x,y).
 \]
@@ -144,7 +143,7 @@ Alternatively, the local variance $\sigma^2(B)$ can be used as a complexity meas
 The algorithm initially divides the image into a coarse grid of $32 \times 32$ macro‑blocks. For each macro‑block, the edge density $\rho$ is evaluated. Based on empirically determined thresholds $\theta_1$ and $\theta_2$, the block size is adapted as follows:
 
 
-The dynamically assigned block size, $B_{\text{size}}$, is mathematically defined as:
+The dynamically assigned block size, $B_{\text{size}}$, is mathematically defined as \cite{ranganathan1995}:
 \begin{equation}
     B_{\text{size}} = 
     \begin{cases}
@@ -194,14 +193,14 @@ Once the block size is determined, the algorithm selects the most efficient enco
 \subsubsection{Run‑Length Encoding (RLE)} 
 For smooth, nearly uniform blocks ($\rho(B) < 0.1$), RLE is applied. The block is represented as a sequence of tuples $(value, run)$. For a block of size $s \times s$, the number of bits required is:
 
-\[
+\[ \cite{VemuriEtAl}
 B_{\text{RLE}} = 8 \times k + \lceil \log_2(s^2) \rceil \times k,
 \]
 
 where $k$ is the number of runs. For a perfectly uniform block ($k=1$), the compression ratio is:
 
 \[
-CR_{\text{RLE}} = \frac{8s^2}{8 + \lceil \log_2(s^2) \rceil}.
+CR_{\text{RLE}} = \frac{8s^2}{8 + \lceil \log_2(s^2) \rceil}. \cite{Khaleel2014}
 \]
 
 For $s=32$, $s^2=1024$, $\lceil \log_2 1024 \rceil = 10$, yielding $CR \approx 455:1$. Even for blocks with moderate uniformity, RLE substantially reduces storage.
@@ -209,7 +208,7 @@ For $s=32$, $s^2=1024$, $\lceil \log_2 1024 \rceil = 10$, yielding $CR \approx 4
 \paragraph{Base + Offset Coding} For blocks with moderate edge density ($0.1 \le \rho(B) < 0.2$), the algorithm transmits the block mean $\mu_B$ (8 bits) followed by per‑pixel offsets $o_{x,y} = I(x,y) - \mu_B$. Offsets are entropy‑coded using Huffman or arithmetic coding. The total bits are:
 
 \[
-B_{\text{BO}} = 8 + \sum_{x=0}^{s-1}\sum_{y=0}^{s-1} \ell(o_{x,y}),
+B_{\text{BO}} = 8 + \sum_{x=0}^{s-1}\sum_{y=0}^{s-1} \ell(o_{x,y}), \cite{VemuriEtAl}
 \]
 
 where $\ell(o)$ is the codeword length for offset $o$. This approach efficiently captures gradual intensity variations, such as those found on the face and shoulder in the Lenna image.
@@ -350,7 +349,7 @@ This approach is particularly valuable in fields where both fidelity and file si
 \paragraph{Mathematical Formulation}
 Let \(I\) be the original image, \(L\) its lossy compressed version, and \(R = I - L\) the residual. The process is:
 \[
-L = \text{compress}_{\text{lossy}}(I),\qquad R = I - L,\qquad I = L + R.
+L = \text{compress}_{\text{lossy}}(I),\qquad R = I - L,\qquad I = L + R. \cite{VemuriEtAl}
 \]
 The total bits required are \(B_{\text{total}} = B_{\text{lossy}} + B_{\text{residual}}\), where \(B_{\text{residual}}\) is the entropy‑coded size of \(R\). Because \(R\) has low entropy, \(B_{\text{total}}\) can be substantially smaller than the size of any pure lossless encoding of \(I\).
 
@@ -466,7 +465,7 @@ For a pixel at position \((i,j)\), the prediction uses three causal neighbours t
 c = I(i-1,j-1) & \quad\text{(above‑left)} & \\
 b = I(i-1,j)   & \quad\text{(above)} & \\
 a = I(i,j-1)   & \quad\text{(left)} & \\
-\end{array}
+\end{array} \cite{VemuriSahniChenKapoorLeonardFitzsimmons}
 \]
 
 The current pixel to be predicted is \(x = I(i,j)\). For the first row and column, missing neighbours are treated as zero.
@@ -492,7 +491,7 @@ The JPEG lossless standard defines eight prediction modes (selection values 0–
 \begin{tabular}{|c|l|p{7cm}|}
 \hline
 \textbf{Mode} & \textbf{Formula} & \textbf{Description} \\
-\hline
+-\hline \cite{weinberger1996}
 0 & \(P_x = 0\) & No prediction (differential coding) \\
 1 & \(P_x = a\) & Use left neighbour \\
 2 & \(P_x = b\) & Use above neighbour \\
@@ -511,10 +510,10 @@ For the first row or column, the predictor uses only the available neighbours (z
 The predictor was implemented in Python for a \(128\times128\) 8‑bit grayscale sub‑image extracted from the standard Lenna test image. Each mode was evaluated by computing the residual image
 \[
 R(i,j) = I(i,j) - P(i,j),
-\]
+\] \cite{VemuriEtAl}
 and measuring the entropy of the residual:
 \[
-H(R) = -\sum_{r} p(r) \log_2 p(r),
+H(R) = -\sum_{r} p(r) \log_2 p(r), \cite{VemuriEtAl}
 \]
 where \(p(r)\) is the empirical probability of residual value \(r\). The mode yielding the lowest residual entropy was selected as the optimal predictor for that image.
 
@@ -587,15 +586,15 @@ JPEG lossless prediction reduces spatial redundancy by exploiting local pixel co
 \paragraph{Motivation and Core Idea}
 Traditional prediction methods (e.g., JPEG lossless) apply the same fixed predictor to every pixel, regardless of local image characteristics. This ignores the fact that smooth areas, edges, and textures have different statistical properties. Context‑based compression algorithms overcome this limitation by adapting the prediction and entropy coding to the local “context” — the pattern of previously encoded neighbouring pixels.
 
-The core principle is:
+The core mathematical heartbeat looks like this:
 
 \[
-P(x_{i+1} \mid g(y^i))
+P(x_{i+1} \mid g(y^i)) \cite{wu1996, weinberger1996, Khaleel2014}
 \]
 
-where \(y^i = x_1 x_2 \ldots x_i\) is the past sequence, and \(g\) is a \emph{structure function} that maps the past to a finite set of context classes. The probability of the next symbol depends on its context, and the total code length is minimised when the joint probability
+where \(y^i = x_1 x_2 \ldots x_i\) is the past sequence, and \(g\) is a \emph{structure function} that maps the past to a finite set of context classes. The probability of the next symbol depends on its context, and the total code length is minimised when the joint probability \cite{VemuriEtAl}
 \[
-P(y^n) = \prod_{i=0}^{n-1} p(x_{i+1} \mid y^i)
+P(y^n) = \prod_{i=0}^{n-1} p(x_{i+1} \mid y^i) \cite{Khaleel2014}
 \]
 is maximised — a direct consequence of Shannon’s source coding theorem.
 
@@ -611,14 +610,14 @@ Three methods were implemented and compared on a \(128\times128\) 8‑bit graysc
 
 \subparagraph{JPEG Lossless (Mode 4)} Serves as a baseline. It uses a fixed predictor
 \[
-P_x = a + b - c,
+P_x = a + b - c, \cite{weinberger1996}
 \]
 where \(a, b, c\) are the left, above, and above‑left neighbours respectively. The residual \(R = I - P_x\) is then entropy‑coded.
 
 \subparagraph{Gradient Context Model (LOCO‑I / JPEG‑LS)} This method quantises local gradients into a small number of contexts and uses a median‑edge detector (MED) for prediction. Gradients are computed as
 \[
 d_1 = b - c,\quad d_2 = c - a,\quad d_3 = a - b,
-\]
+\] \cite{weinberger1996}
 quantised to \(-1,0,1\) based on thresholds (\(\pm5\)). The three quantised values are combined into a context index (0–8). The prediction is given by the MED rule:
 \[
 P_x = \begin{cases}
@@ -626,7 +625,7 @@ P_x = \begin{cases}
 \max(a,b) & \text{if } c \le \min(a,b),\\
 a+b-c & \text{otherwise}.
 \end{cases}
-\]
+\] \cite{weinberger1996}
 
 \subparagraph{CALIC Style Model} An extended context model that also considers texture energy (horizontal and vertical gradients) and includes error feedback. The prediction is first computed with the MED rule, then refined by adding a scaled version of the accumulated prediction error for that context (error feedback). This allows the predictor to adapt to systematic biases.
 
@@ -706,7 +705,7 @@ Figure~\ref{fig:calic_architecture} illustrates the five‑stage pipeline of CAL
 \paragraph{Gradient‑Based Prediction}
 CALIC first computes horizontal and vertical gradients using a seven‑pixel causal neighbourhood:
 
-\[
+\[ \cite{wu1996}
 \begin{aligned}
 d_h &= |w - ww| + |n - nw| + |ne - n|,\\
 d_v &= |w - nw| + |n - nn| + |ne - nne|,
@@ -735,7 +734,7 @@ Based on the gradient difference, CALIC selects one of seven prediction modes (T
 \begin{tabular}{|c|l|l|}
 \hline
 \textbf{Condition} & \textbf{Prediction Formula} & \textbf{Edge Type} \\
-\hline
+-\hline \cite{wu1996}
 \(d_v - d_h > 80\) & \(\hat{I} = w\) & Sharp horizontal \\
 \(d_h - d_v > 80\) & \(\hat{I} = n\) & Sharp vertical \\
 \(d_v - d_h > 32\) & \(\hat{I} = \frac{3}{4}w + \frac{1}{4}n + \frac{ne - nw}{8}\) & Horizontal edge \\
@@ -750,7 +749,7 @@ otherwise & \(\hat{I} = \frac{w + n}{2} + \frac{ne - nw}{4}\) & Smooth region \\
 \paragraph{Error Energy and Context Modeling}
 The initial prediction error \(e = I - \hat{I}\) is refined using an error energy estimate:
 
-\[
+\[ \cite{wu1996}
 \Delta = d_h + d_v + 2 \times |e_w|,
 \]
 
@@ -758,7 +757,7 @@ where \(e_w\) is the prediction error at the previous pixel \(I[i, j-1]\). \(\De
 
 CALIC then forms a texture pattern from eight surrounding pixels:
 \[
-P = \{n, w, nw, ne, nn, ww, 2n - nn, 2w - ww\}.
+P = \{n, w, nw, ne, nn, ww, 2n - nn, 2w - ww\}. \cite{Khaleel2014}
 \]
 
 Each component is binarised relative to the current prediction \(\hat{I}\):
@@ -766,14 +765,14 @@ Each component is binarised relative to the current prediction \(\hat{I}\):
 b_k = \begin{cases}
 0 & \text{if } x_k \ge \hat{I},\\
 1 & \text{if } x_k < \hat{I},
-\end{cases}
+\end{cases} \cite{VemuriSahniChenKapoorLeonardFitzsimmons}
 \]
 producing an 8‑bit binary number \(B = b_7 b_6 \cdots b_0\). The final context is the tuple \(C = (Q(\Delta), B)\).
 
 \paragraph{Error Feedback Refinement}
 For each context, CALIC maintains the conditional expectation \(\bar{e}(C) = E\{e \mid C\}\) using sample means. This is added to the initial prediction:
 \[
-\tilde{I} = \hat{I} + \bar{e}(C),
+\tilde{I} = \hat{I} + \bar{e}(C), \cite{wu1996}
 \]
 and the final residual \(e' = I - \tilde{I}\) is encoded. This feedback mechanism compensates for systematic prediction biases.
 
@@ -783,7 +782,7 @@ For sharp conditional error distributions, symbols that never occur in a given c
 \paragraph{LOCO‑I (JPEG‑LS Core)}
 LOCO‑I uses a simpler median‑edge detector (MED) for prediction:
 \[
-\hat{x} = \begin{cases}
+\hat{x} = \begin{cases} \cite{weinberger1996}
 \min(a,b) & \text{if } c \ge \max(a,b),\\
 \max(a,b) & \text{if } c \le \min(a,b),\\
 a + b - c & \text{otherwise},
@@ -857,7 +856,7 @@ Figure~\ref{fig:example_block} illustrates the MED prediction on a \(4\times4\) 
 
 The \textbf{LOCO-I (MED) predictor} utilizes a non-linear edge-detecting mechanism, defined as:
 \begin{equation}
-    \hat{x} = 
+    \hat{x} = \cite{weinberger1996}
     \begin{cases}
         \min(a,b), & \text{if } c \ge \max(a,b) \\
         \max(a,b), & \text{if } c \le \min(a,b) \\
@@ -871,7 +870,7 @@ In contrast, the \textbf{CALIC} algorithm computes horizontal and vertical gradi
     d_v &= |w-nw| + |n-nn| + |ne-nne| \\[4pt]
     \Delta &= d_h + d_v + 2|e_w|
 \end{align}
-
+\cite{wu1996}
 
 
 
@@ -903,7 +902,7 @@ The S‑Transform is essentially the Haar wavelet adapted for integers. For an i
 \begin{aligned}
 l[n] &= \left\lfloor \frac{c[2n] + c[2n+1]}{2} \right\rfloor, \quad n = 0,\ldots,\frac{N}{2}-1,\\
 h[n] &= c[2n] - c[2n+1],
-\end{aligned}
+\end{aligned} \cite{VemuriSahniChenKapoorLeonardFitzsimmons}
 \]
 
 where \(l[n]\) are the low‑frequency (approximation) coefficients and \(h[n]\) are the high‑frequency (detail) coefficients. The inverse transform is:
@@ -912,7 +911,7 @@ where \(l[n]\) are the low‑frequency (approximation) coefficients and \(h[n]\)
 \begin{aligned}
 c[2n] &= l[n] + \left\lfloor \frac{h[n] + 1}{2} \right\rfloor,\\
 c[2n+1] &= c[2n] - h[n].
-\end{aligned}
+\end{aligned} \cite{Khaleel2014}
 \]
 
 Key properties: perfect reconstruction, uses only integer addition and bit shifts, and the sum/difference of two integers always have the same parity, which reduces the number of bits needed.
@@ -921,13 +920,13 @@ Key properties: perfect reconstruction, uses only integer addition and bit shift
 The S+P transform improves upon the S‑transform by predicting the high‑frequency components from neighbouring low‑frequency differences and already processed high‑frequency coefficients. The corrected high‑frequency coefficients are:
 
 \[
-h_d[n] = h[n] - \left\lfloor \hat{h}[n] + \frac{1}{2} \right\rfloor,
+h_d[n] = h[n] - \left\lfloor \hat{h}[n] + \frac{1}{2} \right\rfloor, \cite{said1996}
 \]
 
-where the prediction \(\hat{h}[n]\) is given by:
+where the prediction \(\hat{h}[n]\) is given by \cite{said1996}:
 
 \[
-\hat{h}[n] = \sum_{i=-L_0}^{L_1} a_i \Delta l[n+i] - \sum_{j=1}^{H} b_j h[n+j],
+\hat{h}[n] = \sum_{i=-L_0}^{L_1} a_i \Delta l[n+i] - \sum_{j=1}^{H} b_j h[n+j], \cite{VemuriSahniChenKapoorLeonardFitzsimmons}
 \]
 
 with \(\Delta l[n] = l[n-1] - l[n]\). In our simplified implementation, fixed coefficients \(a = [0.5, 0.25, 0.125]\) and \(b = [0.5, 0.25]\) are used. The prediction reduces the magnitude of high‑frequency coefficients, leading to lower entropy.
@@ -936,15 +935,14 @@ with \(\Delta l[n] = l[n-1] - l[n]\). In our simplified implementation, fixed co
 The lifting scheme provides a more general framework for constructing integer‑to‑integer wavelets. Using the S‑transform as an example, the lifting steps are:
 
 \[
-\begin{aligned}
+\begin{aligned} \cite{calderbank1998}
 d[n] &= c[2n+1] - c[2n] \quad \text{(high‑pass)},\\
 l[n] &= c[2n] + \left\lfloor \frac{d[n]}{2} \right\rfloor \quad \text{(low‑pass)}.
 \end{aligned}
 \]
 
 The inverse is:
-
-\[
+\[ \cite{calderbank1998}
 \begin{aligned}
 c[2n] &= l[n] - \left\lfloor \frac{d[n]}{2} \right\rfloor,\\
 c[2n+1] &= d[n] + c[2n].
@@ -1030,5 +1028,3 @@ Figure~\ref{fig:histograms} shows the histograms of the transform coefficients. 
 
 \paragraph{Summary}
 Transform domain methods convert an image into a representation where coefficients have lower entropy, improving lossless compression. The S‑Transform, S+P Transform, and lifting wavelet are integer‑to‑integer transforms that guarantee perfect reconstruction. Experimental results on the Lenna image show that the S‑Transform reduces entropy from 7.44 to 6.87 bits/pixel, a reduction of 0.57 bits/pixel (7.6\% savings). The S+P and lifting wavelets produce similar results. These transforms are the foundation of many modern lossless image codecs, including JPEG‑LS and JPEG‑2000 lossless mode.
-
-

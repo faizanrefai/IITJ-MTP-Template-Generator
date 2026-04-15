@@ -22,7 +22,7 @@ The \textbf{S-Transform} (sequential transform) and its extension \textbf{S+P Tr
 
 \subsubsection{Clustering and Neural Network Approaches}
 
-\textbf{K-Means clustering} and \textbf{Gath-Geva fuzzy clustering} have been applied to color quantization for lossy compression, but can also be adapted to lossless scenarios by encoding the palette and indices. Recent works have explored \textbf{Fuzzy Backpropagation Neural Networks (FBPNN)} that integrate fuzzy membership values from Gath-Geva into the weight update rules of backpropagation, aiming to improve compression performance for images with ambiguous boundaries \cite{pedrycz1996fuzzy}.
+\textbf{K-Means clustering} \cite{lloyd1982} and \textbf{Gath-Geva fuzzy clustering} \cite{gath1989} have been applied to color quantization for lossy compression, but can also be adapted to lossless scenarios by encoding the palette and indices. Recent works have explored \textbf{Fuzzy Backpropagation Neural Networks (FBPNN)} that integrate fuzzy membership values from Gath-Geva into the weight update rules of backpropagation, aiming to improve compression performance for images with ambiguous boundaries \cite{pedrycz1996fuzzy}.
 
 \subsection{Related Standards and Guidelines}
 
@@ -109,8 +109,3 @@ Despite the availability of numerous lossless compression algorithms, several ga
     
     \item \textbf{Lack of accessible implementations} – Many algorithms are described only in academic papers, with no open-source reference implementation, hindering reproducibility and practical adoption.
 \end{enumerate}
-
-
-These specific gaps are directly addressed by the present project. A heavily documented Python implementation is provided, spanning a massive range of lossless compression algorithms. Entropy coding, predictive coding, transform coding, clusteringbased methods, and neural network approaches are all fully included. Consistent metrics are used to evaluate these methods directly against standard benchmark images. Modern hardware optimization is heavily prioritized across every single implementation. GPU acceleration is triggered wherever it is deemed applicable. The entire body of work is made fully available as an opensource contribution. It is strongly intended that this project serves as a foundational reference point. Researchers and active practitioners who are seeking to choose or further improve upon lossless image compression methods are the strict target audience for this work.
-
-\noindent\textit{Note: Appropriate bibliographic entries should be utilized to add specific citations for algorithms and standards (e.g., JPEGLS, CALIC, S+P transform).}

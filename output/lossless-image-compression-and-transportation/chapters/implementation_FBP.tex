@@ -10,16 +10,16 @@ In the context of image compression, the network learns to map RGB pixel vectors
 \subparagraph{Forward Pass}
 For a given layer $L$, the net input to neuron $j$ is:
 \[
-\text{net}_{pj}^{L} = \sum_{i=1}^{n_{L}} w_{ij}^{L} \cdot \text{out}_{i}^{L} + \text{bias}_{j}^{L},
+ \text{net}_{pj}^{L} = \sum_{i=1}^{n_{L}} w_{ij}^{L} \cdot \text{out}_{i}^{L} + \text{bias}_{j}^{L}, \cite{sarkar1995, wasserman1989, Khaleel2014}
 \]
-where $p$ indexes the pattern, $w_{ij}^{L}$ are the weights, and $\text{out}_{i}^{L}$ is the output from the previous layer. The activation output is computed using a sigmoid function:
+where $p$ indexes the pattern, $w_{ij}^{L}$ are the weights, and $\text{out}_{i}^{L}$ is the output from the previous layer. The activation output is computed using a sigmoid function \cite{sarkar1995, wasserman1989, VemuriSahniChenKapoorLeonardFitzsimmons}:
 \[
 \text{out}_{pj}^{L} = f(\text{net}_{pj}^{L}) = \frac{1}{1 + e^{-\beta \,\text{net}_{pj}^{L}}},
 \]
 with $\beta$ controlling the steepness of the sigmoid.
 
 \subparagraph{Error Calculation}
-For the output layer, the error signal is:
+For the output layer, the error signal is \cite{sarkar1995, wasserman1989, VemuriSahniChenKapoorLeonardFitzsimmons}:
 \[
 \delta_{pj}^{o} = (t_{pj} - \text{out}_{pj}^{o}) \cdot f'(\text{net}_{pj}^{o}),
 \]
@@ -31,13 +31,14 @@ where $t_{pj}$ is the target value. For a hidden layer, the error is backpropaga
 \subparagraph{Fuzzy‑Weighted Weight Update}
 The key innovation of FBPNN is that each weight update is scaled by the fuzzy membership of the corresponding pattern:
 \[
-\Delta w_{ij}^{L} = z_i \cdot \eta \cdot \delta_{pj}^{L-1} \cdot \text{out}_{pj}^{L},
+\Delta w_{ij}^{L} = z_i \cdot \eta \cdot \delta_{pj}^{L-1} \cdot \text{out}_{pj}^{L}, \cite{pedrycz1996fuzzy, VemuriSahniChenKapoorLeonardFitzsimmons}
 \]
 where $\eta$ is the learning rate and $z_i = (\mu_{ik})^{m}$ is the fuzzy membership weight. The fuzzy memberships $\mu_{ik}$ are obtained from Gath‑Geva clustering:
 \[
 \mu_{ik} = \frac{1}{\displaystyle\sum_{j=1}^{c} \left(\frac{D_{ik}}{D_{jk}}\right)^{\frac{2}{m-1}}},
 \]
 with $c$ the number of clusters, $m$ the fuzziness coefficient (typically $m=2$), and $D_{ik}$ the distance between pixel $k$ and cluster centre $i$.
+\cite{gath1989, Khaleel2014}
 
 \paragraph{Algorithm Pipeline}
 The FBPNN compression method proceeds in four steps:
@@ -139,4 +140,3 @@ The Fuzzy Backpropagation Neural Network successfully combines unsupervised fuzz
     \caption{Colour palette (15 colours) learned by the FBPNN.}
     \label{fig:fbpnn_cluster_centers}
 \end{figure}
-

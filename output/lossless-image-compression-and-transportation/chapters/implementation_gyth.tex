@@ -1,7 +1,7 @@
 \subsubsection{Gath‑Geva Fuzzy Clustering Algorithm}
 
 \paragraph{Introduction}
-Gath‑Geva (GG) is an advanced fuzzy clustering algorithm that extends classical Fuzzy C‑Means (FCM) by allowing clusters to have ellipsoidal shapes, different sizes, and varying densities. Unlike K‑Means, which forces every data point to belong to exactly one cluster (hard clustering), GG assigns a \emph{fuzzy membership} degree $\mu_{ik} \in [0,1]$ to each point $k$ for each cluster $i$, with the constraint that memberships sum to one across clusters. This makes GG particularly suitable for complex, overlapping, and non‑spherical data distributions.
+Gath‑Geva (GG) is an advanced fuzzy clustering algorithm that extends classical Fuzzy C‑Means (FCM) by allowing clusters to have ellipsoidal shapes, different sizes, and varying densities. Unlike K‑Means, which forces every data point to belong to exactly one cluster (hard clustering), GG assigns a \emph{fuzzy membership} degree $\mu_{ik} \in [0,1]$ to each point $k$ for each cluster $i$, with the constraint that memberships sum to one across clusters. This makes GG particularly suitable for complex, overlapping, and non‑spherical data distributions. \cite{Khaleel2014}
 
 
 
@@ -16,7 +16,7 @@ Gath‑Geva (GG) is an advanced fuzzy clustering algorithm that extends classica
 \paragraph{Mathematical Formulation}
 The algorithm minimises the following objective function:
 
-\[
+\[ \cite{gath1989, VemuriSahniChenKapoorLeonardFitzsimmons}
 J(Z, U, V) = \sum_{i=1}^{c} \sum_{k=1}^{N} (\mu_{ik})^m \, D_{ik}^2,
 \]
 
@@ -32,7 +32,7 @@ where:
 
 The distance measure incorporates cluster shape information via the fuzzy covariance matrix $F_{mi}$:
 
-\[
+\[ \cite{gath1989, Khaleel2014}
 D_{ik} = \frac{\sqrt{\det(F_{mi})}}{P_i} \,
           \exp\!\left(\frac{1}{2}(z_k - v_i)^T F_{mi}^{-1} (z_k - v_i)\right),
 \]
@@ -40,10 +40,10 @@ D_{ik} = \frac{\sqrt{\det(F_{mi})}}{P_i} \,
 where $P_i$ is the prior probability of cluster $i$, computed as the average membership:
 
 \[
-P_i = \frac{1}{N} \sum_{k=1}^{N} \mu_{ik}.
+P_i = \frac{1}{N} \sum_{k=1}^{N} \mu_{ik}. \cite{gath1989}
 \]
 
-The fuzzy covariance matrix is defined as:
+The fuzzy covariance matrix is defined as \cite{gath1989, VemuriSahniChenKapoorLeonardFitzsimmons}:
 
 \[
 F_{mi} = \frac{\sum_{k=1}^{N} (\mu_{ik})^m (z_k - v_i)(z_k - v_i)^T}{\sum_{k=1}^{N} (\mu_{ik})^m}.
@@ -52,16 +52,16 @@ F_{mi} = \frac{\sum_{k=1}^{N} (\mu_{ik})^m (z_k - v_i)(z_k - v_i)^T}{\sum_{k=1}^
 The cluster centres are updated using:
 
 \[
-v_i = \frac{\sum_{k=1}^{N} (\mu_{ik})^m z_k}{\sum_{k=1}^{N} (\mu_{ik})^m}.
+v_i = \frac{\sum_{k=1}^{N} (\mu_{ik})^m z_k}{\sum_{k=1}^{N} (\mu_{ik})^m}. \cite{gath1989, Khaleel2014}
 \]
 
-Finally, the membership degrees are recomputed as:
+Finally, the membership degrees are recomputed as \cite{gath1989, VemuriSahniChenKapoorLeonardFitzsimmons}:
 
 \[
 \mu_{ik} = \frac{1}{\sum_{j=1}^{c} \left( \frac{D_{ik}}{D_{jk}} \right)^{\frac{2}{m-1}}}.
 \]
 
-The algorithm iteratively updates centres, covariances, and memberships until convergence (i.e., when the change in $U$ falls below a threshold $\epsilon$) or a maximum number of iterations is reached.
+The algorithm iteratively updates centres, covariances, and memberships until convergence (i.e., when the change in $U$ falls below a threshold $\epsilon$) or a maximum number of iterations is reached. \cite{Khaleel2014}
 
 
 
@@ -132,7 +132,7 @@ Sample memberships for the first five points are shown in Table~\ref{tab:gg_memb
 \end{table}
 
 \paragraph{Application to Image Compression}
-Gath‑Geva clustering was applied to two standard grayscale images (Lenna and Cameraman) resized to $256\times256$ pixels (65,536 points in RGB colour space). Each pixel was treated as a 3‑dimensional point $(R,G,B)$. Different numbers of clusters $K = 2, 4, 8, 16, 32, 64$ were tested to evaluate the trade‑off between compression ratio and image quality. The final compression ratio is defined as the ratio of the original file size to the compressed size after vector quantisation using the cluster centres as a codebook.
+Gath‑Geva clustering was applied to two standard grayscale images (Lenna and Cameraman) resized to $256\times256$ pixels (65,536 points in RGB colour space). Each pixel was treated as a 3‑dimensional point $(R,G,B)$. Different numbers of clusters $K = 2, 4, 8, 16, 32, 64$ were tested to evaluate the trade‑off between compression ratio and image quality. The final compression ratio is defined as the ratio of the original file size to the compressed size after vector quantisation using the cluster centres as a codebook. \cite{VemuriSahniChenKapoorLeonardFitzsimmons}
 
 Table~\ref{tab:gg_performance} summarises the performance for different cluster counts. For Lenna with $K = 8$ clusters, a compression ratio of $7.99:1$ was achieved, meaning the compressed image occupies approximately $12.5\%$ of the original storage. The processing time increased approximately linearly with the number of clusters, from $0.09$ s for $K=2$ to $4.03$ s for $K=64$. The Cameraman image showed similar speed behaviour.
 
@@ -263,11 +263,10 @@ Figure~\ref{fig:gg_membership_example} visualises the fuzzy membership maps for 
 
 \paragraph{Discussion and Limitations}
 \begin{itemize}
-    \item \textbf{Advantages:} Gath‑Geva can model ellipsoidal clusters of varying sizes and densities, making it more flexible than spherical‑only algorithms. It provides fuzzy memberships that capture uncertainty.
-    \item \textbf{Limitations:} The algorithm is computationally more expensive than K‑Means or FCM, especially for large datasets and high numbers of clusters. The need to compute and invert covariance matrices for each cluster at every iteration dominates the runtime.
+    \item \textbf{Advantages:} Gath‑Geva can model ellipsoidal clusters of varying sizes and densities, making it more flexible than spherical‑only algorithms. It provides fuzzy memberships that capture uncertainty. \cite{VemuriSahniChenKapoorLeonardFitzsimmons}
+    \item \textbf{Limitations:} The algorithm is computationally more expensive than K‑Means or FCM, especially for large datasets and high numbers of clusters. The need to compute and invert covariance matrices for each cluster at every iteration dominates the runtime. \cite{Khaleel2014}
     \item \textbf{Application to compression:} The compression ratio improves with more clusters (finer colour palette), but at the cost of higher computational time and diminishing perceptual returns. For $K=8$, the ratio $7.99:1$ is already excellent for lossy image compression.
 \end{itemize}
 
 \paragraph{Summary}
 Gath‑Geva fuzzy clustering is a powerful unsupervised learning algorithm that can detect ellipsoidal clusters with different sizes and densities. Its mathematical formulation based on fuzzy membership, covariance matrices, and an exponential distance measure allows it to adapt to complex data distributions. Applied to image compression, it achieved a compression ratio of nearly $8:1$ on the Lenna image with only 8 clusters, demonstrating its effectiveness for vector quantisation. The algorithm’s time complexity scales approximately linearly with the number of clusters, making it suitable for moderate‑sized datasets. Future work could explore adaptive determination of the optimal number of clusters and integration with entropy coding for even higher compression gains.
-
