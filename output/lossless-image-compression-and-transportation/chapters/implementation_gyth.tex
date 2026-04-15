@@ -3,6 +3,16 @@
 \paragraph{Introduction}
 Gath‑Geva (GG) is an advanced fuzzy clustering algorithm that extends classical Fuzzy C‑Means (FCM) by allowing clusters to have ellipsoidal shapes, different sizes, and varying densities. Unlike K‑Means, which forces every data point to belong to exactly one cluster (hard clustering), GG assigns a \emph{fuzzy membership} degree $\mu_{ik} \in [0,1]$ to each point $k$ for each cluster $i$, with the constraint that memberships sum to one across clusters. This makes GG particularly suitable for complex, overlapping, and non‑spherical data distributions.
 
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{gath_arch.png}
+    \caption{Gath‑Geva algorithm architecture: fuzzy memberships, cluster centres, and covariance matrices are iteratively updated to minimise the objective function.}
+    \label{fig:gath_architecture}
+\end{figure}
+
+
 \paragraph{Mathematical Formulation}
 The algorithm minimises the following objective function:
 
@@ -264,4 +274,3 @@ Figure~\ref{fig:gg_membership_example} visualises the fuzzy membership maps for 
 \paragraph{Summary}
 Gath‑Geva fuzzy clustering is a powerful unsupervised learning algorithm that can detect ellipsoidal clusters with different sizes and densities. Its mathematical formulation based on fuzzy membership, covariance matrices, and an exponential distance measure allows it to adapt to complex data distributions. Applied to image compression, it achieved a compression ratio of nearly $8:1$ on the Lenna image with only 8 clusters, demonstrating its effectiveness for vector quantisation. The algorithm’s time complexity scales approximately linearly with the number of clusters, making it suitable for moderate‑sized datasets. Future work could explore adaptive determination of the optimal number of clusters and integration with entropy coding for even higher compression gains.
 
-\end{document}
