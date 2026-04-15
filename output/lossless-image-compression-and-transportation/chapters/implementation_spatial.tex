@@ -641,7 +641,7 @@ Figure~\ref{fig:calic_architecture} illustrates the five‑stage pipeline of CAL
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1.0\textwidth]{calic_architecture.png}
+    \includegraphics[width=1.0\textwidth]{calicarch.png}
     \caption{CALIC architecture: (1) gradient‑based nonlinear prediction, (2) error energy estimation, (3) context modeling, (4) error feedback refinement, (5) conditional arithmetic coding.}
     \label{fig:calic_architecture}
 \end{figure}
@@ -760,7 +760,7 @@ Figure~\ref{fig:residuals_comparison} shows the residual images produced by CALI
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1.0\textwidth]{residuals_comparison.png}
+    \includegraphics[width=1.0\textwidth]{calic_residual.png}
     \caption{Residual images: (left) CALIC, (right) LOCO‑I. Darker = smaller residual. LOCO‑I gives a more uniformly dark residual.}
     \label{fig:residuals_comparison}
 \end{figure}
@@ -769,7 +769,7 @@ Figure~\ref{fig:histogram_comparison} compares the histograms of the original im
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1.0\textwidth]{histogram_comparison.png}
+    \includegraphics[width=1.0\textwidth]{calic_dist_comp.png}
     \caption{Histograms: (a) original pixel values (wide spread), (b) CALIC residuals (peaked at zero), (c) LOCO‑I residuals (even more concentrated).}
     \label{fig:histogram_comparison}
 \end{figure}
@@ -778,7 +778,7 @@ Figure~\ref{fig:performance_bar} compares the entropy reduction visually.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\textwidth]{performance_bar.png}
+    \includegraphics[width=0.8\textwidth]{calic_perform_comp.png}
     \caption{Entropy comparison: original (7.44 bpp), CALIC (5.76 bpp), LOCO‑I (5.60 bpp). LOCO‑I achieves the lowest residual entropy.}
     \label{fig:performance_bar}
 \end{figure}
@@ -787,7 +787,7 @@ Figure~\ref{fig:example_block} illustrates the MED prediction on a \(4\times4\) 
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1.0\textwidth]{example_block.png}
+    \includegraphics[width=1.0\textwidth]{loco_pri.png}
     \caption{LOCO‑I prediction example: (a) original block, (b) predicted values, (c) residuals (small integers).}
     \label{fig:example_block}
 \end{figure}
@@ -939,7 +939,7 @@ Figure~\ref{fig:histograms} shows the histograms of the transform coefficients. 
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1.0\textwidth}{transform.png}
+    \includegraphics[width=1.0\textwidth}{transform_comp.png}
     \caption{Histograms: (a) original pixel values, (b) S‑Transform coefficients, (c) S+P coefficients, (d) Lifting coefficients. The transformed histograms are more concentrated near zero.}
     \label{fig:histograms}
 \end{figure}
