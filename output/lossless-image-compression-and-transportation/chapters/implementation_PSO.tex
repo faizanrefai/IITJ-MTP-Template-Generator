@@ -90,11 +90,15 @@ where original bits $= 256\times256\times3\times8$, palette bits $= K\times3\tim
 \paragraph{Results}
 Table~\ref{tab:pso_performance} summarises the performance for different $K$. The MSE decreases as $K$ increases, at the cost of a lower compression ratio and longer computation time.
 
+
+
+
 \begin{table}[H]
 \centering
+\small
 \caption{PSO compression performance on Lenna for different colour counts.}
 \label{tab:pso_performance}
-\begin{tabularx}{\textwidth}{|c|c|c|c|c|}
+\begin{tabularx}{\textwidth}{|c|c|X|X|X|}
 \hline
 \textbf{Colours $K$} & \textbf{Compression Ratio} & \textbf{Best MSE} & \textbf{Time (s)} & \textbf{Iterations} \\
 \hline
