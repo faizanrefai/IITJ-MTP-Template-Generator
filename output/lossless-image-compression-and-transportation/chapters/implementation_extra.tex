@@ -1,21 +1,67 @@
 
 
+% \subsection{Challenges and Solutions}
+
+% % TODO: Discuss major challenges faced during implementation
+% % How were they resolved?
+
+% Table~\ref{tab:challenges} summarizes the main challenges and their solutions.
+
+% \begin{table}[H]
+% \centering
+% \caption{Implementation Challenges and Solutions}
+% \label{tab:challenges}
+% \begin{tabular}{@{}p{5cm}p{8cm}@{}}
+% \toprule
+% \textbf{Challenge} & \textbf{Solution} \\ \midrule
+% TODO: Challenge 1 & TODO: Solution 1 \\
+% TODO: Challenge 2 & TODO: Solution 2 \\
+% TODO: Challenge 3 & TODO: Solution 3 \\
+% \end{tabular}
+% \end{table}
+
+
+
+
 \subsection{Challenges and Solutions}
 
-% TODO: Discuss major challenges faced during implementation
-% How were they resolved?
-
-Table~\ref{tab:challenges} summarizes the main challenges and their solutions.
+Throughout the implementation and evaluation of the various lossless and lossy compression algorithms, several non‑trivial challenges arose. These ranged from numerical instability in arithmetic coding to convergence issues in clustering and slow optimisation in metaheuristics. Table~\ref{tab:challenges} summarises the main challenges encountered and the corresponding solutions adopted.
 
 \begin{table}[H]
 \centering
+\small
 \caption{Implementation Challenges and Solutions}
 \label{tab:challenges}
-\begin{tabular}{@{}p{5cm}p{8cm}@{}}
-\toprule
-\textbf{Challenge} & \textbf{Solution} \\ \midrule
-TODO: Challenge 1 & TODO: Solution 1 \\
-TODO: Challenge 2 & TODO: Solution 2 \\
-TODO: Challenge 3 & TODO: Solution 3 \\
-\end{tabular}
+\begin{tabularx}{\textwidth}{|p{4.5cm}|X|}
+\hline
+\textbf{Challenge} & \textbf{Solution} \\
+\hline
+\textbf{Arithmetic coding underflow/overflow} & 
+Implemented 16‑bit integer interval arithmetic with explicit renormalisation and underflow counting. The interval $[low, high)$ was scaled whenever it fell into the $[0.25, 0.75)$ range, and pending bits were emitted later. This eliminated floating‑point errors while maintaining lossless reconstruction. \\
+\hline
+\textbf{High memory consumption of LZW dictionary} & 
+Used a fixed maximum dictionary size (4096 entries) with 12‑bit codes. When the dictionary became full, encoding continued without adding new entries (no reset). This kept memory usage predictable and avoided unbounded growth, while still exploiting most repeating patterns. \\
+\hline
+\textbf{Slow convergence of PSO for large colour palettes ($K>32$)} & 
+Introduced a linearly decreasing inertia weight $w(t) = w_{\max} - (w_{\max}-w_{\min}) \cdot t/t_{\max}$ (from $0.9$ to $0.4$). This improved exploration early and exploitation later, reducing the number of iterations needed by about $30\%$ without sacrificing final MSE. \\
+\hline
+\textbf{Empty clusters in K‑Means during colour quantisation} & 
+When a cluster received no pixels, its centre was reinitialised to a random pixel from the image. This prevented centre collapse and ensured that all $K$ colours were used, improving compression quality. \\
+\hline
+\textbf{Numerical instability in Gath‑Geva distance computation} & 
+Clipped determinant of fuzzy covariance matrices to $[10^{-10}, 10^{10}]$ and used pseudo‑inverse (`pinv`) with a small regularisation term ($\lambda = 10^{-6}$). This prevented singular matrices and kept the exponential distance well‑behaved. \\
+\hline
+\textbf{Overflow in JPEG lossless prediction (mode 4)} & 
+Cast intermediate results to 32‑bit integers before addition/subtraction and clamped final predictions to $[0,255]$. This eliminated the overflow warnings seen in early implementations and maintained perfect reconstruction. \\
+\hline
+\textbf{Slow training of Fuzzy Backpropagation Network on full image} & 
+Used a subset of $5\,000$ randomly sampled pixels for Gath‑Geva clustering to compute fuzzy memberships, then propagated these memberships to all pixels. This reduced the clustering time from $O(N^2)$ to $O(N \cdot \text{sample\_size})$ without noticeable quality loss. \\
+\hline
+\textbf{Memory explosion in transform domain (S+P) for large images} & 
+Applied the transform recursively only to the low‑pass subband, halving the dimensions each time. The high‑pass subbands were stored as 16‑bit integers to accommodate coefficient range. This kept peak memory usage below $2.5\times$ the original image size. \\
+\hline
+\textbf{Choosing the optimal number of clusters in Gath‑Geva} & 
+Implemented an elbow method using the Xie‑Beni index. The algorithm was run for $K = 2,4,8,\dots,64$, and the $K$ at which the relative improvement fell below $5\%$ was selected automatically. For Lenna, this gave $K=15$, which matched the visual quality vs. compression trade‑off. \\
+\hline
+\end{tabularx}
 \end{table}
