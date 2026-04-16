@@ -1,4 +1,4 @@
-# IITJ MTP Template Generator
+# IIT Jodhpur M.Tech dissertation Template Generator
 
 Generate professional LaTeX academic reports (proposals, major projects, presentations) with dynamic user inputs.
 
