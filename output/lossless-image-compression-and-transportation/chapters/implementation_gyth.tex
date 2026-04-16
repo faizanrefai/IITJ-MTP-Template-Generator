@@ -14,9 +14,9 @@ Gath‑Geva (GG) is an advanced fuzzy clustering algorithm that extends classica
 
 
 \paragraph{Mathematical Formulation}
-The algorithm minimises the following objective function:
+The algorithm minimises the following objective function:\cite{hasanzadeh2005, Khaleel2014}
 
-\[ \cite{hasanzadeh2005, Khaleel2014}
+\[ 
 J(Z, U, V) = \sum_{i=1}^{c} \sum_{k=1}^{N} (\mu_{ik})^m \, D_{ik}^2,
 \]
 
@@ -30,17 +30,17 @@ where:
     \item $D_{ik}$ is the distance from point $k$ to cluster $i$, defined using the fuzzy covariance matrix.
 \end{itemize}
 
-The distance measure incorporates cluster shape information via the fuzzy covariance matrix $F_{mi}$:
+The distance measure incorporates cluster shape information via \cite{hasanzadeh2005, Khaleel2014} the fuzzy covariance matrix $F_{mi}$:
 
-\[ \cite{hasanzadeh2005, Khaleel2014}
+\[ 
 D_{ik} = \frac{\sqrt{\det(F_{mi})}}{P_i} \,
           \exp\!\left(\frac{1}{2}(z_k - v_i)^T F_{mi}^{-1} (z_k - v_i)\right),
 \]
 
-where $P_i$ is the prior probability of cluster $i$, computed as the average membership:
+where $P_i$ is the prior probability of cluster $i$, computed as the average membership \cite{hasanzadeh2005}:
 
 \[
-P_i = \frac{1}{N} \sum_{k=1}^{N} \mu_{ik}. \cite{hasanzadeh2005}
+P_i = \frac{1}{N} \sum_{k=1}^{N} \mu_{ik}. 
 \]
 
 The fuzzy covariance matrix is defined as \cite{hasanzadeh2005, Khaleel2014}:
@@ -49,10 +49,10 @@ The fuzzy covariance matrix is defined as \cite{hasanzadeh2005, Khaleel2014}:
 F_{mi} = \frac{\sum_{k=1}^{N} (\mu_{ik})^m (z_k - v_i)(z_k - v_i)^T}{\sum_{k=1}^{N} (\mu_{ik})^m}.
 \]
 
-The cluster centres are updated using:
+The cluster centres are updated using \cite{hasanzadeh2005, Khaleel2014}:
 
 \[
-v_i = \frac{\sum_{k=1}^{N} (\mu_{ik})^m z_k}{\sum_{k=1}^{N} (\mu_{ik})^m}. \cite{hasanzadeh2005, Khaleel2014}
+v_i = \frac{\sum_{k=1}^{N} (\mu_{ik})^m z_k}{\sum_{k=1}^{N} (\mu_{ik})^m}. 
 \]
 
 Finally, the membership degrees are recomputed as \cite{hasanzadeh2005, Khaleel2014}:

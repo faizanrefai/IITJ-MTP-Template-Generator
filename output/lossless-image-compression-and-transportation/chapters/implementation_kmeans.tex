@@ -28,11 +28,11 @@ where:
     \item $\|x - v\|$ is the Euclidean distance.
 \end{itemize}
 
-The cluster centres are updated as the mean of all points assigned to that cluster:
+The cluster centres are updated as the mean of all points assigned to that cluster\cite{somasundarad2012, Khaleel2014}:
 
 \[
 v_i = \frac{1}{c_i} \sum_{j=1}^{c_i} x_{ij}.
-\] \cite{somasundarad2012, Khaleel2014}
+\] 
 
 The algorithm iteratively alternates between assignment (nearest centre) and update (recompute means) until convergence.
 
@@ -82,11 +82,11 @@ Iterations to converge & 6 \\
 \end{table}
 
 \paragraph{Image Compression with K‑Means}
-Two standard test images were used: \textit{Lenna} ($256\times256$, RGB, originally 47,420 unique colours) and \textit{Cameraman} ($256\times256$, RGB, originally 256 unique colours). For each image, K‑Means was applied with $K = 2,4,8,16,32$. The compressed image is stored as a colour palette ($K$ RGB triples) plus an index map ($\log_2 K$ bits per pixel). The compression ratio is:
+Two standard test images were used: \textit{Lenna} ($256\times256$, RGB, originally 47,420 unique colours) and \textit{Cameraman} ($256\times256$, RGB, originally 256 unique colours). For each image, K‑Means was applied with $K = 2,4,8,16,32$. The compressed image is stored as a colour palette ($K$ RGB triples) plus an index map ($\log_2 K$ bits per pixel). The compression ratio is \cite{Salomon1997, Khaleel2014}:
 
 \[
 \text{Ratio} = \frac{\text{Original bits}}{\text{Palette bits} + \text{Index bits}}.
-\] \cite{Salomon1997, Khaleel2014}
+\] 
 
 Tables~\ref{tab:lenna_results} and~\ref{tab:cameraman_results} present the performance.
 

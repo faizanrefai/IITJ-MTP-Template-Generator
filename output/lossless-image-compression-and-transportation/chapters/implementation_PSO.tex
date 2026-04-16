@@ -15,9 +15,9 @@ Each particle $i$ is defined by three vectors:
 The swarm also maintains a global best position $\mathbf{g}_{\text{best}}$, the best palette among all particles \cite{mohsen2012}.
 
 \paragraph{Fitness Function}
-The quality of a palette is measured by the mean squared error (MSE) between the original image and the image reconstructed using that palette:
+The quality of a palette is measured by the mean squared error (MSE) between the original image and the image reconstructed using that palette\cite{mohsen2012}:
 \[
-f(\mathbf{x}) = \frac{1}{N \cdot 3} \sum_{p=1}^{N} \| \mathbf{I}_p - \mathbf{Q}(\mathbf{x}, \mathbf{I}_p) \|^2, \cite{mohsen2012}
+f(\mathbf{x}) = \frac{1}{N \cdot 3} \sum_{p=1}^{N} \| \mathbf{I}_p - \mathbf{Q}(\mathbf{x}, \mathbf{I}_p) \|^2, 
 \]
 where $N$ is the number of pixels, $\mathbf{I}_p$ is the original RGB vector of pixel $p$, and $\mathbf{Q}(\mathbf{x}, \mathbf{I}_p)$ returns the nearest colour from the palette $\mathbf{x}$. Lower MSE indicates better compression quality.
 
@@ -29,9 +29,9 @@ For each particle, the personal best is updated as:
 \mathbf{x}_i(t+1) & \text{if } f(\mathbf{x}_i(t+1)) < f(\mathbf{p}_i(t)).
 \end{cases}
 \]
-The global best is then:
+The global best is then\cite{mohsen2012}:
 \[
-\mathbf{g}_{\text{best}} = \arg\min_{\mathbf{p}_i} f(\mathbf{p}_i). \cite{mohsen2012}
+\mathbf{g}_{\text{best}} = \arg\min_{\mathbf{p}_i} f(\mathbf{p}_i). 
 \]
 
 \paragraph{Velocity and Position Update}
@@ -45,9 +45,9 @@ where \cite{mohsen2012}:
     \item $c_1$ and $c_2$ are acceleration constants (cognitive and social components),
     \item $r_1, r_2 \sim \mathcal{U}(0,1)$ are random numbers.
 \end{itemize}
-The position is then updated as:
+The position is then updated as \cite{mohsen2012}:
 \[
-\mathbf{x}_i(t+1) = \mathbf{x}_i(t) + \mathbf{v}_i(t+1). \cite{mohsen2012}
+\mathbf{x}_i(t+1) = \mathbf{x}_i(t) + \mathbf{v}_i(t+1).
 \]
 Typical parameter values used in this study are: $w = 0.7$, $c_1 = c_2 = 1.5$, swarm size $= 30$, and maximum iterations $= 50$. \cite{Khaleel2014}
 
